@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.util.Log;
 
+import com.example.app.model.CertificateDTO;
 import com.example.app.model.ProgramDTO;
 
 import java.util.ArrayList;
@@ -115,6 +116,77 @@ public class ProgramDAO {
                     name = cursor.getString(nameIndex);
                 }
                 int inputIndex = cursor.getColumnIndex("INPUT_SCORE");
+                if (inputIndex!= -1) {
+                    input = cursor.getString(inputIndex);
+                }
+                int outputIndex = cursor.getColumnIndex("OUTPUT_SCORE");
+                if (outputIndex!= -1) {
+                    output = cursor.getString(outputIndex);
+                }
+                int contentIndex = cursor.getColumnIndex("CONTENT");
+                if (contentIndex != -1) {
+                    content = cursor.getString(contentIndex);
+                }
+                int speakingIndex = cursor.getColumnIndex("SPEAKING_SCORE");
+                if (speakingIndex != -1) {
+                    speaking = cursor.getString(speakingIndex);
+                }
+                int writingIndex = cursor.getColumnIndex("WRITING_SCORE");
+                if (writingIndex != -1) {
+                    writing = cursor.getString(writingIndex);
+                }
+                int listeningIndex = cursor.getColumnIndex("LISTENING_SCORE");
+                if (listeningIndex!= -1) {
+                    listening = cursor.getString(listeningIndex);
+                }
+                int readingIndex = cursor.getColumnIndex("READING_SCORE");
+                if (readingIndex != -1) {
+                    reading = cursor.getString(readingIndex);
+                }
+                int tuitionIndex = cursor.getColumnIndex("TUITION_FEES");
+                if (tuitionIndex != -1) {
+                    tuition = cursor.getInt(tuitionIndex);
+                }
+                int periodIndex = cursor.getColumnIndex("STUDY_PERIOD");
+                if (periodIndex != -1) {
+                    studyPeriod = cursor.getString(periodIndex);
+                }
+                int certificateIndex = cursor.getColumnIndex("ID_CERTIFICATE");
+                if (certificateIndex != -1) {
+                    idCertificate = cursor.getString(certificateIndex);
+                }
+                listProgram.add(new ProgramDTO(id, name, input, output, content, speaking, writing,
+                        listening, reading, tuition, studyPeriod, idCertificate));
+            } while (cursor.moveToNext());
+        }
+        return listProgram;
+    }
+
+    public List<ProgramDTO> SelectProgramToShowProgram(Context context, String whereClause, String[] whereArgs) {
+        List<ProgramDTO> listProgram = new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            cursor = DataProvider.getInstance(context).selectData("PROGRAM", new String[]{"*"},  whereClause, whereArgs, null);
+        }catch(SQLException e) {
+            Log.d("Select Program Error: ", e.getMessage());
+        }
+
+        String id = "", name = "", input = "", output = "", content = "", speaking = "",
+                writing = "", listening = "", reading = "", studyPeriod = "", idCertificate = "";
+        int tuition = 0;
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idIndex = cursor.getColumnIndex("ID_PROGRAM");
+                if (idIndex!= -1) {
+                    id = cursor.getString(idIndex);
+                }
+                int nameIndex = cursor.getColumnIndex("NAME");
+                if (nameIndex != -1) {
+                    name = cursor.getString(nameIndex);
+                }
+                int inputIndex = cursor.getColumnIndex("INPUT_SCORE");
                 if (idIndex!= -1) {
                     input = cursor.getString(inputIndex);
                 }
@@ -142,7 +214,7 @@ public class ProgramDAO {
                 if (readingIndex != -1) {
                     reading = cursor.getString(readingIndex);
                 }
-                int tuitionIndex = cursor.getColumnIndex("TUITION_FESS");
+                int tuitionIndex = cursor.getColumnIndex("TUITION_FEES");
                 if (tuitionIndex != -1) {
                     tuition = cursor.getInt(tuitionIndex);
                 }
@@ -154,10 +226,22 @@ public class ProgramDAO {
                 if (certificateIndex != -1) {
                     idCertificate = cursor.getString(certificateIndex);
                 }
+                List<CertificateDTO> certificate = CertificateDAO.getInstance(context).SelectCertificate(
+                        context, "ID_CERTIFICATE = ?", new String[] {idCertificate});
+                Log.d("Id certificate for show program: ", certificate.toString());
+                idCertificate = certificate.get(0).getName();
+                Log.d("Id certificate found: ", idCertificate.toString());
+
                 listProgram.add(new ProgramDTO(id, name, input, output, content, speaking, writing,
-                        listening, reading, tuitionIndex, studyPeriod, idCertificate));
+                        listening, reading, tuition, studyPeriod, idCertificate));
+
+                Log.d("Cursor found: ", new ProgramDTO(id, name, input, output, content, speaking, writing,
+                        listening, reading, tuition, studyPeriod, idCertificate).toString());
+                Log.d("List program found: ", listProgram.toString());
+
             } while (cursor.moveToNext());
         }
         return listProgram;
     }
+
 }

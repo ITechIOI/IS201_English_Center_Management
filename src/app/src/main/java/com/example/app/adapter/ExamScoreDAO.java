@@ -148,6 +148,8 @@ public class ExamScoreDAO {
         } else if (type == 2 || type == 3)  {
             listExamScore = ExamScoreDAO.getInstance(context).SelectExamScore(context,
                     "STATUS = ?", new String[] {"0"});
+        } else {
+            return listExamScore;
         }
 
         return listExamScore;

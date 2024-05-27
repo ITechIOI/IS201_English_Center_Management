@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.app.model.OfficialStudentDTO;
@@ -72,6 +73,21 @@ public class PotentialStudentDAO {
         return 0;
     }
 
+    public int deletePotentialStudent(Context context, PotentialStudentDTO student, String whereClause, String[] whereArgs) {
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+        int rowEffect = -1;
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("POTENTIAL_STUDENT", values,
+                    "ID_STUDENT = ?", new String[] {student.getStudentID()});
+        } catch (SQLException e) {
+            Log.d("Delete potential Student Error: ", e.getMessage());
+        }
+
+        return  rowEffect;
+    }
+
     public List<PotentialStudentDTO> SelectStudent (Context context, String whereClause, String[] whereArgs) {
         List<PotentialStudentDTO> listStudent = new ArrayList<>();
         Cursor cursor = null;
@@ -82,11 +98,15 @@ public class PotentialStudentDAO {
             Log.d("Select Potential Student: ", e.getMessage());
         }
 
-        //private String studentName, phoneNumber, gender, address, state, level, appointmentNumber;
-        String name = "", phoneNumber = "", gender = "", address = "", level = "", appointmentNumber = "";
+        // private String studentName, phoneNumber, gender, address, state, level, appointmentNumber;
+        String id = "", name = "", phoneNumber = "", gender = "", address = "", level = "", appointmentNumber = "";
 
         if (cursor.moveToFirst()) {
             do {
+                int idIndex = cursor.getColumnIndex("ID_STUDENT");
+                if (idIndex!= -1) {
+                    id = cursor.getString(idIndex);
+                }
                 int fullNameIndex = cursor.getColumnIndex("FULLNAME");
                 if (fullNameIndex!= -1) {
                     name = cursor.getString(fullNameIndex);
@@ -112,8 +132,8 @@ public class PotentialStudentDAO {
                     appointmentNumber = cursor.getString(appointmentIndex);
                 }
 
-                PotentialStudentDTO student = new PotentialStudentDTO(name, phoneNumber, gender,
-                        address, "0", level, appointmentNumber);
+                PotentialStudentDTO student = new PotentialStudentDTO(id, name, phoneNumber, gender,
+                        address,  level, appointmentNumber);
                 listStudent.add(student);
 
                 Log.d("Find Potential Student", name + " " + address + " " + phoneNumber + " " + gender);

@@ -73,7 +73,7 @@ public class CertificateDAO {
         Cursor cursor = null;
 
         try {
-            cursor = DataProvider.getInstance(context).selectData("CLASS", new String[]{"*"}, whereClause, whereArgs, null);
+            cursor = DataProvider.getInstance(context).selectData("CERTIFICATE", new String[]{"*"}, whereClause, whereArgs, null);
         } catch (SQLException e) {
             Log.d("Select Class: ", e.getMessage());
         }
@@ -93,7 +93,7 @@ public class CertificateDAO {
                 }
                 int contentIndex = cursor.getColumnIndex("CONTENT");
                 if (contentIndex != -1) {
-                   content = cursor.getString(contentIndex);
+                    content = cursor.getString(contentIndex);
                 }
 
                 listCertificate.add(new CertificateDTO(idCertificate, name, content));

@@ -14,7 +14,7 @@ import java.io.IOException;
 public class DataProvider extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ENGLISH_CENTER_MANAGEMENT.db";
     private static DataProvider instance;
-    private static final int DATABASE_VERSION = 75;
+    private static final int DATABASE_VERSION = 87;
     private DataProvider(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -29,7 +29,6 @@ public class DataProvider extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         try {
             db.execSQL("CREATE TABLE IF NOT EXISTS CERTIFICATE (" +
                     "ID_CERTIFICATE TEXT PRIMARY KEY, " +
@@ -40,7 +39,7 @@ public class DataProvider extends SQLiteOpenHelper {
         } catch ( Exception e) {
             Log.d("EXCEPTION CREATE CERTIFICATE",  e.getMessage());
         }
-        //db.execSQL("DROP TABLE STAFF");
+
         try {
             db.execSQL("CREATE TABLE IF NOT EXISTS STAFF (" +
                     "ID_STAFF TEXT PRIMARY KEY, " +
@@ -332,7 +331,4 @@ public class DataProvider extends SQLiteOpenHelper {
 
         return maxId;
     }
-
-
-
 }

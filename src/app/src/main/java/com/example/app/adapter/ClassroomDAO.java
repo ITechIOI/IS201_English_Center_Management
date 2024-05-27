@@ -2,11 +2,15 @@ package com.example.app.adapter;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.util.Log;
 
 import com.example.app.model.ClassroomDTO;
 import com.example.app.model.NotificationDTO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClassroomDAO {
     public static ClassroomDAO instance;
@@ -26,6 +30,7 @@ public class ClassroomDAO {
 
         values.put("ID_CLASSROOM", "CLA" + String.valueOf(maxId + 1));
         values.put("NAME", classroom.getName());
+        values.put("STATUS", 0);
 
         try {
             rowEffect = DataProvider.getInstance(context).insertData("CLASSROOM", values);
@@ -56,5 +61,35 @@ public class ClassroomDAO {
         }
 
         return rowEffect;
+    }
+
+    public List<ClassroomDTO> SelectClassroom (Context context, String whereClause, String[] whereArgs) {
+        List<ClassroomDTO> listClassroom = new ArrayList<>();
+
+        Cursor cursor = null;
+
+        try {
+            cursor = DataProvider.getInstance(context).selectData("CLASSROOM", new String[]{"*"},  whereClause, whereArgs, null);
+        }catch(SQLException e) {
+            Log.d("Select Classroom: ", e.getMessage());
+        }
+
+        String id = "", name = "";
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idIndex = cursor.getColumnIndex("ID_CLASSROOM");
+                if (idIndex != -1) {
+                    id = cursor.getString(idIndex);
+                }
+                int nameIndex = cursor.getColumnIndex("NAME");
+                if (nameIndex!= -1) {
+                    name = cursor.getString(nameIndex);
+                }
+                listClassroom.add(new ClassroomDTO(id, name));
+            } while (cursor.moveToNext());
+        }
+
+        return listClassroom;
     }
 }

@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.app.R;
+import com.example.app.adapter.AccountDAO;
 import com.example.app.model.List_Adapter;
 import com.example.app.model.List_Information;
 
@@ -32,29 +33,37 @@ public class Fragment_Information extends Fragment implements AdapterView.OnItem
     @Override
     public void onStart() {
         super.onStart();
+
         if (dataArrayList.isEmpty()) {
-            //Học viên
-            dataArrayList.add(new List_Information("Tra cứu điểm", R.drawable.score_icon));
-            dataArrayList.add(new List_Information("Tra cứu chương trình đào tạo", R.drawable.chuong_trinh_dt));
-            dataArrayList.add(new List_Information("Thông báo hệ thống", R.drawable.tb_he_thong));
-            dataArrayList.add(new List_Information("Lịch học", R.drawable.baseline_schedule_24));
 
-            //Nhân viên ghi danh
-            dataArrayList.add(new List_Information("Quản lý học viên", R.drawable.quanlylophoc));
-            dataArrayList.add(new List_Information("Quản lý lớp học", R.drawable.lophoc));
+            int type = AccountDAO.getInstance(getContext()).GetObjectLogin(getContext(),
+                    Activity_Login.username, Activity_Login.password);
 
-            //Nhân viên học vụ
-            dataArrayList.add(new List_Information("Xem các lớp học", R.drawable.lophoc));
-            dataArrayList.add(new List_Information("Xem chứng chỉ", R.drawable.chuong_trinh_dt));
-            //dataArrayList.add(new List_Information("Quản lý lịch học", R.drawable.baseline_schedule_24));
-
-            //Nhân viên hv + ghi danh
-            dataArrayList.add(new List_Information("Quản lý thông báo", R.drawable.tb_he_thong));
-
-            //Quản lý
-            dataArrayList.add(new List_Information("Quản lý tài khoản", R.drawable.quanlytaikhoan));
-            dataArrayList.add(new List_Information("Quản lý thông tin phòng học", R.drawable.classroom));
-            dataArrayList.add(new List_Information("Quản lý nhân viên/giáo viên", R.drawable.quanlynhansu));
+            if (type == 1)  {
+                //Học viên
+                dataArrayList.add(new List_Information("Tra cứu điểm", R.drawable.score_icon));
+                dataArrayList.add(new List_Information("Tra cứu chương trình đào tạo", R.drawable.chuong_trinh_dt));
+                dataArrayList.add(new List_Information("Thông báo hệ thống", R.drawable.tb_he_thong));
+                dataArrayList.add(new List_Information("Lịch học", R.drawable.baseline_schedule_24));
+            } else if (type == 2) {
+                //Nhân viên ghi danh
+                dataArrayList.add(new List_Information("Quản lý học viên", R.drawable.quanlylophoc));
+                dataArrayList.add(new List_Information("Quản lý lớp học", R.drawable.lophoc));
+                //Nhân viên hv + ghi danh
+                dataArrayList.add(new List_Information("Quản lý thông báo", R.drawable.tb_he_thong));
+            } else if (type == 3) {
+                //Nhân viên học vụ
+                dataArrayList.add(new List_Information("Xem các lớp học", R.drawable.lophoc));
+                dataArrayList.add(new List_Information("Xem chứng chỉ", R.drawable.chuong_trinh_dt));
+                //dataArrayList.add(new List_Information("Quản lý lịch học", R.drawable.baseline_schedule_24));
+                //Nhân viên hv + ghi danh
+                dataArrayList.add(new List_Information("Quản lý thông báo", R.drawable.tb_he_thong));
+            } else if (type == 4) {
+                //Quản lý
+                dataArrayList.add(new List_Information("Quản lý tài khoản", R.drawable.quanlytaikhoan));
+                dataArrayList.add(new List_Information("Quản lý thông tin phòng học", R.drawable.classroom));
+                dataArrayList.add(new List_Information("Quản lý nhân viên/giáo viên", R.drawable.quanlynhansu));
+            }
         }
 
         listAdapter = new List_Adapter(getActivity(), R.layout.list_item, dataArrayList);

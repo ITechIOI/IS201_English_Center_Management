@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,12 @@ import com.example.app.activity.Activity_Add_Schedule;
 import com.example.app.activity.Activity_Add_Staff;
 import com.example.app.activity.Activity_Notifications_Second_Layer;
 import com.example.app.activity.Activity_Notifications_ToolBars_Second_Layer;
+import com.example.app.adapter.ClassDAO;
+import com.example.app.adapter.ClassroomDAO;
+import com.example.app.adapter.PotentialStudentDAO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class List_Adapter extends ArrayAdapter {
     private Context mContext;
@@ -459,6 +464,16 @@ public class List_Adapter extends ArrayAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         int position = (int) v.getTag();
                         arrayDataList.remove(position);
+
+                        try {
+                            int rowEffect = PotentialStudentDAO.getInstance(mContext).deletePotentialStudent(
+                                    mContext, listTalentedStudent, "ID_STUDENT = ?",
+                                    new String[] {listTalentedStudent.getStudentID()});
+                            Log.d("Delete Potential Student Error: ", String.valueOf(rowEffect));
+                        } catch (Exception e) {
+                            Log.d("Delete Potential Student Error: ", e.getMessage());
+                        }
+
                         notifyDataSetChanged();
                     }
                 });
@@ -483,7 +498,7 @@ public class List_Adapter extends ArrayAdapter {
             @Override
             public void onClick(View v) {
                 Intent addPotential = new Intent(getContext(), Activity_Add_Potential_Student.class);
-                addPotential.putExtra("studentID", "1");
+                addPotential.putExtra("studentID", listTalentedStudent.getStudentID());
                 mContext.startActivity(addPotential);
             }
         });
@@ -562,8 +577,14 @@ public class List_Adapter extends ArrayAdapter {
         dayOfWeek.setText(listSchedule.getDayOfWeek());
         startTime.setText(listSchedule.getStartTime());
         endTime.setText(listSchedule.getEndTime());
-        idClass.setText(listSchedule.getIdClass());
-        idClassroom.setText(listSchedule.getIdClassroom());
+
+        List<ClassDTO> listClass = ClassDAO.getInstance(getContext()).selectClass(getContext(),
+                "ID_CLASS= ?", new String[] {listSchedule.getIdClass()});
+        List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(getContext()).SelectClassroom(
+                getContext(), "ID_CLASSROOM = ?", new String[] {listSchedule.idClassroom});
+
+        idClass.setText(listClass.get(0).getClassName());
+        idClassroom.setText(listClassroom.get(0).getName());
 
         Button editSchedule, removeSchedule;
         if (convertView.findViewById(R.id.edit_schedule) != null) {
@@ -619,7 +640,7 @@ public class List_Adapter extends ArrayAdapter {
         name = convertView.findViewById(R.id.name);
         content = convertView.findViewById(R.id.content);
 
-        idCertificate.setText(listCertificate.getIdCertificate());
+        //  idCertificate.setText(listCertificate.getIdCertificate());
         name.setText(listCertificate.getName());
         content.setText(listCertificate.getContent());
 

@@ -92,7 +92,7 @@ public class ScheduleDAO {
             Log.d("Select Program: ", e.getMessage());
         }
 
-       String idSchedule = "", day = "", start = "", end = "", idClass = "", idClassroom = "";
+        String idSchedule = "", day = "", start = "", end = "", idClass = "", idClassroom = "";
 
         if (cursor.moveToFirst()) {
             do {
@@ -126,6 +126,53 @@ public class ScheduleDAO {
 
         return listSchedule;
     }
+
+
+    public List<ScheduleDTO> SelectScheduleToShow(Context context, String whereClause, String[] whereArgs) {
+        List<ScheduleDTO> listSchedule = new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            cursor = DataProvider.getInstance(context).selectData("SCHEDULE", new String[]{"*"},  whereClause, whereArgs, null);
+        }catch(SQLException e) {
+            Log.d("Select Program: ", e.getMessage());
+        }
+
+        String idSchedule = "", day = "", start = "", end = "", idClass = "", idClassroom = "";
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idScheduleIndex = cursor.getColumnIndex("ID_SCHEDULE");
+                if (idScheduleIndex!= -1) {
+                    idSchedule = cursor.getString(idScheduleIndex);
+                }
+                int dayIndex = cursor.getColumnIndex("DAY_OF_WEEK");
+                if (dayIndex != -1) {
+                    day = cursor.getString(dayIndex);
+                }
+                int startIndex = cursor.getColumnIndex("START_TIME");
+                if (startIndex != -1) {
+                    start = cursor.getString(startIndex);
+                }
+                int endIndex = cursor.getColumnIndex("END_TIME");
+                if (endIndex!= -1) {
+                    end = cursor.getString(endIndex);
+                }
+                int classIndex = cursor.getColumnIndex("ID_CLASS");
+                if (classIndex != -1) {
+                    idClass = cursor.getString(classIndex);
+                }
+                int classroomIndex = cursor.getColumnIndex("ID_CLASSROOM");
+                if (classroomIndex != -1) {
+                    idClassroom = cursor.getString(classroomIndex);
+                }
+                listSchedule.add(new ScheduleDTO(idSchedule, day, start, end, idClass, idClassroom));
+            } while (cursor.moveToNext());
+        }
+
+        return listSchedule;
+    }
+
     public List<ScheduleDTO> SelectScheduleByIdStudent(Context context, String idUser, int type) {
         List<ScheduleDTO> listSchedule = new ArrayList<>();
         Set<String> idClass = new HashSet<>();
@@ -142,8 +189,8 @@ public class ScheduleDAO {
                         "ID_CLASS = ?", new String[] {id}));
             }
         }
-        else{
-            listSchedule = ScheduleDAO.getInstance(context).SelectSchedule(context, "STATUS = 0",
+        else {
+            listSchedule = ScheduleDAO.getInstance(context).SelectSchedule(context, "STATUS = ?",
                     new String[] {"0"});
         }
 

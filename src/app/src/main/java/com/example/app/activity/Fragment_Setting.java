@@ -175,7 +175,8 @@ public class Fragment_Setting extends Fragment {
             public void onClick(View v) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Bạn có chắc chắn muốn đăng xuất không ?");
+                builder.setTitle("Thông báo")
+                        .setMessage("Bạn có chắc chắn muốn đăng xuất không ?");;
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getActivity(), Activity_Login.class);

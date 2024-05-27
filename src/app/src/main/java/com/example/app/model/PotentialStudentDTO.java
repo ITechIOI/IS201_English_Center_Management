@@ -3,6 +3,18 @@ package com.example.app.model;
 public class PotentialStudentDTO {
     private String studentID, studentName, phoneNumber, gender, address, level, appointmentNumber;
 
+    public PotentialStudentDTO(String studentID, String studentName,
+                               String phoneNumber, String gender, String address,
+                               String level, String appointmentNumber) {
+        this.studentID = studentID;
+        this.studentName = studentName;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+        this.address = address;
+        this.level = level;
+        this.appointmentNumber = appointmentNumber;
+    }
+
     public String getStudentID() {
         return studentID;
     }
@@ -31,15 +43,7 @@ public class PotentialStudentDTO {
         return level;
     }
 
-    public PotentialStudentDTO(String studentID, String studentName, String phoneNumber, String gender, String address, String level, String appointmentNumber) {
-        this.studentID = studentID;
-        this.studentName = studentName;
-        this.phoneNumber = phoneNumber;
-        this.gender = gender;
-        this.address = address;
-        this.level = level;
-        this.appointmentNumber = appointmentNumber;
-    }
+
 
     @Override
     public String toString() {

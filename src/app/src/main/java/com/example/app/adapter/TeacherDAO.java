@@ -34,7 +34,8 @@ public class TeacherDAO {
         values.put("PHONE_NUMBER", teacher.getPhoneNumber());
         values.put("GENDER", teacher.getGender());
         values.put("SALARY", teacher.getSalary());
-        //values.put("STATUS", teacher.getStatus());
+        values.put("BIRTHDAY", teacher.getBirthday());
+        values.put("STATUS", 0);
 
         Log.d("Id max of teacher: ", String.valueOf(maxId + 1));
 

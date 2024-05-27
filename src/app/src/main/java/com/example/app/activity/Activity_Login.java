@@ -103,9 +103,13 @@ public class Activity_Login extends AppCompatActivity {
                     cursor.close();
                 }
 
+                // Log.d("I'm on create: ", username.toString() + "  " + password + "  ");
+
             }
         });
+        ;
 
+/*
         // Insert data in OFFICIAL_STUDENT
 
         OfficialStudentDTO student1 = new OfficialStudentDTO("STU1", "Nguyen Van A", "Binh Dinh", "034343434", "Nam", "22/2/2022", 0);
@@ -113,14 +117,14 @@ public class Activity_Login extends AppCompatActivity {
         OfficialStudentDTO student2 = new OfficialStudentDTO("STU2", "Le Thi B", "Binh Duong","0232323222", "Nữ", "22/2/2022", 0 );
         OfficialStudentDAO.getInstance(Activity_Login.this).insertOfficialStudent(Activity_Login.this, student2);
 
-        /*// Insert data in STAFF
+        // Insert data in STAFF
 
         StaffDTO staff1 = new StaffDTO("STA1", "Nguyen Thi C", "TP HCM", "0343333333", "Nữ", "22/2/2022", 1, "1",1);
         StaffDAO.getInstance(Activity_Login.this).insertStaff(Activity_Login.this, staff1);
-        StaffDTO staff2 = new StaffDTO("STA2", "Nguyen Thi D", "TP HCM", "03435555333", "Nữ","22/2/2022", 1, "1",1);
+        StaffDTO staff2 = new StaffDTO("STA2", "Nguyen Thi D", "TP HCM", "03435555333", "Nữ","22/2/2022", 1, "2",1);
         StaffDAO.getInstance(Activity_Login.this).insertStaff(Activity_Login.this, staff2);
-        StaffDTO staff3 = new StaffDTO("STA3", "Nguyen Thi E", "TP HCM", "03435555333", "Nữ","22/2/2022", 1, "1",1);
-        StaffDAO.getInstance(Activity_Login.this).insertStaff(Activity_Login.this, staff3);*/
+        StaffDTO staff3 = new StaffDTO("STA3", "Nguyen Thi E", "TP HCM", "03435555333", "Nữ","22/2/2022", 1, "3",1);
+        StaffDAO.getInstance(Activity_Login.this).insertStaff(Activity_Login.this, staff3);
 
         // Insert data in TEACHERS
 
@@ -135,10 +139,13 @@ public class Activity_Login extends AppCompatActivity {
         AccountDTO account2 = new AccountDTO("ACC2", "STA2", "nguyenthid", "thid123");
         AccountDTO account5 = new AccountDTO("ACC5", "STU1", "nguyenthia", "thia123");
         AccountDTO account6 = new AccountDTO("ACC6", "STU2", "nguyenthib", "thib123");
+        AccountDTO account7 = new AccountDTO("ACC6", "STA6", "nguyenthie", "thie123");
         AccountDAO.getInstance(Activity_Login.this).insertAccount(Activity_Login.this, account1);
         AccountDAO.getInstance(Activity_Login.this).insertAccount(Activity_Login.this, account2);
         AccountDAO.getInstance(Activity_Login.this).insertAccount(Activity_Login.this, account5);
         AccountDAO.getInstance(Activity_Login.this).insertAccount(Activity_Login.this, account6);
+        AccountDAO.getInstance(Activity_Login.this).insertAccount(Activity_Login.this, account7);
+
 
         // Insert data in NOTIFICATION
 
@@ -251,15 +258,67 @@ public class Activity_Login extends AppCompatActivity {
                 teaching1);
         TeachingDAO.getInstance(Activity_Login.this).InsertDate(Activity_Login.this,
                 teaching2);
-
-        // Insert data in STAFF
-
-        StaffDTO staff1 = new StaffDTO("STA1", "Nguyen Thi C", "TP HCM", "0343333333", "Nữ", "22/2/2022", 2000000,"1", 0);
-        StaffDAO.getInstance(Activity_Login.this).insertStaff(Activity_Login.this, staff1);
-        StaffDTO staff2 = new StaffDTO("STA2", "Nguyen Thi D", "TP HCM", "03435555333", "Nữ","22/2/2022", 5000000, "2", 0);
-        StaffDAO.getInstance(Activity_Login.this).insertStaff(Activity_Login.this, staff2);
-        StaffDTO staff3 = new StaffDTO("STA3", "Nguyen Thi E", "TP HCM", "03435555333", "Nữ","22/2/2022", 10000000, "3", 0);
-        StaffDAO.getInstance(Activity_Login.this).insertStaff(Activity_Login.this, staff3);
+*/
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //setContentView(R.layout.activity_login);
+
+        usernameInput = findViewById(R.id.input_username);
+        passwordInput = findViewById(R.id.input_password);
+        loginBtn = findViewById(R.id.login_btn);
+
+        // Initialize database
+
+        DataProvider.getInstance(Activity_Login.this).recreateDatabase(Activity_Login.this);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // handle login event
+                username = usernameInput.getText().toString();
+                password = passwordInput.getText().toString();
+                if (username.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(Activity_Login.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    String whereClause = "USERNAME = ? AND PASSWORD = ?";
+                    String[] whereArgs = new String[]{username, password};
+                    Cursor cursor = AccountDAO.getInstance(Activity_Login.this).selectAccount(Activity_Login.this, whereClause, whereArgs);
+
+                    if (cursor != null && cursor.getCount() > 0) {
+                        Intent intent = new Intent(Activity_Login.this, Activity_Main_Screen.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(Activity_Login.this, "Please enter correct username and password", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (cursor.moveToFirst()) {
+                        do {
+                            int idIndex = cursor.getColumnIndex("ID_USER");
+                            if (idIndex != -1) {
+                                idUser = cursor.getString(idIndex);
+                            }
+                            int idAccIndex = cursor.getColumnIndex("ID_ACCOUNT");
+                            if (idAccIndex != -1) {
+                                idAccount = cursor.getString(idAccIndex);
+                            }
+
+                        } while (cursor.moveToNext());
+                    }
+
+                    cursor.close();
+                }
+                // Log.d("I'm on start: ", username.toString() + "  " + password + "  ");
+
+            }
+        });
+
+
+    }
+
 }
