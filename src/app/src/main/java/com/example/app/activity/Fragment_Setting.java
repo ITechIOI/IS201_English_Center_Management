@@ -127,11 +127,11 @@ public class Fragment_Setting extends Fragment {
                     int typeIndex = cursor.getColumnIndex("TYPE");
                     if (typeIndex != -1) {
                         type = cursor.getInt(typeIndex);
-                        if (type == 1) {
+                        if (type == 3) {
                             position = "Quản lý";
                         } else if (type == 2) {
                             position = "Nhân viên học vụ";
-                        } else {
+                        } else if(type == 1) {
                             position = "Nhân viên điểm danh";
                         }
                     }
