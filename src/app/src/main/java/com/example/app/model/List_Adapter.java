@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +31,7 @@ import com.example.app.activity.Activity_Add_Schedule;
 import com.example.app.activity.Activity_Add_Staff;
 import com.example.app.activity.Activity_Notifications_Second_Layer;
 import com.example.app.activity.Activity_Notifications_ToolBars_Second_Layer;
+import com.example.app.adapter.AccountDAO;
 import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.ClassroomDAO;
 import com.example.app.adapter.PotentialStudentDAO;
@@ -666,8 +668,6 @@ public class List_Adapter extends ArrayAdapter {
         username = convertView.findViewById(R.id.username);
         password = convertView.findViewById(R.id.password);
 
-
-
         idAccount.setText(listAccount.getIdAccount());
         idUser.setText(listAccount.getIdUser());
         username.setText(listAccount.getUserName());
@@ -687,6 +687,18 @@ public class List_Adapter extends ArrayAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         int position = (int) v.getTag();
                         arrayDataList.remove(position);
+                        AccountDTO account = new AccountDTO(idAccount.getText().toString(),
+                                null, null, null);
+                        try {
+                            int rowEffect = AccountDAO.getInstance(mContext).DeleteAccount(mContext, account,
+                                    "ID_ACCOUNT = ?", new String[] {idAccount.getText().toString()});
+                            if(rowEffect > 0) {
+                                Toast.makeText(mContext, "Xóa tài khoản thành công!", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Log.d("Delete Account Error: ", e.getMessage());
+                        }
+
                         notifyDataSetChanged();
                     }
                 });
