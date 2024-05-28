@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,17 +24,29 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class Activity_Add_Potential_Student extends AppCompatActivity {
-    EditText studentID, studentName, phoneNumber, gender, address, level, appointmentNumber;
+    EditText studentID, studentName, phoneNumber, address, level, appointmentNumber;
     Button doneBtn, exitBtn;
+    String[] genderItem = {"Nam", "Nữ"};
+    AutoCompleteTextView gender;
+    ArrayAdapter<String> genderAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_potential_student);
 
+        gender = findViewById(R.id.gender);
+        genderAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, genderItem);
+        gender.setAdapter(genderAdapter);
+        gender.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+
         // studentID = findViewById(R.id.idStudent);
         studentName = findViewById(R.id.fullName);
         phoneNumber = findViewById(R.id.phoneNumber);
-        gender = findViewById(R.id.gender);
         level = findViewById(R.id.level);
         address = findViewById(R.id.address);
         appointmentNumber = findViewById(R.id.appointmentNumber);

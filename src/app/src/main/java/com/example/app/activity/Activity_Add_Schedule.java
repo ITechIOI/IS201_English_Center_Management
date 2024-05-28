@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -12,8 +15,15 @@ import android.widget.Toast;
 import com.example.app.R;
 
 public class Activity_Add_Schedule extends AppCompatActivity {
-    EditText dayOfWeek, startTime, endTime, idClass, idClassroom;
+    EditText startTime, endTime;
     Button doneBtn, exitBtn;
+
+    String[] dayOfWeekItem = {"Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
+    String[] classTimeItem = {"7h00 - 9h00", "9h00 - 11h00", "13h00 - 15h00", "15h00 - 17h00", "17h00 - 19h00", "19h00 - 21h00"};
+    String[] idClassItem = {"Hmmm", "Huhu"};
+    String[] idClassroomItem = {"Huhu", "Chào Loan"};
+    AutoCompleteTextView dayOfWeek, classTime, idClass, idClassroom;
+    ArrayAdapter<String> dayOfWeekAdapter, classTimeAdapter, idClassAdapter, idClassroomAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +32,47 @@ public class Activity_Add_Schedule extends AppCompatActivity {
         String message = getIntent().getStringExtra("idSchedule");
 
         dayOfWeek = findViewById(R.id.dayOfWeek);
+        dayOfWeekAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, dayOfWeekItem);
+        dayOfWeek.setAdapter(dayOfWeekAdapter);
+        dayOfWeek.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+
+        classTime = findViewById(R.id.classTime);
+        classTimeAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, classTimeItem);
+        classTime.setAdapter(classTimeAdapter);
+        classTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+
+        idClass = findViewById(R.id.idClass);
+        idClassAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, idClassItem);
+        idClass.setAdapter(idClassAdapter);
+        idClass.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+
+        idClassroom = findViewById(R.id.idClassroom);
+        idClassroomAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, idClassroomItem);
+        idClassroom.setAdapter(idClassroomAdapter);
+        idClassroom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+
         startTime = findViewById(R.id.startTime);
         endTime = findViewById(R.id.endTime);
-        idClass = findViewById(R.id.idClass);
-        idClassroom = findViewById(R.id.idClassroom);
 
         doneBtn = findViewById(R.id.done_btn);
         exitBtn = findViewById(R.id.exit_btn);

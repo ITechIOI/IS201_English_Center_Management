@@ -14,7 +14,7 @@ import java.io.IOException;
 public class DataProvider extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ENGLISH_CENTER_MANAGEMENT.db";
     private static DataProvider instance;
-    private static final int DATABASE_VERSION = 94;
+    private static final int DATABASE_VERSION = 99;
     private DataProvider(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -25,13 +25,253 @@ public class DataProvider extends SQLiteOpenHelper {
         return instance;
     }
     @Override
-    public void onCreate(SQLiteDatabase db) {}
+    public void onCreate(SQLiteDatabase db) {
+        // db.execSQL("DELETE FROM STAFF");
+       // db.execSQL("UPDATE CLASS SET STATUS = 0");
+
+        Log.d("In Create", "success");
+
+        try {
+
+            db.execSQL("CREATE TABLE IF NOT EXISTS CERTIFICATE (" +
+                    "ID_CERTIFICATE TEXT PRIMARY KEY, " +
+                    "NAME TEXT, " +
+                    "CONTENT TEXT, " +
+                    "STATUS INTEGER)");
+            Log.d("CREATE CERTIFICATE", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("EXCEPTION CREATE CERTIFICATE",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS STAFF (" +
+                    "ID_STAFF TEXT PRIMARY KEY, " +
+                    "FULLNAME TEXT, " +
+                    "ADDRESS TEXT, " +
+                    "PHONE_NUMBER TEXT, " +
+                    "GENDER TEXT, " +
+                    "BIRTHDAY TEXT," +
+                    "SALARY INTEGER, " +
+                    "TYPE TEXT," +
+                    "STATUS INTEGER)");
+            Log.d("CREATE STAFF", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE STAFF",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS TEACHERS (" +
+                    "ID_TEACHER TEXT PRIMARY KEY , " +
+                    "FULLNAME TEXT, " +
+                    "ADDRESS TEXT, " +
+                    "PHONE_NUMBER TEXT, " +
+                    "GENDER TEXT, " +
+                    "BIRTHDAY TEXT," +
+                    "SALARY INTEGER, " +
+                    "STATUS INTEGER)");
+            Log.d("CREATE TEACHERS", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE TEACHERS",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS CLASSROOM (" +
+                    "ID_CLASSROOM TEXT PRIMARY KEY, " +
+                    "NAME TEXT, " +
+                    "STATUS INTEGER)");
+            Log.d("CREATE EXAMINATION", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE EXAMINATION",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS POTENTIAL_STUDENT (" +
+                    "ID_STUDENT TEXT PRIMARY KEY, " +
+                    "FULLNAME TEXT, " +
+                    "ADDRESS TEXT, " +
+                    "PHONE_NUMBER TEXT, " +
+                    "GENDER TEXT," +
+                    "LEVEL TEXT, " +
+                    "NUMBER_OF_APPOINTMENTS INTEGER, " +
+                    "STATUS INTEGER)");
+            Log.d("CREATE POTENTIAL_STUDENTS", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE POTENTIAL_STUDENTS",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS OFFICIAL_STUDENT (" +
+                    "ID_STUDENT TEXT PRIMARY KEY , " +
+                    "FULLNAME TEXT, " +
+                    "ADDRESS TEXT, " +
+                    "PHONE_NUMBER TEXT, " +
+                    "GENDER TEXT," +
+                    "BIRTHDAY TEXT," +
+                    "STATUS INTEGER)");
+            Log.d("CREATE OFFICIAL_STUDENTS", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE OFFICIAL_STUDENTS",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS COLLECTING_TUITION_FEES (" +
+                    "ID_BILL TEXT PRIMARY KEY , " +
+                    "ID_STUDENT TEXT, " +
+                    "COLLECTION_DATE TEXT, " +
+                    "TOTAL_MONEY INTEGER, " +
+                    "STATUS INTEGER," +
+                    "FOREIGN KEY (ID_STUDENT) REFERENCES OFFICAL_STUDENT(ID_STUDENT))");
+            Log.d("CREATE COLLECTING_TUITION_FEES", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE COLLECTING_TUITION_FEES",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS CLASS (" +
+                    "ID_CLASS TEXT PRIMARY KEY , " +
+                    "NAME TEXT, " +
+                    "START_DATE TEXT, " +
+                    "END_DATE TEXT, " +
+                    "ID_PROGRAM TEXT, " +
+                    "ID_TEACHER TEXT, " +
+                    "ID_STAFF TEXT, " +
+                    "STATUS INTEGER," +
+                    "FOREIGN KEY (ID_PROGRAM) REFERENCES PROGRAM(ID_PROGRAM)," +
+                    "FOREIGN KEY (ID_STAFF) REFERENCES STAFF(ID_STAFF)," +
+                    "FOREIGN KEY (ID_TEACHER) REFERENCES TEACHER(ID_TEACHER))");
+            Log.d("CREATE CLASS", "Database created successfully");
+        } catch ( SQLException e) {
+            Log.d("CREATE CLASS",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS SCHEDULE (" +
+                    "ID_SCHEDULE TEXT PRIMARY KEY," +
+                    "DAY_OF_WEEK INTEGER, " +
+                    "START_TIME TEXT," +
+                    "END_TIME TEXT," +
+                    "ID_CLASS TEXT, " +
+                    "ID_CLASSROOM TEXT, " +
+                    "STATUS INTEGER, " +
+                    "FOREIGN KEY (ID_CLASS) REFERENCES CLASS(ID_CLASS)," +
+                    "FOREIGN KEY (ID_CLASSROOM) REFERENCES CLASSROOM(ID_CLASSROOM))");
+        } catch( Exception e) {
+            Log.d("CREATE SCHEDULE ",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS EXAMINATION (" +
+                    "ID_EXAM TEXT PRIMARY KEY, " +
+                    "NAME TEXT, " +
+                    "FORMAT TEXT, " +
+                    "EXAM_DATE TEXT, " +
+                    "ID_CLASS TEXT, " +
+                    "ID_CLASSROOM TEXT, " +
+                    "STATUS INTEGER," +
+                    "FOREIGN KEY (ID_CLASS) REFERENCES CLASS(ID_CLASS)," +
+                    "FOREIGN KEY (ID_CLASSROOM) REFERENCES CLASSROOM(ID_CLASSROOM))");
+            Log.d("CREATE EXAMINATION", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE EXAMINATION",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS EXAM_SCORE (" +
+                    "ID_EXAM_SCORE TEXT PRIMARY KEY, " +
+                    "ID_EXAM TEXT , " +
+                    "ID_STUDENT TEXT, " +
+                    "SPEAKING_SCORE REAL, " +
+                    "WRITING_SCORE REAL, " +
+                    "LISTENING_SCORE REAL, " +
+                    "READING_SCORE REAL," +
+                    "STATUS INTEGER," +
+                    "FOREIGN KEY (ID_EXAM) REFERENCES EXAMINATION(ID_EXAM)," +
+                    "FOREIGN KEY (ID_STUDENT) REFERENCES OFFICAL_STUDENT(ID_STUDENT) )");
+            Log.d("CREATE EXAM_SCORE", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE EXAM_SCORE",  e.getMessage());
+        }
+        //db.execSQL("DELETE FROM TEACHING");
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS TEACHING (" +
+                    "ID_TEACHING TEXT PRIMARY KEY , " +
+                    "ID_STUDENT TEXT , " +
+                    "ID_CLASS TEXT, " +
+                    "STATUS INTEGER, " +
+                    "FOREIGN KEY (ID_STUDENT) REFERENCES OFFICAL_STUDENT(ID_STUDENT)," +
+                    "FOREIGN KEY (ID_CLASS) REFERENCES CLASS(ID_CLASS))");
+            Log.d("CREATE EXAM_SCORE", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE EXAM_SCORE",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS PROGRAM (" +
+                    "ID_PROGRAM TEXT PRIMARY KEY, " +
+                    "NAME TEXT, " +
+                    "INPUT_SCORE REAL, " +
+                    "OUTPUT_SCORE REAL, " +
+                    "CONTENT TEXT, " +
+                    "SPEAKING_SCORE REAL, " +
+                    "WRITING_SCORE REAL, " +
+                    "LISTENING_SCORE REAL, " +
+                    "READING_SCORE REAL, " +
+                    "TUITION_FEES INTEGER, " +
+                    "STUDY_PERIOD INTEGER, " + // Lộ trình học kéo dài 6 tháng, 12 tháng,....
+                    "ID_CERTIFICATE TEXT, " +
+                    "STATUS INTEGER, " +
+                    "FOREIGN KEY (ID_CERTIFICATE) REFERENCES CERTIFICATE(ID_CERTIFICATE))");
+            Log.d("CREATE PROGRAM", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE PROGRAM",  e.getMessage());
+        }
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS ACCOUNT (" +
+                    "ID_ACCOUNT TEXT PRIMARY KEY, " +
+                    "ID_USER TEXT," +
+                    "USERNAME TEXT, " +
+                    "PASSWORD TEXT," +
+                    "STATUS INTEGER," +
+                    "FOREIGN KEY (ID_USER) REFERENCES OFFICAL_STUDENT(ID_STUDENT)," +
+                    "FOREIGN KEY (ID_USER) REFERENCES TEACHERS(ID_TEACHER)," +
+                    "FOREIGN KEY (ID_USER) REFERENCES STAFF(ID_STAFF) )");
+            Log.d("CREATE ACCOUNT", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE ACCOUNT",  e.getMessage());
+        }
+
+/*        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS REPORT (" +
+                    "ID_REPORT TEXT PRIMARY KEY, " +
+                    "REPORT_TIME TEXT," +
+                    "REVENUE INTEGER )");
+            Log.d("CREATE REPORT", "Database created successfully");
+        } catch ( Exception e) {
+            Log.d("CREATE REPORT",  e.getMessage());
+        }*/
+
+        try {
+            db.execSQL("CREATE TABLE IF NOT EXISTS NOTIFICATION (" +
+                    "ID_NOTIFICATION TEXT PRIMARY KEY, " +
+                    "ID_ACCOUNT TEXT," +
+                    "TITLE TEXT," +
+                    "CONTENT TEXT," +
+                    "STATUS TEXT," +
+                    " FOREIGN KEY (ID_ACCOUNT) REFERENCES ACCOUNT(ID_ACCOUNT))");
+            Log.d("CREATE NOTIFICATION: ", "Success");
+        } catch (Exception e ) {
+            Log.d("CREATE NOTIFICATION: ", e.getMessage());
+        }
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         // db.execSQL("DELETE FROM STAFF");
-        db.execSQL("UPDATE CLASS SET STATUS = 0");
+        // db.execSQL("UPDATE CLASS SET STATUS = 0");
+
+        Log.d("In Upgrade", "success");
 
         try {
 

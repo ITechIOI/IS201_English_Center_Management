@@ -113,7 +113,7 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        Intent addOffical = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Exam_Score.class);
+        Intent addOffical = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Official_Student.class);
         addOffical.putExtra("studentID", "");
         startActivity(addOffical);
         /*if (!message1.equals("")) {
