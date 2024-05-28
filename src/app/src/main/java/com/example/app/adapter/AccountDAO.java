@@ -33,6 +33,7 @@ public class AccountDAO {
         values.put("ID_USER", accountDTO.getIdUser());
         values.put("USERNAME", accountDTO.getUserName());
         values.put("PASSWORD", accountDTO.getPassWord());
+        values.put("STATUS", 0);
         try {
             int rowEffect = DataProvider.getInstance(context).insertData("ACCOUNT", values);
             if (rowEffect > 0 ) {

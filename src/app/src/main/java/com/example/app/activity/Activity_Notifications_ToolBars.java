@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.app.R;
+import com.example.app.adapter.AccountDAO;
 import com.example.app.adapter.PotentialStudentDAO;
 import com.example.app.model.AccountDTO;
 import com.example.app.model.ClassDTO;
@@ -84,11 +85,19 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
 
                 listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_potential_student_item, dataArrayList);
                 break;
+
             case "Quản lý tài khoản":
                 toolbar.setTitle("Tài khoản");
-                dataArrayList.add(new AccountDTO("1", "1", "1", "1"));
+                List<AccountDTO> listAccount = AccountDAO.getInstance(Activity_Notifications_ToolBars.this).selectAccountVer2(
+                        Activity_Notifications_ToolBars.this, "STATUS = ?",
+                        new String[] {"0"});
+                for (int i = 0; i < listAccount.size(); i++) {
+                    dataArrayList.add(listAccount.get(i));
+                }
+                // dataArrayList.add(new AccountDTO("1", "1", "1", "1"));
                 listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_account_item, dataArrayList);
                 break;
+
             case "Quản lý nhân viên/giáo viên":
                 toolbar.setTitle("Nhân viên/giáo viên");
                 //Chỗ này add cả StaffDTO với TeacherDTO được nhíe

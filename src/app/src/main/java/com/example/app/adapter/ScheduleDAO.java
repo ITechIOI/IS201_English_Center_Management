@@ -187,6 +187,7 @@ public class ScheduleDAO {
             for (String id : idClass) {
                 listSchedule.addAll(ScheduleDAO.getInstance(context).SelectSchedule(context,
                         "ID_CLASS = ?", new String[] {id}));
+                Log.d("List id class in schedule: ", listSchedule.toString());
             }
         }
         else {

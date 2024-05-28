@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="15dp"
-                android:text="Chức vụ: "/>
+                android:text="Mã người dùng: "/>
             <TextView
                 android:id="@+id/idUser"
                 android:layout_width="wrap_content"
@@ -87,12 +87,13 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_height="30dp"
+                android:text="Tài khoản: "
                 android:textSize="15dp"
-                android:text="Tài khoản: "/>
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/username"
                 android:layout_width="wrap_content"

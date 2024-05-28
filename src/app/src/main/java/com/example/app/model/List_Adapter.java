@@ -666,6 +666,8 @@ public class List_Adapter extends ArrayAdapter {
         username = convertView.findViewById(R.id.username);
         password = convertView.findViewById(R.id.password);
 
+
+
         idAccount.setText(listAccount.getIdAccount());
         idUser.setText(listAccount.getIdUser());
         username.setText(listAccount.getUserName());

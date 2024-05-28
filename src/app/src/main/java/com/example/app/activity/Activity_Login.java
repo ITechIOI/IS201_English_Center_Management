@@ -252,12 +252,15 @@ public class Activity_Login extends AppCompatActivity {
 
         // Insert data in Teaching
 
-        TeachingDTO teaching1 = new TeachingDTO(null, "STU1", "CLA1");
-        TeachingDTO teaching2 = new TeachingDTO(null, "STU2", "CLA1");
+        TeachingDTO teaching1 = new TeachingDTO(null, "STU1", "CLS1");
+        TeachingDTO teaching2 = new TeachingDTO(null, "STU2", "CLS1");
+        TeachingDTO teaching3 = new TeachingDTO(null, "STU2", "CLS2");
         TeachingDAO.getInstance(Activity_Login.this).InsertDate(Activity_Login.this,
                 teaching1);
         TeachingDAO.getInstance(Activity_Login.this).InsertDate(Activity_Login.this,
                 teaching2);
+        TeachingDAO.getInstance(Activity_Login.this).InsertDate(Activity_Login.this,
+                teaching3);
 */
 
     }
