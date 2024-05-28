@@ -35,6 +35,9 @@ import com.example.app.adapter.AccountDAO;
 import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.ClassroomDAO;
 import com.example.app.adapter.PotentialStudentDAO;
+import com.example.app.adapter.ProgramDAO;
+import com.example.app.adapter.StaffDAO;
+import com.example.app.adapter.TeacherDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -280,12 +283,23 @@ public class List_Adapter extends ArrayAdapter {
         programID = convertView.findViewById(R.id.programID);
         teacherName = convertView.findViewById(R.id.teacher_name);
 
+        String idTeacher = listClass.getIdTeacher();
+        String idProgram = listClass.getIdProgram();
+        String idStaff = listClass.getIdStaff();
+        List<TeacherDTO> teacher = TeacherDAO.getInstance(mContext).SelectTeacher(mContext,
+                "STATUS = ? AND ID_TEACHER = ?", new String[] {"0", idTeacher});
+        List<ProgramDTO> program = ProgramDAO.getInstance(mContext).SelectProgram(mContext,
+                "ID_PROGRAM = ? AND STATUS = ?", new String[] {idProgram, "0"});
+        List<StaffDTO> staff = StaffDAO.getInstance(mContext).SelectStaffVer2(mContext,
+                "ID_STAFF = ? AND STATUS = ?", new String[] {idStaff, "0"});
+
         classID.setText(listClass.getClassID());
         className.setText(listClass.getClassName());
         startDate.setText(listClass.getStartDate());
         endDate.setText(listClass.getEndDate());
-        programID.setText(listClass.getIdProgram());
-        teacherName.setText(listClass.getIdTeacher());
+        programID.setText(program.get(0).getNameProgram().toString());
+        teacherName.setText(teacher.get(0).getFullName().toString());
+
         if (convertView.findViewById(R.id.edit_class) != null) {
             //Tính năng thêm/xóa lớp của nhân viên ghi danh
             Button editClass = convertView.findViewById(R.id.edit_class);
@@ -294,7 +308,7 @@ public class List_Adapter extends ArrayAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), Activity_Add_Class.class);
-                    intent.putExtra("classID", "1");
+                    intent.putExtra("classID", listClass.getClassID());
                     mContext.startActivity(intent);
                 }
             });
@@ -307,11 +321,20 @@ public class List_Adapter extends ArrayAdapter {
                     builder.setTitle("Xác nhận xóa");
                     builder.setMessage("Bạn có chắc chắn muốn xóa không?");
                     // Nút "Đồng ý": Thực hiện xóa và thông báo ListView
-                    builder.setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             int position = (int) v.getTag();
                             arrayDataList.remove(position);
+
+                            try {
+                                int rowEffect = ClassDAO.getInstance(mContext).DeleteClass(mContext,
+                                        listClass, "ID_CLASS = ? AND STATUS = ?",
+                                        new String[] {listClass.getClassID().toString(), "0"});
+                            } catch (Exception e) {
+                                Log.d("Delete class error: ", e.getMessage());
+                            }
+
                             notifyDataSetChanged();
                         }
                     });
@@ -333,7 +356,7 @@ public class List_Adapter extends ArrayAdapter {
 
         if (convertView.findViewById(R.id.detailBtn) != null) {
             TextView staffID = convertView.findViewById(R.id.staffID);
-            staffID.setText(listClass.getIdStaff());
+            staffID.setText(staff.get(0).getFullName().toString());
             Button detailBtn = convertView.findViewById(R.id.detailBtn);
             detailBtn.setTag(position);
             detailBtn.setOnClickListener(new View.OnClickListener() {
@@ -343,11 +366,11 @@ public class List_Adapter extends ArrayAdapter {
                     if (convertView.findViewById(R.id.edit_class) != null) {
                         //Nhân viên ghi danh
                         intent = new Intent(getContext(), Activity_Notifications_ToolBars_Second_Layer.class);
-                        intent.putExtra("classID", "1");
+                        intent.putExtra("classID", listClass.getClassID());
                     } else {
                         //Nhân viên học vụ
                         intent = new Intent(getContext(), Activity_Notifications_Second_Layer.class);
-                        intent.putExtra("classID", "1");
+                        intent.putExtra("classID", listClass.getClassID());
                         intent.putExtra("idCertificate", "");
                     }
                     mContext.startActivity(intent);

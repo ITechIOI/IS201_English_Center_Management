@@ -79,4 +79,18 @@ public class ClassDTO {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "ClassDTO{" +
+                "classID='" + classID + '\'' +
+                ", className='" + className + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", idProgram='" + idProgram + '\'' +
+                ", idTeacher='" + idTeacher + '\'' +
+                ", idStaff='" + idStaff + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

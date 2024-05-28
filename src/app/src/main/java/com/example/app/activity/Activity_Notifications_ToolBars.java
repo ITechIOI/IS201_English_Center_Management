@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.app.R;
 import com.example.app.adapter.AccountDAO;
+import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.PotentialStudentDAO;
 import com.example.app.adapter.StaffDAO;
 import com.example.app.adapter.TeacherDAO;
@@ -123,10 +124,17 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
                 break;
             case "Quản lý lớp học":
                 toolbar.setTitle("Lớp học");
-                dataArrayList.add(new ClassDTO("IS201","Môn gì đó",
+                /*dataArrayList.add(new ClassDTO("IS201","Môn gì đó",
                         "Đại học", "Tuyết Loan",
                         "10 buổi", "10.000.000",
-                        "Hehe","Đoán coi"));
+                        "Hehe","Đoán coi"));*/
+
+                List<ClassDTO> listClass = ClassDAO.getInstance(Activity_Notifications_ToolBars.this).selectClass(
+                        Activity_Notifications_ToolBars.this, "STATUS = ?", new String[] {"0"});
+                for (int i = 0; i < listClass.size(); i++)  {
+                    dataArrayList.add(listClass.get(i));
+                }
+
                 listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_class_to_manage_item, dataArrayList);
                 break;
             case "Quản lý thông báo":
