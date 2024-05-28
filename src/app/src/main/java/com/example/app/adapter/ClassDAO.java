@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.util.Log;
 
 import com.example.app.model.ClassDTO;
+import com.example.app.model.PotentialStudentDTO;
 import com.example.app.model.TeachingDTO;
 
 import java.util.ArrayList;
@@ -159,6 +160,41 @@ public class ClassDAO {
 
         return listClass;
 
+    }
+
+    public int DeleteClass(Context context, ClassDTO classDelete, String whereClause, String[] whereArgs) {
+        int rowEffect = -1;
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("CLASS", values,whereClause,
+                    whereArgs);
+            if (rowEffect > 0) {
+                Log.d("Delete class ", "success");
+            } else {
+                Log.d("Delete class ", "Fail");
+            }
+        } catch(SQLException e) {
+            Log.d("Delete class error: ", e.getMessage());
+        }
+
+        return rowEffect;
+    }
+
+    public int deletePotentialStudent(Context context, PotentialStudentDTO student, String whereClause, String[] whereArgs) {
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+        int rowEffect = -1;
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("POTENTIAL_STUDENT", values,
+                    "ID_STUDENT = ?", new String[] {student.getStudentID()});
+        } catch (SQLException e) {
+            Log.d("Delete potential Student Error: ", e.getMessage());
+        }
+
+        return  rowEffect;
     }
 
 }

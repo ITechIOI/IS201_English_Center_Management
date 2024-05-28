@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,12 +14,17 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.app.R;
+import com.example.app.adapter.OfficialStudentDAO;
+import com.example.app.adapter.TeachingDAO;
 import com.example.app.model.ExamScoreDTO;
 import com.example.app.model.List_Adapter;
 import com.example.app.model.OfficialStudentDTO;
 import com.example.app.model.ProgramDTO;
+import com.example.app.model.TeacherDTO;
+import com.example.app.model.TeachingDTO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActivity {
     private String message1, message2;
@@ -47,11 +53,38 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
         });
 
         toolbar.setTitle("Học viên");
+        String message = getIntent().getStringExtra("classID");
+        List<TeachingDTO> listTeaching = new ArrayList<>();
+
+        try {
+            listTeaching = TeachingDAO.getInstance(
+                    Activity_Notifications_ToolBars_Second_Layer.this).SelectTeaching(
+                            Activity_Notifications_ToolBars_Second_Layer.this,
+                    "ID_CLASS = ? AND STATUS = ?", new String[] {message, "0"});
+        } catch (Exception e) {
+            Log.d("Get list student error", e.getMessage());
+        }
+
+        List<OfficialStudentDTO> listStudent = new ArrayList<>();
+        for (int i = 0; i < listTeaching.size(); i++) {
+            try {
+                List<OfficialStudentDTO> student = OfficialStudentDAO.getInstance(
+                        Activity_Notifications_ToolBars_Second_Layer.this).SelectStudentVer2(
+                                Activity_Notifications_ToolBars_Second_Layer.this,
+                        "ID_STUDENT = ? AND STATUS = ?",
+                        new String[] {listTeaching.get(i).getIdStudent(), "0"});
+                listStudent.add(student.get(0));
+            } catch (Exception e) {
+                Log.d("Get list student in each class", e.getMessage());
+            }
+        }
+
+        for(int i = 0; i < listStudent.size(); i++) {
+            dataArrayList.add(listStudent.get(i));
+        }
 
         dataArrayList.add(new OfficialStudentDTO("1","1","1","1","1","1",1));
         listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_offfical_student_item, dataArrayList);
-
-
 
         /*if (!message1.equals("")) {
             //toolbar.setTitle("Chi tiết lớp học");

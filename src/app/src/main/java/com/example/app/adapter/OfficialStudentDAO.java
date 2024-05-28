@@ -151,4 +151,25 @@ public class OfficialStudentDAO {
 
         return listStudent;
     }
+
+    public int DeleteOfficialStudent(Context context, OfficialStudentDTO student,
+                                     String whereClause, String[] whereArg) {
+        int rowEffect = -1;
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("OFFICIAL", values,
+                    "ID_STUDENT = ? AND STATUS = ?", new String[] {student.getIdStudent(), "0"});
+            if (rowEffect > 0) {
+                Log.d("Delete account ", "success");
+            }
+        } catch (SQLException e) {
+            Log.d("Delete official student Error: ", e.getMessage());
+        }
+
+        return rowEffect;
+    }
+
+
 }

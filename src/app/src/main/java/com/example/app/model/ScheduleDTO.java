@@ -2,7 +2,8 @@ package com.example.app.model;
 
 public class ScheduleDTO {
     String idSchedule, dayOfWeek, startTime, endTime, idClass, idClassroom;
-    public ScheduleDTO(String idSchedule, String dayOfWeek, String startTime, String endTime, String idClass, String idClassroom) {
+    public ScheduleDTO(String idSchedule, String dayOfWeek, String startTime,
+                       String endTime, String idClass, String idClassroom) {
         this.idSchedule = idSchedule;
         this.dayOfWeek = dayOfWeek;
         this.startTime = startTime;

@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.app.model.AccountDTO;
 import com.example.app.model.ClassDTO;
 import com.example.app.model.OfficialStudentDTO;
+import com.example.app.model.PotentialStudentDTO;
 import com.example.app.model.StaffDTO;
 
 import java.util.ArrayList;
@@ -24,17 +25,18 @@ public class AccountDAO {
         return instance;
     }
 
-    public void insertAccount(Context context, AccountDTO accountDTO) {
+    public int insertAccount(Context context, AccountDTO accountDTO) {
         ContentValues values = new ContentValues();
-
+        int rowEffect = -1;
         int maxId = DataProvider.getInstance(context).getMaxId("ACCOUNT", "ID_ACCOUNT");
 
         values.put("ID_ACCOUNT", "ACC" + String.valueOf(maxId + 1));
         values.put("ID_USER", accountDTO.getIdUser());
         values.put("USERNAME", accountDTO.getUserName());
         values.put("PASSWORD", accountDTO.getPassWord());
+        values.put("STATUS", 0);
         try {
-            int rowEffect = DataProvider.getInstance(context).insertData("ACCOUNT", values);
+            rowEffect = DataProvider.getInstance(context).insertData("ACCOUNT", values);
             if (rowEffect > 0 ) {
                 Log.d("Insert Account: ", "success");
             } else {
@@ -43,16 +45,25 @@ public class AccountDAO {
         } catch (SQLException e) {
             Log.d("Insert Account Error: ", e.getMessage());
         }
+        return rowEffect;
     }
 
-    public int deleteAccount(Context context, String whereClause, String[] whereArgs)  {
+    public int DeleteAccount(Context context, AccountDTO account, String whereClause, String[] whereArgs)  {
+       ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+        int rowEffect = -1;
+
         try {
-            int rowEffect = DataProvider.getInstance(context).deleteData("ACCOUNT",whereClause, whereArgs);
-            return rowEffect;
-        } catch (Exception e) {
-            Log.d("Delete Account Error: ", e.getMessage());
+            rowEffect = DataProvider.getInstance(context).updateData("ACCOUNT", values,
+                    "ID_ACCOUNT = ?", new String[] {account.getIdAccount()});
+            if (rowEffect > 0) {
+                Log.d("Delete account ", "success");
+            }
+        } catch (SQLException e) {
+            Log.d("Delete account Error: ", e.getMessage());
         }
-        return 0;
+
+        return  rowEffect;
     }
 
     public int updateAccount(Context context, AccountDTO accountDTO, String whereClause, String[] whereArgs) {

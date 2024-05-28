@@ -14,13 +14,18 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.app.R;
+import com.example.app.adapter.AccountDAO;
+import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.PotentialStudentDAO;
+import com.example.app.adapter.StaffDAO;
+import com.example.app.adapter.TeacherDAO;
 import com.example.app.model.AccountDTO;
 import com.example.app.model.ClassDTO;
 import com.example.app.model.List_Adapter;
 import com.example.app.model.NotificationDTO;
 import com.example.app.model.PotentialStudentDTO;
 import com.example.app.model.StaffDTO;
+import com.example.app.model.TeacherDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,23 +89,52 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
 
                 listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_potential_student_item, dataArrayList);
                 break;
+
             case "Quản lý tài khoản":
                 toolbar.setTitle("Tài khoản");
-                dataArrayList.add(new AccountDTO("1", "1", "1", "1"));
+                List<AccountDTO> listAccount = AccountDAO.getInstance(Activity_Notifications_ToolBars.this).selectAccountVer2(
+                        Activity_Notifications_ToolBars.this, "STATUS = ?",
+                        new String[] {"0"});
+                for (int i = 0; i < listAccount.size(); i++) {
+                    dataArrayList.add(listAccount.get(i));
+                }
+                // dataArrayList.add(new AccountDTO("1", "1", "1", "1"));
                 listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_account_item, dataArrayList);
                 break;
+
             case "Quản lý nhân viên/giáo viên":
                 toolbar.setTitle("Nhân viên/giáo viên");
                 //Chỗ này add cả StaffDTO với TeacherDTO được nhíe
-                dataArrayList.add(new StaffDTO("1","1","1","1","1","1",1,"1",10));
+
+                List<StaffDTO> listStaff = StaffDAO.getInstance(Activity_Notifications_ToolBars.this).SelectStaffVer2(
+                        Activity_Notifications_ToolBars.this, "STATUS = ?", new String[] {"0"});
+                List<TeacherDTO> listTeacher = TeacherDAO.getInstance(Activity_Notifications_ToolBars.this).SelectTeacher(
+                        Activity_Notifications_ToolBars.this, "STATUS =?", new String[] {"0"});
+
+                for(int i = 0; i < listStaff.size(); i++) {
+                    dataArrayList.add(listStaff.get(i));
+                }
+                for(int i = 0; i < listTeacher.size(); i++) {
+                    dataArrayList.add(listStaff.get(i));
+                }
+
+
+              //  dataArrayList.add(new StaffDTO("1","1","1","1","1","1",1,"1",10));
                 listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_staff_item, dataArrayList);
                 break;
             case "Quản lý lớp học":
                 toolbar.setTitle("Lớp học");
-                dataArrayList.add(new ClassDTO("IS201","Môn gì đó",
+                /*dataArrayList.add(new ClassDTO("IS201","Môn gì đó",
                         "Đại học", "Tuyết Loan",
                         "10 buổi", "10.000.000",
-                        "Hehe","Đoán coi"));
+                        "Hehe","Đoán coi"));*/
+
+                List<ClassDTO> listClass = ClassDAO.getInstance(Activity_Notifications_ToolBars.this).selectClass(
+                        Activity_Notifications_ToolBars.this, "STATUS = ?", new String[] {"0"});
+                for (int i = 0; i < listClass.size(); i++)  {
+                    dataArrayList.add(listClass.get(i));
+                }
+
                 listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_class_to_manage_item, dataArrayList);
                 break;
             case "Quản lý thông báo":
