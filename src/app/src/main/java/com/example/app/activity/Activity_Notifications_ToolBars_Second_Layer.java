@@ -51,8 +51,6 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
         dataArrayList.add(new OfficialStudentDTO("1","1","1","1","1","1",1));
         listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_offfical_student_item, dataArrayList);
 
-
-
         /*if (!message1.equals("")) {
             //toolbar.setTitle("Chi tiết lớp học");
             dataArrayList.add(new ExamScoreDTO("1","1","1","1","1","1","1"));

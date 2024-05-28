@@ -25,9 +25,9 @@ public class AccountDAO {
         return instance;
     }
 
-    public void insertAccount(Context context, AccountDTO accountDTO) {
+    public int insertAccount(Context context, AccountDTO accountDTO) {
         ContentValues values = new ContentValues();
-
+        int rowEffect = -1;
         int maxId = DataProvider.getInstance(context).getMaxId("ACCOUNT", "ID_ACCOUNT");
 
         values.put("ID_ACCOUNT", "ACC" + String.valueOf(maxId + 1));
@@ -36,7 +36,7 @@ public class AccountDAO {
         values.put("PASSWORD", accountDTO.getPassWord());
         values.put("STATUS", 0);
         try {
-            int rowEffect = DataProvider.getInstance(context).insertData("ACCOUNT", values);
+            rowEffect = DataProvider.getInstance(context).insertData("ACCOUNT", values);
             if (rowEffect > 0 ) {
                 Log.d("Insert Account: ", "success");
             } else {
@@ -45,6 +45,7 @@ public class AccountDAO {
         } catch (SQLException e) {
             Log.d("Insert Account Error: ", e.getMessage());
         }
+        return rowEffect;
     }
 
     public int DeleteAccount(Context context, AccountDTO account, String whereClause, String[] whereArgs)  {

@@ -13,6 +13,7 @@ import com.example.app.R;
 import com.example.app.adapter.AccountDAO;
 import com.example.app.adapter.CertificateDAO;
 import com.example.app.adapter.ClassDAO;
+import com.example.app.adapter.ClassroomDAO;
 import com.example.app.adapter.ExamScoreDAO;
 import com.example.app.adapter.NotificationDAO;
 import com.example.app.adapter.OfficialStudentDAO;
@@ -122,7 +123,14 @@ public class Activity_Notifications extends AppCompatActivity {
 
             case "Quản lý thông tin phòng học":
 
-                dataArrayList.add(new ClassroomDTO("1", "1"));
+               // dataArrayList.add(new ClassroomDTO("1", "1"));
+
+                List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(Activity_Notifications.this).SelectClassroom(
+                        Activity_Notifications.this, "STATUS = ?", new String[] {"0"});
+                for (int i = 0; i < listClassroom.size(); i++) {
+                    dataArrayList.add(listClassroom.get(i));
+                }
+
                 listAdapter = new List_Adapter(Activity_Notifications.this, R.layout.list_classroom_item, dataArrayList);
                 break;
 

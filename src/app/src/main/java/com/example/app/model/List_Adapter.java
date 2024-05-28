@@ -663,12 +663,12 @@ public class List_Adapter extends ArrayAdapter {
         TextView idAccount, idUser, username, password;
         AccountDTO listAccount = (AccountDTO) arrayDataList.get(position);
 
-        idAccount = convertView.findViewById(R.id.idAccount);
+       // idAccount = convertView.findViewById(R.id.idAccount);
         idUser = convertView.findViewById(R.id.idUser);
         username = convertView.findViewById(R.id.username);
         password = convertView.findViewById(R.id.password);
 
-        idAccount.setText(listAccount.getIdAccount());
+       // idAccount.setText(listAccount.getIdAccount());
         idUser.setText(listAccount.getIdUser());
         username.setText(listAccount.getUserName());
         password.setText(listAccount.getPassWord());
@@ -687,11 +687,11 @@ public class List_Adapter extends ArrayAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         int position = (int) v.getTag();
                         arrayDataList.remove(position);
-                        AccountDTO account = new AccountDTO(idAccount.getText().toString(),
+                        AccountDTO account = new AccountDTO(listAccount.getIdAccount(),
                                 null, null, null);
                         try {
                             int rowEffect = AccountDAO.getInstance(mContext).DeleteAccount(mContext, account,
-                                    "ID_ACCOUNT = ?", new String[] {idAccount.getText().toString()});
+                                    "ID_ACCOUNT = ?", new String[] {listAccount.getIdAccount()});
                             if(rowEffect > 0) {
                                 Toast.makeText(mContext, "Xóa tài khoản thành công!", Toast.LENGTH_SHORT).show();
                             }
@@ -723,7 +723,7 @@ public class List_Adapter extends ArrayAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), Activity_Add_Account.class);
-                intent.putExtra("idAccount", "1");
+                intent.putExtra("idAccount", listAccount.getIdAccount().toString());
                 mContext.startActivity(intent);
             }
         });
@@ -731,12 +731,13 @@ public class List_Adapter extends ArrayAdapter {
     private void Classroom_View (@Nullable View convertView, int position) {
         ClassroomDTO listClassromm = (ClassroomDTO) arrayDataList.get(position);
         TextView idClassroom, nameClassroom, name;
-        idClassroom = convertView.findViewById(R.id.idClassroom);
+        //idClassroom = convertView.findViewById(R.id.idClassroom);
         nameClassroom = convertView.findViewById(R.id.nameRoom);
         name = convertView.findViewById(R.id.name);
-
-        idClassroom.setText(listClassromm.getIdRoom());
+        //idClassroom.setText(listClassromm.getIdRoom());
         nameClassroom.setText(listClassromm.getName());
+
+
 
         LinearLayout layout;
         layout = convertView.findViewById(R.id.linear_layout);

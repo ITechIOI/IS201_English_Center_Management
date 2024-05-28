@@ -36,7 +36,7 @@ public class StaffDAO {
         values.put("BIRTHDAY", staff.getBirthday());
         values.put("SALARY", staff.getSalary());
         values.put("TYPE", staff.getType());
-        values.put("STATUS", staff.getStatus());
+        values.put("STATUS", 0);
 
         try {
             int rowEffect = DataProvider.getInstance(context).insertData("STAFF", values);

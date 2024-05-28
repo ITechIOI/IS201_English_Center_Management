@@ -263,6 +263,14 @@ public class Activity_Login extends AppCompatActivity {
                 teaching3);
 */
 
+   /*     StaffDTO staff1 = new StaffDTO("STA1", "Nguyen Thi C", "TP HCM", "0343333333", "Nữ", "22/2/2022", 1, "1",0);
+        StaffDAO.getInstance(Activity_Login.this).insertStaff(Activity_Login.this, staff1);
+        StaffDTO staff2 = new StaffDTO("STA2", "Nguyen Thi D", "TP HCM", "03435555333", "Nữ","22/2/2022", 1, "2",0);
+        StaffDAO.getInstance(Activity_Login.this).insertStaff(Activity_Login.this, staff2);
+        StaffDTO staff3 = new StaffDTO("STA3", "Nguyen Thi E", "TP HCM", "03435555333", "Nữ","22/2/2022", 1, "3",0);
+        StaffDAO.getInstance(Activity_Login.this).insertStaff(Activity_Login.this, staff3);
+
+*/
 
     }
 
