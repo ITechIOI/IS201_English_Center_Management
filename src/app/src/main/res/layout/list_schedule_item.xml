@@ -122,12 +122,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mã lớp: "
-                android:textStyle="bold"
-                android:textSize="17dp"/>
+                android:text="Mã phòng: "
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/id_classroom"
                 android:layout_width="wrap_content"

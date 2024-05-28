@@ -59,12 +59,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Giảng viên: "
+                android:text="Mã giảng viên: "
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/teacher_name"
+                android:id="@+id/idTeacher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15dp" />
@@ -80,7 +80,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Thời gian học: "
+                android:text="Ngày bắt đầu: "
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
@@ -122,15 +122,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mã phòng: "
+                android:text="Mã phòng:  "
+                android:layout_gravity="center_vertical"
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/roomID"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15dp" />
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/roomID"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:inputType="none"/>
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -143,15 +153,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mã chương trình: "
+                android:layout_gravity="center_vertical"
+                android:text="Mã chương trình:  "
                 android:textSize="15dp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/programID"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="15dp" />
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/programID"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:inputType="none"/>
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
