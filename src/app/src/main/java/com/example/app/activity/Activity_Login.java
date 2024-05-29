@@ -109,7 +109,7 @@ public class Activity_Login extends AppCompatActivity {
         });
         ;
 
-/*
+
         // Insert data in OFFICIAL_STUDENT
 
         OfficialStudentDTO student1 = new OfficialStudentDTO("STU1", "Nguyen Van A", "Binh Dinh", "034343434", "Nam", "22/2/2022", 0);
@@ -261,7 +261,7 @@ public class Activity_Login extends AppCompatActivity {
                 teaching2);
         TeachingDAO.getInstance(Activity_Login.this).InsertDate(Activity_Login.this,
                 teaching3);
-*/
+
 
 
     }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -46,6 +47,21 @@ public class Activity_Add_Class extends AppCompatActivity {
 
         roomAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, roomIDItem);
         programAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, programIDItem);
+
+        room.setAdapter(roomAdapter);
+        room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+        program.setAdapter(programAdapter);
+        program.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
 
         classID = findViewById(R.id.classID);
         className = findViewById(R.id.class_name);
