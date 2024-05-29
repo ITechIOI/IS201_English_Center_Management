@@ -87,6 +87,10 @@ public class List_Adapter extends ArrayAdapter {
             Certificate_View(convertView, position);
         else if (item instanceof ClassroomDTO)
             Classroom_View(convertView, position);
+        else if (item instanceof StaffDTO)
+            Staff_View(convertView, position);
+        else if (item instanceof TeacherDTO)
+            Teacher_View(convertView, position);
         else
             throw new IllegalArgumentException("Unknown data type: " + item.getClass().getName());
 

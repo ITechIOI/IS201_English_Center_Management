@@ -3,7 +3,10 @@ package com.example.app.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +14,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app.R;
@@ -22,15 +27,18 @@ import com.example.app.model.List_Adapter;
 import com.example.app.model.OfficialStudentDTO;
 import com.example.app.model.TeachingDTO;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class Activity_Add_Official_Student extends AppCompatActivity {
-    EditText studentName, phoneNumber, address, birthday;
+    EditText studentName, phoneNumber, address;
+    TextView birthday;
     Button doneBtn, exitBtn;
     String[] genderItem = {"Nam", "Nữ"};
     AutoCompleteTextView gender;
     ArrayAdapter<String> genderAdapter;
     String genderText = "";
+    DatePickerDialog.OnDateSetListener birthDt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +56,35 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
             }
         });
 
+        birthday = findViewById(R.id.birthday);
+        birthday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        Activity_Add_Official_Student.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        birthDt,
+                        year, month, day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+        birthDt = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month++;
+                birthday.setText(dayOfMonth + "/" + month + "/" + year);
+            }
+        };
+
         studentName = findViewById(R.id.fullName);
         phoneNumber = findViewById(R.id.phoneNumber);
         address = findViewById(R.id.address);
-        birthday = findViewById(R.id.birthday);
         exitBtn = findViewById(R.id.exit_btn);
         doneBtn = findViewById(R.id.done_btn);
 
