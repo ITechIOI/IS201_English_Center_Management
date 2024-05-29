@@ -57,10 +57,6 @@ public class ExamScoreDAO {
         int rowEffect = -1;
 
         ContentValues values = new ContentValues();
-
-        values.put("ID_EXAM_SCORE", score.getIdExamScore());
-        values.put("ID_EXAM", score.getIdExam());
-        values.put("ID_STUDENT", score.getIdStudent());
         values.put("SPEAKING_SCORE", score.getSpeaking());
         values.put("LISTENING_SCORE", score.getListening());
         values.put("READING_SCORE", score.getReading());

@@ -33,9 +33,11 @@ import com.example.app.activity.Activity_Login;
 import com.example.app.activity.Activity_Notifications_Second_Layer;
 import com.example.app.activity.Activity_Notifications_ToolBars_Second_Layer;
 import com.example.app.adapter.AccountDAO;
+import com.example.app.adapter.CertificateDAO;
 import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.ClassroomDAO;
 import com.example.app.adapter.NotificationDAO;
+import com.example.app.adapter.OfficialStudentDAO;
 import com.example.app.adapter.PotentialStudentDAO;
 import com.example.app.adapter.ProgramDAO;
 import com.example.app.adapter.StaffDAO;
@@ -204,18 +206,26 @@ public class List_Adapter extends ArrayAdapter {
 
         if (convertView.findViewById(R.id.edit_score) != null) {
             //Giao diện nhân viên
-            TextView studentName, idStudent;
-            idStudent = convertView.findViewById(R.id.idStudent);
-            idStudent.setText(listScore.getIdStudent());
+            TextView studentName;
+            //idStudent = convertView.findViewById(R.id.idStudent);
+            //idStudent.setText(listScore.getIdStudent());
             studentName = convertView.findViewById(R.id.studentName);
-            studentName.setText("Haha");
+
+            List<OfficialStudentDTO>listStudent = OfficialStudentDAO.getInstance(mContext)
+                            .SelectStudentVer2(mContext, "ID_STUDENT = ? AND STATUS = ?",
+                                    new String[] {listScore.getIdStudent(), "0"});
+
+            studentName.setText(listStudent.get(0).getFullName());
             Button editScore = convertView.findViewById(R.id.edit_score);
             editScore.setTag(position);
             editScore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), Activity_Add_Exam_Score.class);
-                    intent.putExtra("idStudent", "1");
+                    intent.putExtra("idStudent", listScore.getIdExamScore());
+
+                    Log.d("Put exam score: ", listScore.getIdExamScore());
+
                     mContext.startActivity(intent);
                 }
             });
@@ -261,7 +271,12 @@ public class List_Adapter extends ArrayAdapter {
         read.setText(listEducationProgram.getReadingScore());
         studyPeriod.setText(listEducationProgram.getStudy_period());
         tuitionFees.setText(String.valueOf(listEducationProgram.getTuitionFees()));
-        certificate.setText(listEducationProgram.getIdCertificate());
+
+        String idCertificate = listEducationProgram.getIdCertificate();
+        List<CertificateDTO> listCertificate = CertificateDAO.getInstance(mContext).SelectCertificate(mContext,
+                "ID_CERTIFICATE = ? AND STATUS = ?", new String[] {idCertificate, "0"});
+
+        certificate.setText(listCertificate.get(0).getName());
 
         Button editProgram, removeProgram;
         if (convertView.findViewById(R.id.edit_program) != null) {
@@ -410,7 +425,7 @@ public class List_Adapter extends ArrayAdapter {
                         //Nhân viên học vụ
                         intent = new Intent(getContext(), Activity_Notifications_Second_Layer.class);
                         intent.putExtra("classID", listClass.getClassID());
-                        intent.putExtra("idCertificate", "");
+                       intent.putExtra("idCertificate", "");
                     }
                     mContext.startActivity(intent);
                 }
@@ -737,8 +752,9 @@ public class List_Adapter extends ArrayAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), Activity_Notifications_Second_Layer.class);
-                intent.putExtra("idCertificate", "1");
-                intent.putExtra("classID", "");
+                intent.putExtra("idCertificate", listCertificate.getIdCertificate().toString());
+                Log.d("ID certificate found", listCertificate.getIdCertificate() );
+               intent.putExtra("classID", "");
                 mContext.startActivity(intent);
             }
         });
