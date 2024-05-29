@@ -29,15 +29,20 @@ import com.example.app.activity.Activity_Add_Potential_Student;
 import com.example.app.activity.Activity_Add_Program;
 import com.example.app.activity.Activity_Add_Schedule;
 import com.example.app.activity.Activity_Add_Staff;
+import com.example.app.activity.Activity_Login;
 import com.example.app.activity.Activity_Notifications_Second_Layer;
 import com.example.app.activity.Activity_Notifications_ToolBars_Second_Layer;
 import com.example.app.adapter.AccountDAO;
+import com.example.app.adapter.CertificateDAO;
 import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.ClassroomDAO;
+import com.example.app.adapter.NotificationDAO;
+import com.example.app.adapter.OfficialStudentDAO;
 import com.example.app.adapter.PotentialStudentDAO;
 import com.example.app.adapter.ProgramDAO;
 import com.example.app.adapter.StaffDAO;
 import com.example.app.adapter.TeacherDAO;
+import com.example.app.adapter.TeachingDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +51,7 @@ public class List_Adapter extends ArrayAdapter {
     private Context mContext;
     private ArrayList<Object> arrayDataList;
     int idLayout;
+    public static String idClassClick;
 
     public List_Adapter(@NonNull Context context,int idLayout, ArrayList<Object> arrayDataList) {
         super(context, idLayout, arrayDataList);
@@ -104,13 +110,27 @@ public class List_Adapter extends ArrayAdapter {
 
         NotificationDTO listNotifications = (NotificationDTO) arrayDataList.get(position);
 
+        String idPoster = listNotifications.getPoster();
+        List<AccountDTO> accountPost = AccountDAO.getInstance(mContext).selectAccountVer2(mContext,
+                "ID_ACCOUNT = ? AND STATUS = ?", new String[]{idPoster, "0"});
+        List<StaffDTO> staffPost = StaffDAO.getInstance(mContext).SelectStaffVer2(mContext,
+                "ID_STAFF = ? AND STATUS = ?", new String[] {accountPost.get(0).getIdUser(), "0"});
+
         title.setText(listNotifications.getTitle());
-        poster.setText(listNotifications.getPoster());
+        poster.setText(staffPost.get(0).getFullName());
         description.setText(listNotifications.getDescription());
 
         if (convertView.findViewById(R.id.edit_notification) != null) {
             Button remove = convertView.findViewById(R.id.remove_notification);
+            Button edit = convertView.findViewById(R.id.edit_notification);
             remove.setTag(position);
+            edit.setTag(position);
+
+            if (!listNotifications.getPoster().equals(Activity_Login.idAccount)) {
+                remove.setVisibility(View.GONE);
+                edit.setVisibility(View.GONE);
+            }
+
             remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -124,6 +144,22 @@ public class List_Adapter extends ArrayAdapter {
                             int position = (int) v.getTag();
                             arrayDataList.remove(position);
                             notifyDataSetChanged();
+
+                            try {
+                                int rowEffect = NotificationDAO.getInstance(mContext).DeleteNotification(
+                                        mContext, new NotificationDTO(listNotifications.getIdNotification(),
+                                                null, null, null),
+                                        "ID_NOTIFICATION = ? AND STATUS = ?",
+                                        new String[] {listNotifications.getIdNotification().toString(), "0"});
+                                if (rowEffect > 0) {
+                                    Toast.makeText(mContext, "Xóa thông báo thành công!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(mContext, "Xóa thông báo thất bại!", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e) {
+                                Log.d("Delete notification error: ", e.getMessage());
+                            }
+
                         }
                     });
 
@@ -140,13 +176,16 @@ public class List_Adapter extends ArrayAdapter {
                     alertDialog.show();
                 }
             });
-            Button edit = convertView.findViewById(R.id.edit_notification);
-            edit.setTag(position);
+
+            Log.d("Id notification push", listNotifications.getIdNotification());
+
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), Activity_Add_Notification.class);
-                    intent.putExtra("idNotification", "1");
+                    Log.d("Message send: ",listNotifications.getIdNotification() );
+
+                    intent.putExtra("idNotification", listNotifications.getIdNotification());
                     mContext.startActivity(intent);
                 }
             });
@@ -167,18 +206,26 @@ public class List_Adapter extends ArrayAdapter {
 
         if (convertView.findViewById(R.id.edit_score) != null) {
             //Giao diện nhân viên
-            TextView studentName, idStudent;
-            idStudent = convertView.findViewById(R.id.idStudent);
-            idStudent.setText(listScore.getIdStudent());
+            TextView studentName;
+            //idStudent = convertView.findViewById(R.id.idStudent);
+            //idStudent.setText(listScore.getIdStudent());
             studentName = convertView.findViewById(R.id.studentName);
-            studentName.setText("Haha");
+
+            List<OfficialStudentDTO>listStudent = OfficialStudentDAO.getInstance(mContext)
+                            .SelectStudentVer2(mContext, "ID_STUDENT = ? AND STATUS = ?",
+                                    new String[] {listScore.getIdStudent(), "0"});
+
+            studentName.setText(listStudent.get(0).getFullName());
             Button editScore = convertView.findViewById(R.id.edit_score);
             editScore.setTag(position);
             editScore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), Activity_Add_Exam_Score.class);
-                    intent.putExtra("idStudent", "1");
+                    intent.putExtra("idStudent", listScore.getIdExamScore());
+
+                    Log.d("Put exam score: ", listScore.getIdExamScore());
+
                     mContext.startActivity(intent);
                 }
             });
@@ -224,7 +271,12 @@ public class List_Adapter extends ArrayAdapter {
         read.setText(listEducationProgram.getReadingScore());
         studyPeriod.setText(listEducationProgram.getStudy_period());
         tuitionFees.setText(String.valueOf(listEducationProgram.getTuitionFees()));
-        certificate.setText(listEducationProgram.getIdCertificate());
+
+        String idCertificate = listEducationProgram.getIdCertificate();
+        List<CertificateDTO> listCertificate = CertificateDAO.getInstance(mContext).SelectCertificate(mContext,
+                "ID_CERTIFICATE = ? AND STATUS = ?", new String[] {idCertificate, "0"});
+
+        certificate.setText(listCertificate.get(0).getName());
 
         Button editProgram, removeProgram;
         if (convertView.findViewById(R.id.edit_program) != null) {
@@ -367,11 +419,13 @@ public class List_Adapter extends ArrayAdapter {
                         //Nhân viên ghi danh
                         intent = new Intent(getContext(), Activity_Notifications_ToolBars_Second_Layer.class);
                         intent.putExtra("classID", listClass.getClassID());
+                        idClassClick = listClass.getClassID();
+                        Log.d("ID class to show list student in class", idClassClick);
                     } else {
                         //Nhân viên học vụ
                         intent = new Intent(getContext(), Activity_Notifications_Second_Layer.class);
                         intent.putExtra("classID", listClass.getClassID());
-                        intent.putExtra("idCertificate", "");
+                       intent.putExtra("idCertificate", "");
                     }
                     mContext.startActivity(intent);
                 }
@@ -548,6 +602,8 @@ public class List_Adapter extends ArrayAdapter {
 
         removeOfficialStudent = convertView.findViewById(R.id.remove_student);
         removeOfficialStudent.setTag(position);
+
+
         removeOfficialStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -560,6 +616,26 @@ public class List_Adapter extends ArrayAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         int position = (int) v.getTag();
                         arrayDataList.remove(position);
+
+                        try {
+                            List<TeachingDTO> teaching = TeachingDAO.getInstance(mContext).SelectTeaching(
+                                    mContext, "ID_STUDENT = ? AND ID_CLASS = ? AND STATUS = ?",
+                                    new String[] {officialStudentDTO.getIdStudent(), idClassClick, "0"});
+
+                            int rowEffect = TeachingDAO.getInstance(mContext).DeleteTeaching(
+                                    mContext, teaching.get(0), "ID_TEACHING = ?",
+                                    new String[] {teaching.get(0).getIdClass().toString()});
+                            if (rowEffect > 0) {
+                                Toast.makeText(mContext, "Xóa học viên trong lớp thành công",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(mContext, "Xóa học viên trong lớp thất bại",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Log.d("Delete teaching error: ", e.getMessage());
+                        }
+
                         notifyDataSetChanged();
                     }
                 });
@@ -584,7 +660,8 @@ public class List_Adapter extends ArrayAdapter {
             @Override
             public void onClick(View v) {
                 Intent addPotential = new Intent(getContext(), Activity_Add_Official_Student.class);
-                addPotential.putExtra("studentID", "");
+                addPotential.putExtra("studentID", officialStudentDTO.getIdStudent().toString());
+                addPotential.putExtra("classID", idClassClick.toString());
                 mContext.startActivity(addPotential);
             }
         });
@@ -675,8 +752,9 @@ public class List_Adapter extends ArrayAdapter {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), Activity_Notifications_Second_Layer.class);
-                intent.putExtra("idCertificate", "1");
-                intent.putExtra("classID", "");
+                intent.putExtra("idCertificate", listCertificate.getIdCertificate().toString());
+                Log.d("ID certificate found", listCertificate.getIdCertificate() );
+               intent.putExtra("classID", "");
                 mContext.startActivity(intent);
             }
         });

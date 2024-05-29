@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="4dp"
         android:background="@drawable/ripple_effect"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,105 +18,222 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tên lớp: "
-                android:textSize="15dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/class_name"
-                android:layout_width="187dp"
+                android:maxLines="1"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mã lớp: "
-                android:textSize="15dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/classID"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:textSize="15dp" />
+                android:textSize="14dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mã lớp: "
+                android:textSize="14dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/classID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mã giảng viên: "
+<<<<<<< HEAD
                 android:textSize="15dp"
+=======
+                android:textSize="14dp"
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/idTeacher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp" />
+                android:textSize="14dp" />
         </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ngày bắt đầu: "
+<<<<<<< HEAD
                 android:textSize="15dp"
+=======
+                android:textSize="14dp"
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/start_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp" />
+                android:textSize="14dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ngày kết thúc: "
-                android:textSize="15dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/end_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp" />
+                android:textSize="14dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+<<<<<<< HEAD
+                android:text="Mã phòng:  "
+                android:layout_gravity="center_vertical"
+                android:textSize="15dp"
+=======
+                android:text="Thứ trong tuần:  "
+                android:layout_gravity="center_vertical"
+                android:textSize="14dp"
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+<<<<<<< HEAD
+                android:layout_height="45dp"
+=======
+                android:layout_height="wrap_content"
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
+                    android:layout_gravity="center_vertical"
+<<<<<<< HEAD
+                    android:id="@+id/roomID"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+=======
+                    android:id="@+id/dayOfWeek"
+                    android:padding="4dp"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
+                    android:inputType="none"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+<<<<<<< HEAD
+                android:layout_gravity="center_vertical"
+                android:text="Mã chương trình:  "
+                android:textSize="15dp"
+=======
+                android:text="Giờ học:  "
+                android:layout_gravity="center_vertical"
+                android:textSize="14dp"
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+<<<<<<< HEAD
+                android:layout_height="45dp"
+=======
+                android:layout_height="wrap_content"
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
+                    android:layout_gravity="center_vertical"
+<<<<<<< HEAD
+                    android:id="@+id/programID"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+=======
+                    android:id="@+id/classTime"
+                    android:padding="4dp"
+                    android:layout_width="170dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
+                    android:inputType="none"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
             <TextView
@@ -124,12 +241,12 @@
                 android:layout_height="wrap_content"
                 android:text="Mã phòng:  "
                 android:layout_gravity="center_vertical"
-                android:textSize="15dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
@@ -138,7 +255,8 @@
                     android:id="@+id/roomID"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
+                    android:textSize="14dp"
+                    android:padding="4dp"
                     android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -146,8 +264,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
             <TextView
@@ -155,12 +273,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Mã chương trình:  "
-                android:textSize="15dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
@@ -169,7 +287,8 @@
                     android:id="@+id/programID"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:textSize="15dp"
+                    android:textSize="14dp"
+                    android:padding="4dp"
                     android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -177,28 +296,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mã nhân viên quản lý: "
-                android:textSize="15dp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/staffID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15dp" />
+                android:textSize="14dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="14dp"
             android:gravity="center"
             android:orientation="horizontal">
 

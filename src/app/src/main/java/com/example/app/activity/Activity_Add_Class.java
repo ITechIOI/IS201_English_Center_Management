@@ -34,8 +34,15 @@ public class Activity_Add_Class extends AppCompatActivity {
     Button exitBtn, doneBtn;
     String[] roomIDItem = {"Hehe", "Hoho", "Huhu"};
     String[] programIDItem = {"Hmmmm", "Oke", "Ờm Ờm"};
+<<<<<<< HEAD
     AutoCompleteTextView room, program;
     ArrayAdapter<String> roomAdapter, programAdapter;
+=======
+    String[] dayOfWeekItem = {"Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
+    String[] classTimeItem = {"7h00 - 9h00", "9h00 - 11h00", "13h00 - 15h00", "15h00 - 17h00", "17h00 - 19h00", "19h00 - 21h00"};
+    AutoCompleteTextView room, program, dayOfWeek, classTime;
+    ArrayAdapter<String> roomAdapter, programAdapter, dayOfWeekAdapter, classTimeAdapter;
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,29 @@ public class Activity_Add_Class extends AppCompatActivity {
             }
         });
 
+<<<<<<< HEAD
+=======
+        dayOfWeek = findViewById(R.id.dayOfWeek);
+        dayOfWeekAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, dayOfWeekItem);
+        dayOfWeek.setAdapter(dayOfWeekAdapter);
+        dayOfWeek.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+
+        classTime = findViewById(R.id.classTime);
+        classTimeAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, classTimeItem);
+        classTime.setAdapter(classTimeAdapter);
+        classTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
         classID = findViewById(R.id.classID);
         className = findViewById(R.id.class_name);
         startDate = findViewById(R.id.start_date);
@@ -100,7 +130,7 @@ public class Activity_Add_Class extends AppCompatActivity {
             /*programID.setText(program.get(0).getNameProgram().toString());
             teacherName.setText(teacher.get(0).getFullName().toString());*/
             staffID.setText(staff.get(0).getFullName().toString());
-           // toolbar.setTitle(className.getText().toString()  + classID.getText().toString());
+            // toolbar.setTitle(className.getText().toString()  + classID.getText().toString());
 
 
             doneBtn.setOnClickListener(new View.OnClickListener() {

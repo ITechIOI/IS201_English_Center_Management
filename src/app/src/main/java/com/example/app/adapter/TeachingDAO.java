@@ -23,7 +23,7 @@ public class TeachingDAO {
         return instance;
     }
 
-    public int InsertDate(Context context, TeachingDTO teaching) {
+    public int InsertTeaching(Context context, TeachingDTO teaching) {
 
         int rowEffect = -1;
         ContentValues values = new ContentValues();
@@ -48,7 +48,7 @@ public class TeachingDAO {
         return rowEffect;
     }
 
-    public int UpdateDate(Context context, TeachingDTO teaching, String whereClause, String[] whereArgs)  {
+    public int UpdateTeaching(Context context, TeachingDTO teaching, String whereClause, String[] whereArgs)  {
         int rowEffect = -1;
         ContentValues values = new ContentValues();
 

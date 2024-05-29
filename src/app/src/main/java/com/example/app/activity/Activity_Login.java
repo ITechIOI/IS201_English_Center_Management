@@ -109,6 +109,10 @@ public class Activity_Login extends AppCompatActivity {
         });
         ;
 
+<<<<<<< HEAD
+=======
+/*
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
 
         // Insert data in OFFICIAL_STUDENT
 
@@ -261,6 +265,7 @@ public class Activity_Login extends AppCompatActivity {
                 teaching2);
         TeachingDAO.getInstance(Activity_Login.this).InsertDate(Activity_Login.this,
                 teaching3);
+
 
 
 

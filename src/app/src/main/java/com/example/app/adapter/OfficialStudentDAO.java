@@ -23,13 +23,14 @@ public class OfficialStudentDAO {
         return instance;
     }
 
-    public void insertOfficialStudent(Context context, OfficialStudentDTO student) {
+    public int insertOfficialStudent(Context context, OfficialStudentDTO student) {
         String idStudent = student.getIdStudent();
         String fullName = student.getFullName();
         String address = student.getAddress();
         String phoneNumber = student.getPhoneNumber();
         String gender = student.getGender();
         int status = student.getStatus();
+        int rowEffect = -1;
 
         int maxId = DataProvider.getInstance(context).getMaxId("OFFICIAL_STUDENT", "ID_STUDENT");
 
@@ -43,7 +44,7 @@ public class OfficialStudentDAO {
         values.put("STATUS", status);
 
         try {
-            int rowEffect = DataProvider.getInstance(context).insertData("OFFICIAL_STUDENT", values);
+            rowEffect = DataProvider.getInstance(context).insertData("OFFICIAL_STUDENT", values);
             if (rowEffect > 0 ) {
                 Log.d("Insert Official Student: ", "success");
             } else {
@@ -52,11 +53,14 @@ public class OfficialStudentDAO {
         } catch (SQLException e) {
             Log.d("Insert Official Student Error: ", e.getMessage());
         }
+
+        return rowEffect;
     }
 
-    public void deleteOfficialStudent(Context context, String whereClause, String[] whereArgs)  {
+    public int deleteOfficialStudent(Context context, String whereClause, String[] whereArgs)  {
+        int rowEffect = -1;
         try {
-            int rowEffect = DataProvider.getInstance(context).deleteData("OFFICIAL_STUDENT",whereClause, whereArgs);
+            rowEffect = DataProvider.getInstance(context).deleteData("OFFICIAL_STUDENT",whereClause, whereArgs);
             if (rowEffect > 0) {
                 Log.d("Delete Official Student: ", "success");
             } else {
@@ -65,6 +69,7 @@ public class OfficialStudentDAO {
         } catch (SQLException e) {
             Log.d("Insert Official Student Error: ", e.getMessage());
         }
+        return rowEffect;
     }
 
     public int updateOfficialStudent(Context context, OfficialStudentDTO student, String whereClause, String[] whereArgs) {
@@ -76,7 +81,6 @@ public class OfficialStudentDAO {
         int status = student.getStatus();
 
         ContentValues values = new ContentValues();
-        values.put("ID_STUDENT", idStudent);
         values.put("FULLNAME", fullName);
         values.put("ADDRESS", address);
         values.put("PHONE_NUMBER", phoneNumber);

@@ -8,7 +8,9 @@ public class OfficialStudentDTO {
     private String gender;
     private String birthday;
     private int status;
-    public OfficialStudentDTO(String idStudent, String fullName, String address, String phoneNumber, String gender, String birthday, int status) {
+    public OfficialStudentDTO(String idStudent, String fullName,
+                              String address, String phoneNumber, String gender,
+                              String birthday, int status) {
         this.idStudent = idStudent;
         this.fullName = fullName;
         this.address = address;

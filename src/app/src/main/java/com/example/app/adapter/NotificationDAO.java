@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.app.activity.Activity_Notifications;
 import com.example.app.model.NotificationDTO;
 import com.example.app.model.OfficialStudentDTO;
+import com.example.app.model.PotentialStudentDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,29 +48,11 @@ public class NotificationDAO {
         return rowEffect;
     }
 
-    public int DeleteNotification(Context context, String whereClause, String[] whereArgs) {
-        int rowEffect = -1;
-
-        try {
-            rowEffect = DataProvider.getInstance(context).deleteData("NOTIFICATION",whereClause, whereArgs);
-            if (rowEffect > 0) {
-                Log.d("Delete Notification: ", "success");
-            } else {
-                Log.d("Delete Notification: ", "Fail");
-            }
-        } catch (SQLException e) {
-            Log.d("Insert Notification: ", e.getMessage());
-        }
-
-        return rowEffect;
-    }
 
     public int UpdateNotification(Context context, NotificationDTO notification, String whereClause, String[] whereArgs)  {
         int rowEffect = -1;
 
         ContentValues values = new ContentValues();
-        values.put("ID_NOTIFICATION", notification.getIdNotification());
-        values.put("ID_ACCOUNT", notification.getPoster());
         values.put("TITLE", notification.getTitle());
         values.put("CONTENT", notification.getDescription());
 
@@ -109,7 +92,7 @@ public class NotificationDAO {
                 if (idAccountIndex!= -1) {
                     idAccount = cursor.getString(idAccountIndex);
                 }
-                String idUser = "";
+                /*String idUser = "";
                 String whereClauseFindUser = "ID_ACCOUNT = ?";
                 String[] whereArgsFindUser = new String[] {idAccount};
                 Cursor fullRow = AccountDAO.getInstance(context).selectAccount(context, whereClauseFindUser, whereArgsFindUser);
@@ -139,7 +122,7 @@ public class NotificationDAO {
                             fullName = fullRowFullName.getString(fullNameIndex);
                         }
                     } while (fullRowFullName.moveToNext());
-                }
+                }*/
 
                 int titleIndex = cursor.getColumnIndex("TITLE");
                 if (titleIndex!= -1) {
@@ -151,13 +134,47 @@ public class NotificationDAO {
                     content = cursor.getString(contentIndex);
                 }
 
-                listNotification.add(new NotificationDTO(idNotification, fullName, title, content));
+                listNotification.add(new NotificationDTO(idNotification, idAccount, title, content));
 
                // dataArrayList.add(new NotificationDTO(idNotification, fullName, title, content));
 
             } while (cursor.moveToNext());
         }
+        Log.d("List notification: ", listNotification.toString());
 
         return listNotification;
     }
+
+    public int DeleteNotification(Context context, NotificationDTO notification, String whereClause,
+                                  String[] whereArgs) {
+        int rowEffect = -1;
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("NOTIFICATION", values,
+                    "ID_NOTIFICATION = ? AND STATUS = ?",
+                    new String[] {notification.getIdNotification(), "0"});
+        } catch (SQLException e) {
+            Log.d("Delete notification Error: ", e.getMessage());
+        }
+
+        return rowEffect;
+    }
+
+    public int deletePotentialStudent(Context context, PotentialStudentDTO student, String whereClause, String[] whereArgs) {
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+        int rowEffect = -1;
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("POTENTIAL_STUDENT", values,
+                    "ID_STUDENT = ?", new String[] {student.getStudentID()});
+        } catch (SQLException e) {
+            Log.d("Delete potential Student Error: ", e.getMessage());
+        }
+
+        return  rowEffect;
+    }
+
 }
