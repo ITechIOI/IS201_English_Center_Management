@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,20 +30,66 @@ import com.example.app.model.TeacherDTO;
 import java.util.List;
 
 public class Activity_Add_Class extends AppCompatActivity {
-    EditText classID, className, startDate, endDate, programID, teacherName, staffID;
+    EditText classID, className, startDate, endDate, idTeacher, staffID;
     Button exitBtn, doneBtn;
+    String[] roomIDItem = {"Hehe", "Hoho", "Huhu"};
+    String[] programIDItem = {"Hmmmm", "Oke", "Ờm Ờm"};
+    String[] dayOfWeekItem = {"Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
+    String[] classTimeItem = {"7h00 - 9h00", "9h00 - 11h00", "13h00 - 15h00", "15h00 - 17h00", "17h00 - 19h00", "19h00 - 21h00"};
+    AutoCompleteTextView room, program, dayOfWeek, classTime;
+    ArrayAdapter<String> roomAdapter, programAdapter, dayOfWeekAdapter, classTimeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_class);
 
+        room = findViewById(R.id.roomID);
+        program = findViewById(R.id.programID);
+
+        roomAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, roomIDItem);
+        programAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, programIDItem);
+
+        room.setAdapter(roomAdapter);
+        room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+        program.setAdapter(programAdapter);
+        program.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+
+        dayOfWeek = findViewById(R.id.dayOfWeek);
+        dayOfWeekAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, dayOfWeekItem);
+        dayOfWeek.setAdapter(dayOfWeekAdapter);
+        dayOfWeek.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+
+        classTime = findViewById(R.id.classTime);
+        classTimeAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, classTimeItem);
+        classTime.setAdapter(classTimeAdapter);
+        classTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+
         classID = findViewById(R.id.classID);
         className = findViewById(R.id.class_name);
         startDate = findViewById(R.id.start_date);
         endDate = findViewById(R.id.end_date);
-        programID = findViewById(R.id.programID);
-        teacherName = findViewById(R.id.teacher_name);
+        idTeacher = findViewById(R.id.idTeacher);
         staffID = findViewById(R.id.staffID);
         exitBtn = findViewById(R.id.exit_btn);
         doneBtn = findViewById(R.id.done_btn);
@@ -70,22 +119,21 @@ public class Activity_Add_Class extends AppCompatActivity {
                     Activity_Add_Class.this, "ID_STAFF = ? AND STATUS = ?",
                     new String[] {idStaff, "0"});
 
-            programID.setText(program.get(0).getNameProgram().toString());
-            teacherName.setText(teacher.get(0).getFullName().toString());
+            /*programID.setText(program.get(0).getNameProgram().toString());
+            teacherName.setText(teacher.get(0).getFullName().toString());*/
             staffID.setText(staff.get(0).getFullName().toString());
-           // toolbar.setTitle(className.getText().toString()  + classID.getText().toString());
+            // toolbar.setTitle(className.getText().toString()  + classID.getText().toString());
 
 
             doneBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (className.getText().toString().equals("") || classID.getText().toString().equals("")
-                            || startDate.getText().toString().equals("") || teacherName.getText().toString().equals("")
-                            || endDate.getText().toString().equals("") || programID.getText().toString().equals("")
+                            || startDate.getText().toString().equals("") || endDate.getText().toString().equals("")
                             || staffID.getText().toString().equals("")) {
                         Toast.makeText(Activity_Add_Class.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
                     } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Add_Class.this);
+                        /*AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Add_Class.this);
                         builder.setTitle("Xác nhận")
                                 .setMessage("Bạn có chắc chắn muốn sửa thông tin lớp học này không?");
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -121,7 +169,7 @@ public class Activity_Add_Class extends AppCompatActivity {
                             }
                         });
                         builder.setNegativeButton("Hủy", null);
-                        builder.show();
+                        builder.show();*/
                     }
                 }
             });
@@ -161,7 +209,7 @@ public class Activity_Add_Class extends AppCompatActivity {
                 }
             });
 
-            doneBtn.setOnClickListener(new View.OnClickListener() {
+            /*doneBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (className.getText().toString().equals("") || classID.getText().toString().equals("")
@@ -207,10 +255,31 @@ public class Activity_Add_Class extends AppCompatActivity {
                         staffID.setText("");
                     }
                 }
-            });
+            });*/
 
         }
 
+        exitBtn = findViewById(R.id.exit_btn);
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        doneBtn = findViewById(R.id.done_btn);
+        doneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (className.getText().toString().equals("") || classID.getText().toString().equals("")
+                        || startDate.getText().toString().equals("") || idTeacher.getText().toString().equals("")
+                        || endDate.getText().toString().equals("") || staffID.getText().toString().equals("")) {
+                    Toast.makeText(Activity_Add_Class.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                } else {
+                    finish();
+                }
+            }
+        });
     }
 
     @Override

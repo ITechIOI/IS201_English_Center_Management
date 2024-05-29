@@ -268,6 +268,7 @@ public class Activity_Login extends AppCompatActivity {
         OfficialStudentDTO student2 = new OfficialStudentDTO("STU2", "Le Thi B", "Binh Duong","0232323222", "Nữ", "22/2/2022", 0 );
         OfficialStudentDAO.getInstance(Activity_Login.this).insertOfficialStudent(Activity_Login.this, student2);
 
+
     }
 
     @Override
