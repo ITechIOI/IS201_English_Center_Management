@@ -3,7 +3,10 @@ package com.example.app.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,15 +31,18 @@ import com.example.app.model.ProgramDTO;
 import com.example.app.model.StaffDTO;
 import com.example.app.model.TeacherDTO;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class Activity_Add_Class extends AppCompatActivity {
-    EditText classID, className, startDate, endDate, idTeacher, staffID;
+    EditText classID, className, idTeacher, staffID;
+    TextView startDate, endDate;
     Button exitBtn, doneBtn;
     String[] roomIDItem = {"Hehe", "Hoho", "Huhu"};
     String[] programIDItem = {"Hmmmm", "Oke", "Ờm Ờm"};
     AutoCompleteTextView room, program;
     ArrayAdapter<String> roomAdapter, programAdapter;
+    DatePickerDialog.OnDateSetListener startDt, endDt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +70,60 @@ public class Activity_Add_Class extends AppCompatActivity {
             }
         });
 
+        startDate = findViewById(R.id.start_date);
+        startDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        Activity_Add_Class.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        startDt,
+                        year, month, day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+        startDt = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month++;
+                startDate.setText(dayOfMonth + "/" + month + "/" + year);
+            }
+        };
+
+        endDate = findViewById(R.id.end_date);
+        endDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        Activity_Add_Class.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        endDt,
+                        year, month, day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+        endDt = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month++;
+                endDate.setText(dayOfMonth + "/" + month + "/" + year);
+            }
+        };
+
         classID = findViewById(R.id.classID);
         className = findViewById(R.id.class_name);
-        startDate = findViewById(R.id.start_date);
-        endDate = findViewById(R.id.end_date);
         idTeacher = findViewById(R.id.idTeacher);
         staffID = findViewById(R.id.staffID);
         exitBtn = findViewById(R.id.exit_btn);
