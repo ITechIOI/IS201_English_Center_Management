@@ -24,7 +24,7 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/idClass"
-                android:layout_width="175dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="4dp"
@@ -105,31 +105,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mã lớp: "
+                android:text="Mã phòng: "
                 android:textStyle="bold"
                 android:textSize="17dp"/>
             <TextView
-                android:id="@+id/id_class"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Thứ 8"
-                android:textSize="17dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mã lớp: "
-                android:textStyle="bold"
-                android:textSize="17dp"/>
-            <TextView
-                android:id="@+id/id_classroom"
+                android:id="@+id/idClassroom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thứ 8"

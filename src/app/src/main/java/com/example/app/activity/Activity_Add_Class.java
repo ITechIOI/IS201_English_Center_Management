@@ -34,10 +34,8 @@ public class Activity_Add_Class extends AppCompatActivity {
     Button exitBtn, doneBtn;
     String[] roomIDItem = {"Hehe", "Hoho", "Huhu"};
     String[] programIDItem = {"Hmmmm", "Oke", "Ờm Ờm"};
-    String[] dayOfWeekItem = {"Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
-    String[] classTimeItem = {"7h00 - 9h00", "9h00 - 11h00", "13h00 - 15h00", "15h00 - 17h00", "17h00 - 19h00", "19h00 - 21h00"};
-    AutoCompleteTextView room, program, dayOfWeek, classTime;
-    ArrayAdapter<String> roomAdapter, programAdapter, dayOfWeekAdapter, classTimeAdapter;
+    AutoCompleteTextView room, program;
+    ArrayAdapter<String> roomAdapter, programAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,26 +57,6 @@ public class Activity_Add_Class extends AppCompatActivity {
         });
         program.setAdapter(programAdapter);
         program.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-            }
-        });
-
-        dayOfWeek = findViewById(R.id.dayOfWeek);
-        dayOfWeekAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, dayOfWeekItem);
-        dayOfWeek.setAdapter(dayOfWeekAdapter);
-        dayOfWeek.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-            }
-        });
-
-        classTime = findViewById(R.id.classTime);
-        classTimeAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, classTimeItem);
-        classTime.setAdapter(classTimeAdapter);
-        classTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();

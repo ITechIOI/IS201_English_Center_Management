@@ -20,10 +20,9 @@ public class Activity_Add_Schedule extends AppCompatActivity {
 
     String[] dayOfWeekItem = {"Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
     String[] classTimeItem = {"7h00 - 9h00", "9h00 - 11h00", "13h00 - 15h00", "15h00 - 17h00", "17h00 - 19h00", "19h00 - 21h00"};
-    String[] idClassItem = {"Hmmm", "Huhu"};
     String[] idClassroomItem = {"Huhu", "Chào Loan"};
-    AutoCompleteTextView dayOfWeek, classTime, idClass, idClassroom;
-    ArrayAdapter<String> dayOfWeekAdapter, classTimeAdapter, idClassAdapter, idClassroomAdapter;
+    AutoCompleteTextView dayOfWeek, classTime, idClassroom;
+    ArrayAdapter<String> dayOfWeekAdapter, classTimeAdapter, idClassroomAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,16 +44,6 @@ public class Activity_Add_Schedule extends AppCompatActivity {
         classTimeAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, classTimeItem);
         classTime.setAdapter(classTimeAdapter);
         classTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-            }
-        });
-
-        idClass = findViewById(R.id.idClass);
-        idClassAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, idClassItem);
-        idClass.setAdapter(idClassAdapter);
-        idClass.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -86,8 +75,7 @@ public class Activity_Add_Schedule extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (dayOfWeek.getText().equals("") || startTime.getText().equals("")
-                        || endTime.getText().equals("") || idClass.getText().equals("")
-                        || idClassroom.getText().equals("")) {
+                        || endTime.getText().equals("") || idClassroom.getText().equals("")) {
                     Toast.makeText(Activity_Add_Schedule.this, "Nhập lại", Toast.LENGTH_SHORT).show();
                 } else {
                     finish();

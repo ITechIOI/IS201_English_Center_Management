@@ -20,6 +20,7 @@ import com.example.app.model.ExamScoreDTO;
 import com.example.app.model.List_Adapter;
 import com.example.app.model.OfficialStudentDTO;
 import com.example.app.model.ProgramDTO;
+import com.example.app.model.ScheduleDTO;
 import com.example.app.model.TeacherDTO;
 import com.example.app.model.TeachingDTO;
 
@@ -41,8 +42,6 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
         toolbar = findViewById(R.id.toolbar);
         listView = findViewById(R.id.notification_listview);
         returnBtn = findViewById(R.id.return_btn);
-        /*message1 = getIntent().getStringExtra("classID");
-        message2 = getIntent().getStringExtra("idCertificate");*/
         dataArrayList = new ArrayList<>();
 
         returnBtn.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +51,7 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
             }
         });
 
-        toolbar.setTitle("Học viên");
+        /*toolbar.setTitle("Học viên");
         String message = getIntent().getStringExtra("classID");
         List<TeachingDTO> listTeaching = new ArrayList<>();
 
@@ -88,7 +87,7 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
         }
 
        // dataArrayList.add(new OfficialStudentDTO("1","1","1","1","1","1",1));
-        listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_offfical_student_item, dataArrayList);
+        listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_offfical_student_item, dataArrayList);*/
 
         /*if (!message1.equals("")) {
             //toolbar.setTitle("Chi tiết lớp học");
@@ -111,72 +110,70 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
     @Override
     public void onStart() {
         super.onStart();
-        toolbar = findViewById(R.id.toolbar);
-        listView = findViewById(R.id.notification_listview);
-        returnBtn = findViewById(R.id.return_btn);
-        /*message1 = getIntent().getStringExtra("classID");
-        message2 = getIntent().getStringExtra("idCertificate");*/
+        message1 = getIntent().getStringExtra("classID");
+        message2 = getIntent().getStringExtra("idSchedule");
         dataArrayList = new ArrayList<>();
 
-        returnBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        if (!message1.equals("")) {
+            toolbar.setTitle("Học viên");
+            String message = getIntent().getStringExtra("classID");
+            List<TeachingDTO> listTeaching = new ArrayList<>();
 
-        toolbar.setTitle("Học viên");
-        String message = getIntent().getStringExtra("classID");
-        List<TeachingDTO> listTeaching = new ArrayList<>();
-
-        try {
-            listTeaching = TeachingDAO.getInstance(
-                    Activity_Notifications_ToolBars_Second_Layer.this).SelectTeaching(
-                    Activity_Notifications_ToolBars_Second_Layer.this,
-                    "ID_CLASS = ? AND STATUS = ?", new String[] {message, "0"});
-            Log.d("Get list student error", listTeaching.toString());
-        } catch (Exception e) {
-            Log.d("Get list student error", e.getMessage());
-        }
-
-        List<OfficialStudentDTO> listStudent = new ArrayList<>();
-        for (int i = 0; i < listTeaching.size(); i++) {
             try {
-                List<OfficialStudentDTO> student = OfficialStudentDAO.getInstance(
-                        Activity_Notifications_ToolBars_Second_Layer.this).SelectStudentVer2(
+                listTeaching = TeachingDAO.getInstance(
+                        Activity_Notifications_ToolBars_Second_Layer.this).SelectTeaching(
                         Activity_Notifications_ToolBars_Second_Layer.this,
-                        "ID_STUDENT = ? AND STATUS = ?",
-                        new String[] {listTeaching.get(i).getIdStudent(), "0"});
-                Log.d("Get student exists", student.toString());
-                listStudent.add(student.get(0));
-
+                        "ID_CLASS = ? AND STATUS = ?", new String[]{message, "0"});
+                Log.d("Get list student error", listTeaching.toString());
             } catch (Exception e) {
-                Log.d("Get list student in each class", e.getMessage());
+                Log.d("Get list student error", e.getMessage());
             }
-        }
-        //  Log.d("Get list student error", listStudent.toString());
 
-        for(int i = 0; i < listStudent.size(); i++) {
-            dataArrayList.add(listStudent.get(i));
+            List<OfficialStudentDTO> listStudent = new ArrayList<>();
+            for (int i = 0; i < listTeaching.size(); i++) {
+                try {
+                    List<OfficialStudentDTO> student = OfficialStudentDAO.getInstance(
+                            Activity_Notifications_ToolBars_Second_Layer.this).SelectStudentVer2(
+                            Activity_Notifications_ToolBars_Second_Layer.this,
+                            "ID_STUDENT = ? AND STATUS = ?",
+                            new String[]{listTeaching.get(i).getIdStudent(), "0"});
+                    Log.d("Get student exists", student.toString());
+                    listStudent.add(student.get(0));
+
+                } catch (Exception e) {
+                    Log.d("Get list student in each class", e.getMessage());
+                }
+            }
+            //  Log.d("Get list student error", listStudent.toString());
+
+            for (int i = 0; i < listStudent.size(); i++) {
+                dataArrayList.add(listStudent.get(i));
+            }
+
+            // dataArrayList.add(new OfficialStudentDTO("1","1","1","1","1","1",1));
+            listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_offfical_student_item, dataArrayList);
+        }
+        if (!message2.equals("")) {
+            toolbar.setTitle("Lịch học");
+            dataArrayList.add(new ScheduleDTO("1", "1", "1", "1", "1", "1"));
+            dataArrayList.add(new ScheduleDTO("1", "1", "1", "1", "1", "1"));
+            listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_schedule_manage_item, dataArrayList);
         }
 
-        // dataArrayList.add(new OfficialStudentDTO("1","1","1","1","1","1",1));
-        listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_offfical_student_item, dataArrayList);
 
         /*if (!message1.equals("")) {
             //toolbar.setTitle("Chi tiết lớp học");
             dataArrayList.add(new ExamScoreDTO("1","1","1","1","1","1","1"));
             listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_score_manage_item, dataArrayList);
-        }*/
+        }
 
-        /*if (!message2.equals("")) {
+        if (!message2.equals("")) {
             dataArrayList.add(new ProgramDTO("1", "1"
                     , "1", "1", "1"
                     , "1", "1", "1"
                     , "1", 10, "1", "1"));
             listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_education_program_item, dataArrayList);
         }*/
-
         listView.setAdapter(listAdapter);
         setSupportActionBar(toolbar);
     }
@@ -190,19 +187,19 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        Intent addOffical = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Official_Student.class);
+        /*Intent addOffical = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Official_Student.class);
         addOffical.putExtra("studentID", "");
-        startActivity(addOffical);
-        /*if (!message1.equals("")) {
-            Intent addOffical = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Exam_Score.class);
+        startActivity(addOffical);*/
+        if (!message1.equals("")) {
+            Intent addOffical = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Official_Student.class);
             addOffical.putExtra("studentID", "");
             startActivity(addOffical);
         }
         if (!message2.equals("")) {
-            Intent addProgram = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Program.class);
-            addProgram.putExtra("idProgram", "");
-            startActivity(addProgram);
-        }*/
+            Intent addSchedule = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Schedule.class);
+            addSchedule.putExtra("idSchedule", "");
+            startActivity(addSchedule);
+        }
         return super.onOptionsItemSelected(item);
     }
 }

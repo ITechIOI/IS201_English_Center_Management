@@ -419,6 +419,7 @@ public class List_Adapter extends ArrayAdapter {
                         //Nhân viên ghi danh
                         intent = new Intent(getContext(), Activity_Notifications_ToolBars_Second_Layer.class);
                         intent.putExtra("classID", listClass.getClassID());
+                        intent.putExtra("idSchedule", "");
                         idClassClick = listClass.getClassID();
                         Log.d("ID class to show list student in class", idClassClick);
                     } else {
@@ -430,6 +431,21 @@ public class List_Adapter extends ArrayAdapter {
                     mContext.startActivity(intent);
                 }
             });
+
+            if (convertView.findViewById(R.id.edit_class) == null) {
+                //Nhân viên học vụ thêm lịch học
+                Button viewSchedule = convertView.findViewById(R.id.viewSchedule);
+                viewSchedule.setTag(position);
+                viewSchedule.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), Activity_Notifications_ToolBars_Second_Layer.class);
+                        intent.putExtra("classID", "");
+                        intent.putExtra("idSchedule", "1");
+                        mContext.startActivity(intent);
+                    }
+                });
+            }
         }
     }
     /*private void List_Class_Manage_View (@Nullable View convertView, int position) {
@@ -672,7 +688,7 @@ public class List_Adapter extends ArrayAdapter {
         startTime = convertView.findViewById(R.id.start_time);
         endTime = convertView.findViewById(R.id.end_time);
         idClass = convertView.findViewById(R.id.idClass);
-        idClassroom = convertView.findViewById(R.id.id_classroom);
+        idClassroom = convertView.findViewById(R.id.idClassroom);
 
         ScheduleDTO listSchedule = (ScheduleDTO) arrayDataList.get(position);
 
@@ -688,8 +704,8 @@ public class List_Adapter extends ArrayAdapter {
         idClass.setText(listClass.get(0).getClassName());
         idClassroom.setText(listClassroom.get(0).getName());
 
-        Button editSchedule, removeSchedule;
         if (convertView.findViewById(R.id.edit_schedule) != null) {
+            Button editSchedule, removeSchedule;
             editSchedule = convertView.findViewById(R.id.edit_schedule);
             editSchedule.setTag(position);
             editSchedule.setOnClickListener(new View.OnClickListener() {
