@@ -51,6 +51,7 @@ public class Activity_Login extends AppCompatActivity {
     public static String password;
     public static String username;
     public static String idAccount;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,10 +77,10 @@ public class Activity_Login extends AppCompatActivity {
                 } else {
 
                     String whereClause = "USERNAME = ? AND PASSWORD = ?";
-                    String[] whereArgs = new String[] {username, password};
+                    String[] whereArgs = new String[]{username, password};
                     Cursor cursor = AccountDAO.getInstance(Activity_Login.this).selectAccount(Activity_Login.this, whereClause, whereArgs);
 
-                    if (cursor!= null && cursor.getCount() > 0) {
+                    if (cursor != null && cursor.getCount() > 0) {
                         Intent intent = new Intent(Activity_Login.this, Activity_Main_Screen.class);
                         startActivity(intent);
                     } else {
@@ -89,12 +90,12 @@ public class Activity_Login extends AppCompatActivity {
                     if (cursor.moveToFirst()) {
                         do {
                             int idIndex = cursor.getColumnIndex("ID_USER");
-                            if (idIndex!= -1) {
+                            if (idIndex != -1) {
                                 idUser = cursor.getString(idIndex);
                             }
                             int idAccIndex = cursor.getColumnIndex("ID_ACCOUNT");
-                            if (idAccIndex!= -1) {
-                                idAccount= cursor.getString(idAccIndex);
+                            if (idAccIndex != -1) {
+                                idAccount = cursor.getString(idAccIndex);
                             }
 
                         } while (cursor.moveToNext());
@@ -107,9 +108,11 @@ public class Activity_Login extends AppCompatActivity {
 
             }
         });
-        ;
+    }
+}
 
 /*
+>>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
 
         // Insert data in OFFICIAL_STUDENT
 
@@ -262,7 +265,7 @@ public class Activity_Login extends AppCompatActivity {
                 teaching2);
         TeachingDAO.getInstance(Activity_Login.this).InsertDate(Activity_Login.this,
                 teaching3);
-*/
+
 
 
 
@@ -325,5 +328,4 @@ public class Activity_Login extends AppCompatActivity {
         });
         
     }
-
-}
+*/
