@@ -94,7 +94,7 @@ public class Activity_Notifications extends AppCompatActivity {
                 String[] whereArgsProgram = new String[] {"0"};
                 List<ProgramDTO> listProgram = new ArrayList<>();
 
-                listProgram = ProgramDAO.getInstance(Activity_Notifications.this).SelectProgramToShowProgram(
+                listProgram = ProgramDAO.getInstance(Activity_Notifications.this).SelectProgram(
                         Activity_Notifications.this, whereClauseProgram, whereArgsProgram);
                 for (int i = 0; i < listProgram.size(); i++) {
                     dataArrayList.add(listProgram.get(i));
