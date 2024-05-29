@@ -139,7 +139,10 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
                 break;
             case "Quản lý thông báo":
                 toolbar.setTitle("Thông báo");
-                dataArrayList.add(new NotificationDTO("1","1","1","1"));
+                //dataArrayList.add(new NotificationDTO("1","1","1","1"));
+
+
+
                 listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_notification_manage_item, dataArrayList);
                 break;
         }

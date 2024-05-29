@@ -14,7 +14,7 @@ import java.io.IOException;
 public class DataProvider extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ENGLISH_CENTER_MANAGEMENT.db";
     private static DataProvider instance;
-    private static final int DATABASE_VERSION = 94;
+    private static final int DATABASE_VERSION = 97;
     private DataProvider(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -31,7 +31,7 @@ public class DataProvider extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         // db.execSQL("DELETE FROM STAFF");
-        db.execSQL("UPDATE CLASS SET STATUS = 0");
+       db.execSQL("DELETE FROM OFFICIAL_STUDENT");
 
         try {
 

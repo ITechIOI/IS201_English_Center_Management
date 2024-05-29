@@ -38,6 +38,7 @@ import com.example.app.adapter.PotentialStudentDAO;
 import com.example.app.adapter.ProgramDAO;
 import com.example.app.adapter.StaffDAO;
 import com.example.app.adapter.TeacherDAO;
+import com.example.app.adapter.TeachingDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class List_Adapter extends ArrayAdapter {
     private Context mContext;
     private ArrayList<Object> arrayDataList;
     int idLayout;
+    public static String idClassClick;
 
     public List_Adapter(@NonNull Context context,int idLayout, ArrayList<Object> arrayDataList) {
         super(context, idLayout, arrayDataList);
@@ -367,6 +369,8 @@ public class List_Adapter extends ArrayAdapter {
                         //Nhân viên ghi danh
                         intent = new Intent(getContext(), Activity_Notifications_ToolBars_Second_Layer.class);
                         intent.putExtra("classID", listClass.getClassID());
+                        idClassClick = listClass.getClassID();
+                        Log.d("ID class to show list student in class", idClassClick);
                     } else {
                         //Nhân viên học vụ
                         intent = new Intent(getContext(), Activity_Notifications_Second_Layer.class);
@@ -548,6 +552,8 @@ public class List_Adapter extends ArrayAdapter {
 
         removeOfficialStudent = convertView.findViewById(R.id.remove_student);
         removeOfficialStudent.setTag(position);
+
+
         removeOfficialStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -560,6 +566,26 @@ public class List_Adapter extends ArrayAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                         int position = (int) v.getTag();
                         arrayDataList.remove(position);
+
+                        try {
+                            List<TeachingDTO> teaching = TeachingDAO.getInstance(mContext).SelectTeaching(
+                                    mContext, "ID_STUDENT = ? AND ID_CLASS = ? AND STATUS = ?",
+                                    new String[] {officialStudentDTO.getIdStudent(), idClassClick, "0"});
+
+                            int rowEffect = TeachingDAO.getInstance(mContext).DeleteTeaching(
+                                    mContext, teaching.get(0), "ID_TEACHING = ?",
+                                    new String[] {teaching.get(0).getIdClass().toString()});
+                            if (rowEffect > 0) {
+                                Toast.makeText(mContext, "Xóa học viên trong lớp thành công",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(mContext, "Xóa học viên trong lớp thất bại",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Log.d("Delete teaching error: ", e.getMessage());
+                        }
+
                         notifyDataSetChanged();
                     }
                 });
@@ -584,7 +610,8 @@ public class List_Adapter extends ArrayAdapter {
             @Override
             public void onClick(View v) {
                 Intent addPotential = new Intent(getContext(), Activity_Add_Official_Student.class);
-                addPotential.putExtra("studentID", "");
+                addPotential.putExtra("studentID", officialStudentDTO.getIdStudent().toString());
+                addPotential.putExtra("classID", idClassClick.toString());
                 mContext.startActivity(addPotential);
             }
         });
