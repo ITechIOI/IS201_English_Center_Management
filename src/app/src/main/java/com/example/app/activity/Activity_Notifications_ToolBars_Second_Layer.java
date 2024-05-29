@@ -122,7 +122,7 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
         dataArrayList = new ArrayList<>();
         Log.d("Message found: ", message1 + "  " + message2);
 
-        if (!message1.equals("") || !message1.equals(null)) {
+        if (!message1.equals("")) {
 
             toolbar.setTitle("Học viên");
             String message = getIntent().getStringExtra("classID");
