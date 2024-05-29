@@ -440,8 +440,10 @@ public class List_Adapter extends ArrayAdapter {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getContext(), Activity_Notifications_ToolBars_Second_Layer.class);
-                        intent.putExtra("classID", "");
-                        intent.putExtra("idSchedule", "1");
+                        Log.d("Id class put to view schedule", listClass.getClassID() );
+
+                        intent.putExtra("classIDtoViewSchedule", listClass.getClassID());
+                       intent.putExtra("idSchedule", "1");
                         mContext.startActivity(intent);
                     }
                 });

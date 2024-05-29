@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.app.R;
 import com.example.app.adapter.OfficialStudentDAO;
+import com.example.app.adapter.ScheduleDAO;
 import com.example.app.adapter.TeachingDAO;
 import com.example.app.model.ExamScoreDTO;
 import com.example.app.model.List_Adapter;
@@ -42,6 +43,7 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
         toolbar = findViewById(R.id.toolbar);
         listView = findViewById(R.id.notification_listview);
         returnBtn = findViewById(R.id.return_btn);
+
         dataArrayList = new ArrayList<>();
 
         returnBtn.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +105,8 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
             listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_education_program_item, dataArrayList);
         }*/
 
+
+
         listView.setAdapter(listAdapter);
         setSupportActionBar(toolbar);
     }
@@ -110,11 +114,16 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
     @Override
     public void onStart() {
         super.onStart();
+        //listAdapter.clear();
         message1 = getIntent().getStringExtra("classID");
-        message2 = getIntent().getStringExtra("idSchedule");
-        dataArrayList = new ArrayList<>();
+        message2 = getIntent().getStringExtra("classIDtoViewSchedule");
+        String message7 = getIntent().getStringExtra("idSchedule");
 
-        if (!message1.equals("")) {
+        dataArrayList = new ArrayList<>();
+        Log.d("Message found: ", message1 + "  " + message2);
+
+        if (!message1.equals("") || !message1.equals(null)) {
+
             toolbar.setTitle("Học viên");
             String message = getIntent().getStringExtra("classID");
             List<TeachingDTO> listTeaching = new ArrayList<>();
@@ -153,10 +162,18 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
             // dataArrayList.add(new OfficialStudentDTO("1","1","1","1","1","1",1));
             listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_offfical_student_item, dataArrayList);
         }
+        Log.d("Id_Class found:", message2);
         if (!message2.equals("")) {
             toolbar.setTitle("Lịch học");
-            dataArrayList.add(new ScheduleDTO("1", "1", "1", "1", "1", "1"));
-            dataArrayList.add(new ScheduleDTO("1", "1", "1", "1", "1", "1"));
+
+            List<ScheduleDTO> listSchedule = ScheduleDAO.getInstance(Activity_Notifications_ToolBars_Second_Layer.this)
+                    .SelectSchedule(Activity_Notifications_ToolBars_Second_Layer.this,
+                            "ID_CLASS = ? AND STATUS = ?",
+                            new String[] {message2, "0"});
+            for (int i = 0; i < listSchedule.size(); i++) {
+                dataArrayList.add(listSchedule.get(i));
+            }
+
             listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_schedule_manage_item, dataArrayList);
         }
 
