@@ -16,6 +16,7 @@ import android.widget.ListView;
 import com.example.app.R;
 import com.example.app.adapter.AccountDAO;
 import com.example.app.adapter.ClassDAO;
+import com.example.app.adapter.NotificationDAO;
 import com.example.app.adapter.PotentialStudentDAO;
 import com.example.app.adapter.StaffDAO;
 import com.example.app.adapter.TeacherDAO;
@@ -141,7 +142,12 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
                 toolbar.setTitle("Thông báo");
                 //dataArrayList.add(new NotificationDTO("1","1","1","1"));
 
-
+                List<NotificationDTO> listNotification = NotificationDAO.getInstance(Activity_Notifications_ToolBars.this)
+                        .SelectNotification(Activity_Notifications_ToolBars.this, "STATUS = ?",
+                                new String[]{"0"});
+                for (int i = 0; i < listNotification.size(); i++) {
+                    dataArrayList.add(listNotification.get(i));
+                }
 
                 listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_notification_manage_item, dataArrayList);
                 break;

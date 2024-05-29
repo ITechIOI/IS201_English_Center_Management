@@ -25,11 +25,12 @@ import com.example.app.model.TeachingDTO;
 import java.util.List;
 
 public class Activity_Add_Official_Student extends AppCompatActivity {
-    EditText studentID, studentName, phoneNumber, address, birthday;
+    EditText studentName, phoneNumber, address, birthday;
     Button doneBtn, exitBtn;
     String[] genderItem = {"Nam", "Nữ"};
     AutoCompleteTextView gender;
     ArrayAdapter<String> genderAdapter;
+    String genderText = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +40,14 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
         gender = findViewById(R.id.gender);
         genderAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, genderItem);
         gender.setAdapter(genderAdapter);
+
         gender.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
+                genderText = parent.getItemAtPosition(position).toString();
             }
         });
 
-        studentID = findViewById(R.id.idStudent);
         studentName = findViewById(R.id.fullName);
         phoneNumber = findViewById(R.id.phoneNumber);
         address = findViewById(R.id.address);
@@ -55,7 +56,7 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
         doneBtn = findViewById(R.id.done_btn);
 
         String studentId = getIntent().getStringExtra("studentID");
-        String classId = getIntent().getStringExtra("classID");
+       // String classId = getIntent().getStringExtra("classID");
 
         if (!studentId.equals("")) {
 
@@ -66,7 +67,9 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
 
             studentName.setText(student.get(0).getFullName().toString());
             phoneNumber.setText(student.get(0).getPhoneNumber());
-            gender.setText(student.get(0).getGender());
+            gender.setText("Nam");
+            genderAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, genderItem);
+            gender.setAdapter(genderAdapter);
             address.setText(student.get(0).getAddress());
             birthday.setText(student.get(0).getBirthday());
             exitBtn.setOnClickListener(new View.OnClickListener() {
@@ -88,9 +91,11 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
             doneBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (address.equals("")
-                            || birthday.equals("") || studentName.equals("")
-                            || gender.equals("") || phoneNumber.equals("")) {
+                    if (address.getText().toString().equals("")
+                            || birthday.getText().toString().equals("")
+                            || studentName.getText().toString().equals("")
+                            || gender.getText().toString().equals("")
+                            || phoneNumber.getText().toString().equals("")) {
                         Toast.makeText(Activity_Add_Official_Student.this, "Hãy nhập đầy " +
                                 "đủ thông tin", Toast.LENGTH_SHORT).show();
                     } else {
@@ -124,8 +129,6 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                         });
                         builder.setNegativeButton("Hủy", null);
                         builder.show();
-
-
                     }
                 }
             });
@@ -218,8 +221,6 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
             });
         }
 
-
-
     }
 
     @Override
@@ -242,6 +243,8 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
             studentName.setText(student.get(0).getFullName().toString());
             phoneNumber.setText(student.get(0).getPhoneNumber());
             gender.setText(student.get(0).getGender());
+            genderAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, genderItem);
+            gender.setAdapter(genderAdapter);
             address.setText(student.get(0).getAddress());
             birthday.setText(student.get(0).getBirthday());
             exitBtn.setOnClickListener(new View.OnClickListener() {
@@ -263,9 +266,9 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
             doneBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (studentID.equals("") || address.equals("")
+                    if (address.equals("")
                             || birthday.equals("") || studentName.equals("")
-                            || gender.equals("") || phoneNumber.equals("")) {
+                            || gender.getText().toString().equals("") || phoneNumber.equals("")) {
                         Toast.makeText(Activity_Add_Official_Student.this, "Hãy nhập đầy " +
                                 "đủ thông tin", Toast.LENGTH_SHORT).show();
                     } else {
@@ -299,8 +302,6 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                         });
                         builder.setNegativeButton("Hủy", null);
                         builder.show();
-
-
                     }
                 }
             });

@@ -29,11 +29,13 @@ import com.example.app.activity.Activity_Add_Potential_Student;
 import com.example.app.activity.Activity_Add_Program;
 import com.example.app.activity.Activity_Add_Schedule;
 import com.example.app.activity.Activity_Add_Staff;
+import com.example.app.activity.Activity_Login;
 import com.example.app.activity.Activity_Notifications_Second_Layer;
 import com.example.app.activity.Activity_Notifications_ToolBars_Second_Layer;
 import com.example.app.adapter.AccountDAO;
 import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.ClassroomDAO;
+import com.example.app.adapter.NotificationDAO;
 import com.example.app.adapter.PotentialStudentDAO;
 import com.example.app.adapter.ProgramDAO;
 import com.example.app.adapter.StaffDAO;
@@ -106,13 +108,27 @@ public class List_Adapter extends ArrayAdapter {
 
         NotificationDTO listNotifications = (NotificationDTO) arrayDataList.get(position);
 
+        String idPoster = listNotifications.getPoster();
+        List<AccountDTO> accountPost = AccountDAO.getInstance(mContext).selectAccountVer2(mContext,
+                "ID_ACCOUNT = ? AND STATUS = ?", new String[]{idPoster, "0"});
+        List<StaffDTO> staffPost = StaffDAO.getInstance(mContext).SelectStaffVer2(mContext,
+                "ID_STAFF = ? AND STATUS = ?", new String[] {accountPost.get(0).getIdUser(), "0"});
+
         title.setText(listNotifications.getTitle());
-        poster.setText(listNotifications.getPoster());
+        poster.setText(staffPost.get(0).getFullName());
         description.setText(listNotifications.getDescription());
 
         if (convertView.findViewById(R.id.edit_notification) != null) {
             Button remove = convertView.findViewById(R.id.remove_notification);
+            Button edit = convertView.findViewById(R.id.edit_notification);
             remove.setTag(position);
+            edit.setTag(position);
+
+            if (!listNotifications.getPoster().equals(Activity_Login.idAccount)) {
+                remove.setVisibility(View.GONE);
+                edit.setVisibility(View.GONE);
+            }
+
             remove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -126,6 +142,22 @@ public class List_Adapter extends ArrayAdapter {
                             int position = (int) v.getTag();
                             arrayDataList.remove(position);
                             notifyDataSetChanged();
+
+                            try {
+                                int rowEffect = NotificationDAO.getInstance(mContext).DeleteNotification(
+                                        mContext, new NotificationDTO(listNotifications.getIdNotification(),
+                                                null, null, null),
+                                        "ID_NOTIFICATION = ? AND STATUS = ?",
+                                        new String[] {listNotifications.getIdNotification().toString(), "0"});
+                                if (rowEffect > 0) {
+                                    Toast.makeText(mContext, "Xóa thông báo thành công!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(mContext, "Xóa thông báo thất bại!", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e) {
+                                Log.d("Delete notification error: ", e.getMessage());
+                            }
+
                         }
                     });
 
@@ -142,13 +174,16 @@ public class List_Adapter extends ArrayAdapter {
                     alertDialog.show();
                 }
             });
-            Button edit = convertView.findViewById(R.id.edit_notification);
-            edit.setTag(position);
+
+            Log.d("Id notification push", listNotifications.getIdNotification());
+
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), Activity_Add_Notification.class);
-                    intent.putExtra("idNotification", "1");
+                    Log.d("Message send: ",listNotifications.getIdNotification() );
+
+                    intent.putExtra("idNotification", listNotifications.getIdNotification());
                     mContext.startActivity(intent);
                 }
             });
