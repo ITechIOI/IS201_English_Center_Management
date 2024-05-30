@@ -102,6 +102,7 @@ public class Activity_Change_Setting extends AppCompatActivity {
         phoneInp = findViewById(R.id.input_phone);
         addrInp = findViewById(R.id.input_addr);
         password = findViewById(R.id.password);
+        password.setText(Activity_Login.password);
         password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -332,9 +333,8 @@ public class Activity_Change_Setting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Thêm cho t cái check sai mk nha
-                if (true) {
 
-                } else {
+                if (password.getText().toString() != oldPass.getText().toString())  {
                     Toast.makeText(Activity_Change_Setting.this, "Sai mật khẩu", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -348,6 +348,25 @@ public class Activity_Change_Setting extends AppCompatActivity {
                     Toast.makeText(Activity_Change_Setting.this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                AccountDTO account = new AccountDTO(Activity_Login.idAccount, Activity_Login.idUser,
+                        Activity_Login.username, newPass.getText().toString());
+                try {
+                    int rowEffect = AccountDAO.getInstance(Activity_Change_Setting.this)
+                            .updateAccount(Activity_Change_Setting.this, account,
+                                    "ID_ACCOUNT = ? AND STATUS = ?",
+                                    new String[] {account.getIdAccount(), "0"});
+                    if (rowEffect > 0) {
+                        Toast.makeText(Activity_Change_Setting.this, "Đổi mật khẩu " +
+                                "thành công!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Activity_Change_Setting.this, "Đổi mật khẩu " +
+                                "thất bại!", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e)  {
+                    Log.d("Update password error: ", e.getMessage());
+                }
+
             }
         });
 
