@@ -69,36 +69,21 @@
                 android:layout_marginEnd="25dp"
                 android:src="@drawable/gender" />
 
-            <EditText
-                android:id="@+id/input_gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Nam"
-                android:textColor="@color/black"
-                android:textSize="17dp" />
-        </LinearLayout>
-
-        <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="27dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="25dp"/>
-
-            <TextView
-                android:id="@+id/wrong_gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Nhập Nam hoặc Nữ"
-                android:textColor="#D10101"
-                android:textSize="12dp" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="2dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                <AutoCompleteTextView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/input_gender"
+                    android:padding="8dp"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:inputType="none"/>
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -127,28 +112,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="27dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="25dp"/>
-
-            <TextView
-                android:id="@+id/wrong_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Sai định dạng"
-                android:textColor="#D10101"
-                android:textSize="12dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:gravity="center"
             android:orientation="horizontal">
@@ -170,27 +133,6 @@
                 android:textSize="17dp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="27dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="25dp"/>
-
-            <TextView
-                android:id="@+id/wrong_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Vui lòng không để trống thông tin"
-                android:textColor="#D10101"
-                android:textSize="12dp" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -205,36 +147,17 @@
                 android:layout_marginEnd="25dp"
                 android:src="@drawable/birth_icon" />
 
-            <EditText
+            <TextView
+                android:hint="11/11/2011"
+                android:textColorHint="#818181"
                 android:id="@+id/input_birthday"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="11/11/1111"
                 android:textColor="@color/black"
                 android:textSize="17dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="27dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="25dp"/>
-
-            <TextView
-                android:id="@+id/wrong_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Nhập 'Còn hoạt động' hoặc 'Đã rời'"
-                android:textColor="#D10101"
-                android:textSize="12dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -257,28 +180,6 @@
                 android:text="12345678"
                 android:textColor="@color/black"
                 android:textSize="17dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="27dp"
-                android:layout_height="12dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="25dp"/>
-
-            <TextView
-                android:id="@+id/wrong_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Mật khẩu có ít nhất 8 ký tự"
-                android:textColor="#D10101"
-                android:textSize="12dp" />
         </LinearLayout>
 
         <Button
