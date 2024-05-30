@@ -64,6 +64,8 @@ public class Fragment_Information extends Fragment implements AdapterView.OnItem
                 dataArrayList.add(new List_Information("Quản lý tài khoản", R.drawable.quanlytaikhoan));
                 dataArrayList.add(new List_Information("Quản lý thông tin phòng học", R.drawable.classroom));
                 dataArrayList.add(new List_Information("Quản lý nhân viên/giáo viên", R.drawable.quanlynhansu));
+                dataArrayList.add(new List_Information("Quản lý doanh thu", R.drawable.baseline_auto_graph_24));
+
             }
         }
 
@@ -84,8 +86,12 @@ public class Fragment_Information extends Fragment implements AdapterView.OnItem
             intent = new Intent(getContext(), Activity_Notifications.class);
             intent.putExtra("message", selectedText);
         } else {
-            intent = new Intent(getContext(), Activity_Notifications_ToolBars.class);
-            intent.putExtra("message", selectedText);
+            if (selectedText == "Quản lý doanh thu")
+                intent = new Intent(getContext(), Activity_Total_Revenue.class);
+            else {
+                intent = new Intent(getContext(), Activity_Notifications_ToolBars.class);
+                intent.putExtra("message", selectedText);
+            }
         }
         startActivity(intent);
     }
