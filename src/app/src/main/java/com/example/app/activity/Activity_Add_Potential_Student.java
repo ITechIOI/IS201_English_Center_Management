@@ -63,6 +63,11 @@ public class Activity_Add_Potential_Student extends AppCompatActivity {
             List<PotentialStudentDTO> listPotentialStudent = PotentialStudentDAO.getInstance(
                     Activity_Add_Potential_Student.this).SelectStudent(Activity_Add_Potential_Student.this,
                     "ID_STUDENT = ?", new String[] {message});
+
+            gender.setText(listPotentialStudent.get(0).getGender());
+            genderAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, genderItem);
+            gender.setAdapter(genderAdapter);
+
             potentialStudent = listPotentialStudent.get(0);
             if (listPotentialStudent.size() != 0) {
                 studentName.setText(potentialStudent.getStudentName());

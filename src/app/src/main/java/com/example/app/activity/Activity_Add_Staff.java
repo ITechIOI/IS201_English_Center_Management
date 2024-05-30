@@ -77,10 +77,14 @@ public class Activity_Add_Staff extends AppCompatActivity {
         address = findViewById(R.id.address);
         phoneNumber = findViewById(R.id.phoneNumber);
         type = findViewById(R.id.type);
-        if (!message1.equals(""))
+        if (!message1.equals("")) {
             type.setText("Nhân viên ghi danh");
-        if (!message2.equals(""))
+
+        }
+
+        if (!message2.equals(""))   {
             type.setText("Giáo viên");
+        }
 
 
         doneBtn = findViewById(R.id.doneBtn);

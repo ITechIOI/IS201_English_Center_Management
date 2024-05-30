@@ -933,6 +933,25 @@ public class List_Adapter extends ArrayAdapter {
                         int position = (int) v.getTag();
                         arrayDataList.remove(position);
                         notifyDataSetChanged();
+
+                        StaffDTO staff = new StaffDTO(listStaff.getIdStaff().toString(),
+                                null, null,
+                                null, null, null, 1, null, 0);
+                        try {
+                            int rowEffect = StaffDAO.getInstance(mContext).DeleteStaff(mContext,
+                                    staff, "ID_STAFF = ? AND STATUS = ?",
+                                    new String[] {listStaff.getIdStaff().toString(), "0"});
+                            if (rowEffect > 0) {
+                                Toast.makeText(mContext, "Xóa nhân viên thành công!",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(mContext, "Xóa nhân viên thất bại!",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Log.d("Delete staff error:", e.getMessage());
+                        }
+
                     }
                 });
 
@@ -1002,6 +1021,25 @@ public class List_Adapter extends ArrayAdapter {
                         int position = (int) v.getTag();
                         arrayDataList.remove(position);
                         notifyDataSetChanged();
+
+                        TeacherDTO teacher = new TeacherDTO(listStaff.getIdTeacher(),
+                                null, null, null, null,
+                                null, 1);
+                        try {
+                            int rowEffect = TeacherDAO.getInstance(mContext).DeleteTeacher(mContext,
+                                    teacher, "ID_TEACHER = ? AND STATUS = ?",
+                                    new String[] {listStaff.getIdTeacher(), "0"});
+                            if (rowEffect > 0)  {
+                                Toast.makeText(mContext, "Xóa giáo viên thành công!",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(mContext, "Xóa giáo viên thất bại!",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Log.d("Delete teacher error: ", e.getMessage());
+                        }
+
                     }
                 });
 

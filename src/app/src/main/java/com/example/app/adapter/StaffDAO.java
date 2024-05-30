@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.util.Log;
 
 import com.example.app.model.OfficialStudentDTO;
+import com.example.app.model.PotentialStudentDTO;
 import com.example.app.model.StaffDTO;
 import com.example.app.model.TeacherDTO;
 
@@ -145,4 +146,35 @@ public class StaffDAO {
 
         return listStaff;
     }
+
+    public int DeleteStaff(Context context, StaffDTO staff, String whereClause, String[] whereArgs) {
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+        int rowEffect = -1;
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("STAFF", values,
+                    whereClause, whereArgs);
+        } catch (SQLException e) {
+            Log.d("Delete staff Error: ", e.getMessage());
+        }
+
+        return  rowEffect;
+    }
+
+    public int deletePotentialStudent(Context context, PotentialStudentDTO student, String whereClause, String[] whereArgs) {
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+        int rowEffect = -1;
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("POTENTIAL_STUDENT", values,
+                    "ID_STUDENT = ?", new String[] {student.getStudentID()});
+        } catch (SQLException e) {
+            Log.d("Delete potential Student Error: ", e.getMessage());
+        }
+
+        return  rowEffect;
+    }
+
 }

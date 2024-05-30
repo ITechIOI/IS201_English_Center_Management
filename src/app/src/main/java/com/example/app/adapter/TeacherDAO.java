@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.util.Log;
 
+import com.example.app.model.PotentialStudentDTO;
 import com.example.app.model.StaffDTO;
 import com.example.app.model.TeacherDTO;
 import com.example.app.model.TeachingDTO;
@@ -134,4 +135,20 @@ public class TeacherDAO {
 
         return teachers;
     }
+
+    public int DeleteTeacher(Context context, TeacherDTO teacher, String whereClause, String[] whereArgs) {
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+        int rowEffect = -1;
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("TEACHERS", values,
+                    whereClause, whereArgs);
+        } catch (SQLException e) {
+            Log.d("Delete teacher Error: ", e.getMessage());
+        }
+
+        return  rowEffect;
+    }
+
 }
