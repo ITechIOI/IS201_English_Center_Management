@@ -53,7 +53,6 @@ public class Activity_Add_Schedule extends AppCompatActivity {
         doneBtn = findViewById(R.id.done_btn);
         exitBtn = findViewById(R.id.exit_btn);
 
-
         dayOfWeekAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, dayOfWeekItem);
         dayOfWeek.setAdapter(dayOfWeekAdapter);
         dayOfWeekText = dayOfWeek.getText().toString();
@@ -83,9 +82,9 @@ public class Activity_Add_Schedule extends AppCompatActivity {
             idClassroomItem[i] = listClassroom.get(i).getName();
         }
 
+        idClassroomText = idClassroom.getText().toString();
         idClassroomAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, idClassroomItem);
         idClassroom.setAdapter(idClassroomAdapter);
-        idClassroomText = idClassroom.getText().toString();
         idClassroom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -101,18 +100,18 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                             "ID_SCHEDULE = ? AND STATUS = ?",
                             new String[] {message, "0"});
 
-            dayOfWeek.setText("Thứ " + lisSchedule.get(0).getDayOfWeek());
-
-            dayOfWeek.setAdapter(dayOfWeekAdapter);
-
             if (Integer.parseInt(lisSchedule.get(0).getDayOfWeek()) > 7) {
                 dayOfWeek.setText("Chủ nhật");
             } else {
                 dayOfWeek.setText("Thứ " + lisSchedule.get(0).getDayOfWeek());
             }
+            dayOfWeekAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, dayOfWeekItem);
+            dayOfWeek.setAdapter(dayOfWeekAdapter);
 
             classTime.setText(lisSchedule.get(0).getStartTime() + "h00 - " +
                     lisSchedule.get(0).getEndTime() + "h00");
+            classTimeAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, classTimeItem);
+            classTime.setAdapter(classTimeAdapter);
 
             List<ClassroomDTO> classroomSelect = ClassroomDAO.getInstance(Activity_Add_Schedule.this)
                     .SelectClassroom(Activity_Add_Schedule.this,
@@ -120,6 +119,8 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                             new String[] {lisSchedule.get(0).getIdClassroom(), "0"});
 
             idClassroom.setText(classroomSelect.get(0).getName());
+            idClassroomAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, idClassroomItem);
+            idClassroom.setAdapter(idClassroomAdapter);
 
             exitBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -160,9 +161,12 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                                     dayOfWeekText = "8";
                                 }
                                 // Get time of class
+                                classTimeText = classTime.getText().toString();
                                 String[] parts = classTimeText.split("-");
-                                String startHourStr = parts[0].substring(0, 2); // Lấy số giờ từ phần đầu
-                                String endHourStr = parts[1].substring(0, 2);
+                                String startHourStr = ""; // Lấy số giờ từ phần đầu
+                                String endHourStr = "";
+
+                                Log.d("All parts of time: ", "t" + startHourStr + " " + endHourStr + "t");
 
                                 if (parts[0].length() == 6) {
                                     startHourStr = parts[0].substring(0,2);
@@ -175,13 +179,13 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                                     endHourStr = parts[1].substring(1,2);
                                 }
 
-                                Log.d("Time hour: ", startHourStr + "  " + endHourStr);
-
+                                idClassroomText = idClassroom.getText().toString();
                                 // Get id classroom
                                 List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(Activity_Add_Schedule.this)
                                         .SelectClassroom(Activity_Add_Schedule.this,
                                                 "NAME = ? AND STATUS = ? ",
                                                 new String[] {idClassroomText, "0"});
+                                Log.d("Classroom id text: ", idClassroomText);
 
                                 ScheduleDTO scheduleUpdate = new ScheduleDTO(message, dayOfWeekText,
                                         startHourStr,endHourStr, lisSchedule.get(0).getIdClass(), listClassroom.get(0).getIdRoom());
@@ -192,10 +196,10 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                                                     "ID_SCHEDULE = ? AND STATUS = ?",
                                                     new String[] {message, "0"});
                                     if (rowEffect > 0) {
-                                        Toast.makeText(Activity_Add_Schedule.this, "Sửa thời khóa biểu cho lớp học thành công!",
+                                        Toast.makeText(Activity_Add_Schedule.this, "Sửa thời khóa biểu thành công!",
                                                 Toast.LENGTH_SHORT).show();
                                     } else {
-                                        Toast.makeText(Activity_Add_Schedule.this, "Sửa thời khóa biểu cho lớp học thất bại!",
+                                        Toast.makeText(Activity_Add_Schedule.this, "Sửa thời khóa biểu thất bại!",
                                                 Toast.LENGTH_SHORT).show();
                                     }
                                 } catch(Exception e) {

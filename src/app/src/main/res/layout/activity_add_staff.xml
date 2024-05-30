@@ -54,7 +54,7 @@
             android:textColor="#8F0000"
             android:textSize="14dp"
             android:textStyle="bold" />
-
+<!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,6 +77,8 @@
                 android:textColor="@color/black"
                 android:textSize="17dp" />
         </LinearLayout>
+-->
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -183,7 +185,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="25dp"
+                android:src="@drawable/id" />
+
+            <EditText
+                android:id="@+id/salary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="17dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/layoutPassword">
 
             <ImageView
                 android:layout_width="24dp"

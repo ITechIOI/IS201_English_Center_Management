@@ -94,6 +94,7 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
 
             case "Quản lý tài khoản":
                 toolbar.setTitle("Tài khoản");
+                dataArrayList.clear();
                 List<AccountDTO> listAccount = AccountDAO.getInstance(Activity_Notifications_ToolBars.this).selectAccountVer2(
                         Activity_Notifications_ToolBars.this, "STATUS = ?",
                         new String[] {"0"});
@@ -106,6 +107,7 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
 
             case "Quản lý nhân viên/giáo viên":
                 toolbar.setTitle("Nhân viên/giáo viên");
+                dataArrayList.clear();
                 //Chỗ này add cả StaffDTO với TeacherDTO được nhíe
 
                 List<StaffDTO> listStaff = StaffDAO.getInstance(Activity_Notifications_ToolBars.this).SelectStaffVer2(

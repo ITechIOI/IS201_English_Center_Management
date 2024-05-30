@@ -21,7 +21,7 @@ public class Activity_Add_Certificate extends AppCompatActivity {
         setContentView(R.layout.activity_add_certificate);
         String message = getIntent().getStringExtra("idCertificate");
 
-        idCertificate = findViewById(R.id.idCertificate);
+    //    idCertificate = findViewById(R.id.idCertificate);
         name = findViewById(R.id.name);
         content = findViewById(R.id.content);
 
@@ -41,7 +41,7 @@ public class Activity_Add_Certificate extends AppCompatActivity {
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (idCertificate.getText().toString().equals("") || name.getText().toString().equals("") || content.getText().toString().equals("")) {
+                if ( name.getText().toString().equals("") || content.getText().toString().equals("")) {
                     Toast.makeText(Activity_Add_Certificate.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
                 } else {
                     finish();

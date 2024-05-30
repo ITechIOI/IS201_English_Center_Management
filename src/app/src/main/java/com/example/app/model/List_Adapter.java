@@ -819,7 +819,7 @@ public class List_Adapter extends ArrayAdapter {
         TextView idCertificate, name, content;
         CertificateDTO listCertificate = (CertificateDTO) arrayDataList.get(position);
 
-        idCertificate = convertView.findViewById(R.id.idCertificate);
+      //  idCertificate = convertView.findViewById(R.id.idCertificate);
         name = convertView.findViewById(R.id.name);
         content = convertView.findViewById(R.id.content);
 
@@ -933,9 +933,9 @@ public class List_Adapter extends ArrayAdapter {
 
     private void Staff_View(@Nullable View convertView, int position) {
         StaffDTO listStaff = (StaffDTO) arrayDataList.get(position);
-        TextView idStaff, fullName, address, phoneNumber, gender, birthday, type;
-        idStaff = convertView.findViewById(R.id.idStaff);
-        idStaff.setText(listStaff.getIdStaff());
+        TextView fullName, address, phoneNumber, gender, birthday, type;
+       // idStaff = convertView.findViewById(R.id.idStaff);
+       // idStaff.setText(listStaff.getIdStaff());
 
         fullName = convertView.findViewById(R.id.fullName);
         fullName.setText(listStaff.getFullName());
@@ -953,7 +953,13 @@ public class List_Adapter extends ArrayAdapter {
         birthday.setText(listStaff.getBirthday());
 
         type = convertView.findViewById(R.id.type);
-        type.setText("Nhân viên ghi danh");
+        if (Integer.parseInt(listStaff.getType()) == 1) {
+            type.setText("Nhân viên ghi danh");
+        } else if (Integer.parseInt(listStaff.getType()) == 1) {
+            type.setText("Nhân viên học vụ");
+        } else {
+            type.setText("Quản lý");
+        }
 
         Button removeStaff = convertView.findViewById(R.id.remove_staff);
         removeStaff.setTag(position);
@@ -1021,9 +1027,7 @@ public class List_Adapter extends ArrayAdapter {
 
     private void Teacher_View(@Nullable View convertView, int position) {
         TeacherDTO listStaff = (TeacherDTO) arrayDataList.get(position);
-        TextView idStaff, fullName, address, phoneNumber, gender, birthday, type;
-        idStaff = convertView.findViewById(R.id.idStaff);
-        idStaff.setText(listStaff.getIdTeacher());
+        TextView  fullName, address, phoneNumber, gender, birthday, type;
 
         fullName = convertView.findViewById(R.id.fullName);
         fullName.setText(listStaff.getFullName());
