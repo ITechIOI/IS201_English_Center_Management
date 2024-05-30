@@ -62,7 +62,7 @@ public class ProgramDAO {
         int rowEffect = -1;
         ContentValues values = new ContentValues();
 
-        values.put("ID_PROGRAM", program.getIdProgram());
+
         values.put("NAME", program.getNameProgram());
         values.put("INPUT_SCORE", program.getInputScore());
         values.put("OUTPUT_SCORE", program.getOutputScore());

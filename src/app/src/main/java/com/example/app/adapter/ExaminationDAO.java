@@ -57,7 +57,7 @@ public class ExaminationDAO {
         ContentValues values = new ContentValues();
         int maxId = DataProvider.getInstance(context).getMaxId("EXAMINATION", "ID_EXAM");
 
-        values.put("ID_EXAM", exam.getIdExam());
+
         values.put("NAME", exam.getName());
         values.put("FORMAT", exam.getFormat());
         values.put("EXAM_DATE", exam.getExamDate());

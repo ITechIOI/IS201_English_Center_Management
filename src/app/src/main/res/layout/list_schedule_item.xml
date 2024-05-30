@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ngày bắt đầu: "
+                android:text="Giờ bắt đầu: "
                 android:textStyle="bold"
                 android:textSize="17dp"/>
             <TextView
@@ -85,7 +85,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ngày kết thúc: "
+                android:text="Giờ kết thúc: "
                 android:textStyle="bold"
                 android:textSize="17dp"/>
             <TextView

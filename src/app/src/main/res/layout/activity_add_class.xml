@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14dp" />
         </LinearLayout>
-
+<!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14dp" />
         </LinearLayout>
-
+-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14dp" />
         </LinearLayout>
-
+<!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -164,7 +164,7 @@
                     android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
-
+-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -189,7 +189,7 @@
                 <AutoCompleteTextView
                     android:layout_gravity="center_vertical"
                     android:id="@+id/programID"
-                    android:layout_width="100dp"
+                    android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:textSize="14dp"
                     android:padding="4dp"

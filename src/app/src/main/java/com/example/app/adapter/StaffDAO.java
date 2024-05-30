@@ -67,7 +67,7 @@ public class StaffDAO {
 
     public int updateStaff(Context context, StaffDTO staff, String whereClause, String[] whereArgs) {
         ContentValues values = new ContentValues();
-        values.put("ID_STAFF", staff.getIdStaff());
+
         values.put("FULLNAME", staff.getFullName());
         values.put("ADDRESS",staff.getAddress());
         values.put("PHONE_NUMBER", staff.getPhoneNumber());

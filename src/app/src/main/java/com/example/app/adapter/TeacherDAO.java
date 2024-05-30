@@ -67,7 +67,7 @@ public class TeacherDAO {
 
     public void updateTeacher(Context context, TeacherDTO teacher, String whereClause, String[] whereArgs) {
         ContentValues values = new ContentValues();
-        values.put("ID_TEACHER", teacher.getIdTeacher());
+
         values.put("FULLNAME", teacher.getFullName());
         values.put("ADDRESS",teacher.getAddress());
         values.put("PHONE_NUMBER", teacher.getPhoneNumber());

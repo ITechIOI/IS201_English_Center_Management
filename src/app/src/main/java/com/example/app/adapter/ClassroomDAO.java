@@ -50,7 +50,7 @@ public class ClassroomDAO {
         int rowEffect = -1;
 
         ContentValues values = new ContentValues();
-        values.put("ID_CLASSROOM", classroom.getIdRoom());
+
         values.put("NAME", classroom.getName());
 
         try {
