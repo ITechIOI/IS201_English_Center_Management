@@ -340,6 +340,8 @@ public class List_Adapter extends ArrayAdapter {
         programID = convertView.findViewById(R.id.programID);
         teacherName = convertView.findViewById(R.id.teacher_name);
 
+        Log.d("List class: ", listClass.toString());
+
         String idTeacher = listClass.getIdTeacher();
         String idProgram = listClass.getIdProgram();
         String idStaff = listClass.getIdStaff();
@@ -354,8 +356,16 @@ public class List_Adapter extends ArrayAdapter {
         className.setText(listClass.getClassName());
         startDate.setText(listClass.getStartDate());
         endDate.setText(listClass.getEndDate());
-        programID.setText(program.get(0).getNameProgram().toString());
-        teacherName.setText(teacher.get(0).getFullName().toString());
+        if (program.size() > 0) {
+            programID.setText(program.get(0).getNameProgram().toString());
+        } else {
+            programID.setText("");
+        }
+        if (teacher.size() > 0) {
+            teacherName.setText(teacher.get(0).getFullName().toString());
+        } else {
+            teacherName.setText("");
+        }
 
         if (convertView.findViewById(R.id.edit_class) != null) {
             //Tính năng thêm/xóa lớp của nhân viên ghi danh
@@ -413,7 +423,11 @@ public class List_Adapter extends ArrayAdapter {
 
         if (convertView.findViewById(R.id.detailBtn) != null) {
             TextView staffID = convertView.findViewById(R.id.staffID);
-            staffID.setText(staff.get(0).getFullName().toString());
+           if (staff.size() > 0)  {
+               staffID.setText(staff.get(0).getFullName().toString());
+           } else {
+               staffID.setText("");
+           }
             Button detailBtn = convertView.findViewById(R.id.detailBtn);
             detailBtn.setTag(position);
             detailBtn.setOnClickListener(new View.OnClickListener() {
@@ -431,6 +445,7 @@ public class List_Adapter extends ArrayAdapter {
                         //Nhân viên học vụ
                         intent = new Intent(getContext(), Activity_Notifications_Second_Layer.class);
                         intent.putExtra("classID", listClass.getClassID());
+                        idClassClick = listClass.getClassID();
                        intent.putExtra("idCertificate", "");
                     }
                     mContext.startActivity(intent);
@@ -449,6 +464,7 @@ public class List_Adapter extends ArrayAdapter {
 
                         intent.putExtra("classIDtoViewSchedule", listClass.getClassID());
                         intent.putExtra("classID", "");
+                        idClassClick = listClass.getClassID();
                         mContext.startActivity(intent);
                     }
                 });
@@ -699,9 +715,15 @@ public class List_Adapter extends ArrayAdapter {
 
         ScheduleDTO listSchedule = (ScheduleDTO) arrayDataList.get(position);
 
-        dayOfWeek.setText(listSchedule.getDayOfWeek());
-        startTime.setText(listSchedule.getStartTime());
-        endTime.setText(listSchedule.getEndTime());
+        if (Integer.parseInt(listSchedule.getDayOfWeek().toString()) > 7) {
+            dayOfWeek.setText("Chủ nhật");
+        } else {
+            dayOfWeek.setText("Thứ " + listSchedule.getDayOfWeek());
+        }
+       // dayOfWeek.setText(listSchedule.dayOfWeek);
+
+        startTime.setText(listSchedule.getStartTime() + "h00");
+        endTime.setText(listSchedule.getEndTime() + "h00");
 
         List<ClassDTO> listClass = ClassDAO.getInstance(getContext()).selectClass(getContext(),
                 "ID_CLASS= ?", new String[] {listSchedule.getIdClass()});
@@ -720,6 +742,9 @@ public class List_Adapter extends ArrayAdapter {
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), Activity_Add_Schedule.class);
                     intent.putExtra("idSchedule", listSchedule.getIdSchedule());
+
+                    Log.d("ID schedule put: ", listSchedule.getIdSchedule());
+
                     mContext.startActivity(intent);
                 }
             });

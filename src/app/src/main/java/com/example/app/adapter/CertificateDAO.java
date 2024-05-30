@@ -49,7 +49,7 @@ public class CertificateDAO {
         int rowEffect = -1;
         ContentValues values = new ContentValues();
 
-        values.put("ID_CERTIFICATE", certificate.getIdCertificate());
+
         values.put("NAME", certificate.getName());
         values.put("CONTENT", certificate.getContent());
         values.put("STATUS", 0);

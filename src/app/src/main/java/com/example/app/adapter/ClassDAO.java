@@ -61,7 +61,7 @@ public class ClassDAO {
 
         ContentValues values = new ContentValues();
 
-        values.put("ID_CLASS", classDTO.getClassID());
+
         values.put("NAME", classDTO.getClassName());
         values.put("START_DATE", classDTO.getStartDate());
         values.put("END_DATE", classDTO.getEndDate());

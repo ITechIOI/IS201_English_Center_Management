@@ -68,7 +68,6 @@ public class AccountDAO {
 
     public int updateAccount(Context context, AccountDTO accountDTO, String whereClause, String[] whereArgs) {
         ContentValues values = new ContentValues();
-        values.put("ID_ACCOUNT", accountDTO.getIdAccount());
         values.put("ID_USER", accountDTO.getIdUser());
         values.put("USERNAME", accountDTO.getUserName());
         values.put("PASSWORD", accountDTO.getPassWord());

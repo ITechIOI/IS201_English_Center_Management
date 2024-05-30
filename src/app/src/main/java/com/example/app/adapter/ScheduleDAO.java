@@ -60,7 +60,7 @@ public class ScheduleDAO {
 
         ContentValues values = new ContentValues();
 
-        values.put("ID_SCHEDULE", schedule.getIdSchedule());
+
         values.put("DAY_OF_WEEK", schedule.getDayOfWeek());
         values.put("START_TIME",schedule.getStartTime());
         values.put("END_TIME", schedule.getEndTime());

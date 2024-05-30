@@ -58,7 +58,7 @@ public class CollectionTuitionFeesDAO {
         int rowEffect = -1;
         ContentValues values = new ContentValues();
 
-        values.put("ID_BILL", "CTF" + collection.getIdBill());
+
         values.put("ID_STUDENT", collection.getIdStudent());
         values.put("COLLECTION_DATE", collection.getCollectionDate());
         values.put("TOTAL_MONEY", collection.getMoney());

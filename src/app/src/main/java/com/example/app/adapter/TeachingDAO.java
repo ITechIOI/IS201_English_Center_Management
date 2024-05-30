@@ -52,7 +52,7 @@ public class TeachingDAO {
         int rowEffect = -1;
         ContentValues values = new ContentValues();
 
-        values.put("ID_TEACHING", teaching.getIdTeaching());
+
         values.put("ID_STUDENT", teaching.getIdStudent());
         values.put("ID_CLASS",teaching.getIdClass());
         values.put("STATUS", 0);
