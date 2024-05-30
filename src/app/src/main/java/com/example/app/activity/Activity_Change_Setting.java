@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,7 +12,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -36,11 +41,12 @@ public class Activity_Change_Setting extends AppCompatActivity {
     AutoCompleteTextView genderInp;
     ArrayAdapter<String> genderAdapter;
     private Button done;
-    private EditText phoneInp, addrInp, passInp;
+    private EditText phoneInp, addrInp, nameInp;
+    TextView password;
     TextView birthdayInp;
     DatePickerDialog.OnDateSetListener birthDt;
 
-    TextView nameInp, position;
+    TextView position;
     private int flag;
 
 
@@ -95,7 +101,14 @@ public class Activity_Change_Setting extends AppCompatActivity {
 
         phoneInp = findViewById(R.id.input_phone);
         addrInp = findViewById(R.id.input_addr);
-        passInp = findViewById(R.id.input_password);
+        password = findViewById(R.id.password);
+        password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openChangePasswordDialog(Gravity.CENTER);
+            }
+        });
+
         nameInp = findViewById(R.id.name);
         position = findViewById(R.id.position);
 
@@ -195,7 +208,6 @@ public class Activity_Change_Setting extends AppCompatActivity {
         genderInp.setText(gender);
         phoneInp.setText(phoneNumber);
         addrInp.setText(address);
-        passInp.setText(Activity_Login.password);
         nameInp.setText(fullName);
         birthdayInp.setText(birthday);
         position.setText(positionText);
@@ -204,9 +216,8 @@ public class Activity_Change_Setting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (genderInp.getText().toString().equals("") || !phoneInp.getText().toString().equals("")
-                        || !addrInp.getText().toString().equals("") || !passInp.getText().toString().equals("")
-                        || !nameInp.getText().toString().equals("") || !birthday.isEmpty()) {
+                if (genderInp.getText().toString().equals("") || phoneInp.getText().toString().equals("")
+                        || addrInp.getText().toString().equals("") || nameInp.getText().toString().equals("") || birthday.isEmpty()) {
                     Toast.makeText(Activity_Change_Setting.this, "Nhập lại", Toast.LENGTH_SHORT).show();
                 } else {
 
@@ -225,11 +236,11 @@ public class Activity_Change_Setting extends AppCompatActivity {
                             // Update password
 
                             AccountDTO updateAccount = new AccountDTO(Activity_Login.idAccount,
-                                    Activity_Login.idUser, Activity_Login.username, passInp.getText().toString());
+                                    Activity_Login.idUser, Activity_Login.username, password.getText().toString());
                             String whereClause = "ID_ACCOUNT = ?";
                             String[] whereArg =  new String[]{Activity_Login.idAccount};
 
-                            Activity_Login.password = passInp.getText().toString();
+                            Activity_Login.password = password.getText().toString();
 
                             int rowEffect = AccountDAO.getInstance(Activity_Change_Setting.this).updateAccount(Activity_Change_Setting.this,
                                     updateAccount, whereClause, whereArg);
@@ -277,5 +288,69 @@ public class Activity_Change_Setting extends AppCompatActivity {
 
         });
 
+    }
+
+    private void openChangePasswordDialog(int gravity) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.change_password_dialog);
+
+        Window window = dialog.getWindow();
+        if (window == null)
+            return;
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowsAttributes = window.getAttributes();
+        windowsAttributes.gravity = gravity;
+        window.setAttributes(windowsAttributes);
+
+        if (Gravity.BOTTOM == gravity)
+            dialog.setCancelable(true);
+        else
+            dialog.setCancelable(true);
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.change_password_dialog, null);
+
+        EditText oldPass, newPass, retypePass;
+        Button exitBtn, doneBtn;
+        oldPass = view.findViewById(R.id.oldPass);
+        newPass = view.findViewById(R.id.newPass);
+        retypePass = view.findViewById(R.id.retypePass);
+
+        exitBtn = view.findViewById(R.id.exitBtn);
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        doneBtn = view.findViewById(R.id.doneBtn);
+        doneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Thêm cho t cái check sai mk nha
+                if (true) {
+
+                } else {
+                    Toast.makeText(Activity_Change_Setting.this, "Sai mật khẩu", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (newPass.getText().toString().length() < 8) {
+                    Toast.makeText(Activity_Change_Setting.this, "Mật khẩu phải có ít nhất 8 ký tự", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (newPass.getText().toString() != retypePass.getText().toString()) {
+                    Toast.makeText(Activity_Change_Setting.this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
+
+        dialog.show();
     }
 }

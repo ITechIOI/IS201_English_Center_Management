@@ -54,7 +54,7 @@ public class List_Adapter extends ArrayAdapter {
     int idLayout;
     public static String idClassClick;
 
-    public List_Adapter(@NonNull Context context,int idLayout, ArrayList<Object> arrayDataList) {
+    public List_Adapter(@NonNull Context context, int idLayout, ArrayList<Object> arrayDataList) {
         super(context, idLayout, arrayDataList);
         mContext = context;
         this.arrayDataList = arrayDataList;
@@ -84,7 +84,7 @@ public class List_Adapter extends ArrayAdapter {
             Schedule_View(convertView, position);
         else if (item instanceof AccountDTO)
             Account_View(convertView, position);
-        else if (item instanceof  CertificateDTO)
+        else if (item instanceof CertificateDTO)
             Certificate_View(convertView, position);
         else if (item instanceof ClassroomDTO)
             Classroom_View(convertView, position);
@@ -92,13 +92,15 @@ public class List_Adapter extends ArrayAdapter {
             Staff_View(convertView, position);
         else if (item instanceof TeacherDTO)
             Teacher_View(convertView, position);
+        else if (item instanceof ClassCollectingFees)
+            Collecting_Fees_View(convertView, position);
         else
             throw new IllegalArgumentException("Unknown data type: " + item.getClass().getName());
 
         return convertView;
     }
 
-    private void List_Information_View (@Nullable View convertView, int position) {
+    private void List_Information_View(@Nullable View convertView, int position) {
         ImageView listImage = convertView.findViewById(R.id.listImage);
         TextView listName = convertView.findViewById(R.id.listName);
 
@@ -107,7 +109,8 @@ public class List_Adapter extends ArrayAdapter {
         listImage.setImageResource(listData.getImg());
         listName.setText(listData.getName());
     }
-    private void List_Notifications_View (@Nullable View convertView, int position) {
+
+    private void List_Notifications_View(@Nullable View convertView, int position) {
         TextView title, poster, description;
         title = convertView.findViewById(R.id.title);
         poster = convertView.findViewById(R.id.poster);
@@ -119,7 +122,7 @@ public class List_Adapter extends ArrayAdapter {
         List<AccountDTO> accountPost = AccountDAO.getInstance(mContext).selectAccountVer2(mContext,
                 "ID_ACCOUNT = ? AND STATUS = ?", new String[]{idPoster, "0"});
         List<StaffDTO> staffPost = StaffDAO.getInstance(mContext).SelectStaffVer2(mContext,
-                "ID_STAFF = ? AND STATUS = ?", new String[] {accountPost.get(0).getIdUser(), "0"});
+                "ID_STAFF = ? AND STATUS = ?", new String[]{accountPost.get(0).getIdUser(), "0"});
 
         title.setText(listNotifications.getTitle());
         poster.setText(staffPost.get(0).getFullName());
@@ -155,7 +158,7 @@ public class List_Adapter extends ArrayAdapter {
                                         mContext, new NotificationDTO(listNotifications.getIdNotification(),
                                                 null, null, null),
                                         "ID_NOTIFICATION = ? AND STATUS = ?",
-                                        new String[] {listNotifications.getIdNotification().toString(), "0"});
+                                        new String[]{listNotifications.getIdNotification().toString(), "0"});
                                 if (rowEffect > 0) {
                                     Toast.makeText(mContext, "Xóa thông báo thành công!", Toast.LENGTH_SHORT).show();
                                 } else {
@@ -188,7 +191,7 @@ public class List_Adapter extends ArrayAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), Activity_Add_Notification.class);
-                    Log.d("Message send: ",listNotifications.getIdNotification() );
+                    Log.d("Message send: ", listNotifications.getIdNotification());
 
                     intent.putExtra("idNotification", listNotifications.getIdNotification());
                     mContext.startActivity(intent);
@@ -196,7 +199,8 @@ public class List_Adapter extends ArrayAdapter {
             });
         }
     }
-    private void List_Score_View (@Nullable View convertView, int position) {
+
+    private void List_Score_View(@Nullable View convertView, int position) {
         TextView speak, write, listen, read;
         ExamScoreDTO listScore = (ExamScoreDTO) arrayDataList.get(position);
 
@@ -216,9 +220,9 @@ public class List_Adapter extends ArrayAdapter {
             //idStudent.setText(listScore.getIdStudent());
             studentName = convertView.findViewById(R.id.studentName);
 
-            List<OfficialStudentDTO>listStudent = OfficialStudentDAO.getInstance(mContext)
-                            .SelectStudentVer2(mContext, "ID_STUDENT = ? AND STATUS = ?",
-                                    new String[] {listScore.getIdStudent(), "0"});
+            List<OfficialStudentDTO> listStudent = OfficialStudentDAO.getInstance(mContext)
+                    .SelectStudentVer2(mContext, "ID_STUDENT = ? AND STATUS = ?",
+                            new String[]{listScore.getIdStudent(), "0"});
 
             studentName.setText(listStudent.get(0).getFullName());
             Button editScore = convertView.findViewById(R.id.edit_score);
@@ -248,7 +252,8 @@ public class List_Adapter extends ArrayAdapter {
         listen.setText(listScore.listen);
         read.setText(listScore.read);*/
     }
-    private void List_Education_Program_View (@Nullable View convertView, int position) {
+
+    private void List_Education_Program_View(@Nullable View convertView, int position) {
         TextView idProgram, programName, inputScore, outputScore, content, speak, write, read, listen, tuitionFees, certificate, studyPeriod;
         idProgram = convertView.findViewById(R.id.idProgram);
         programName = convertView.findViewById(R.id.program_name);
@@ -279,7 +284,7 @@ public class List_Adapter extends ArrayAdapter {
 
         String idCertificate = listEducationProgram.getIdCertificate();
         List<CertificateDTO> listCertificate = CertificateDAO.getInstance(mContext).SelectCertificate(mContext,
-                "ID_CERTIFICATE = ? AND STATUS = ?", new String[] {idCertificate, "0"});
+                "ID_CERTIFICATE = ? AND STATUS = ?", new String[]{idCertificate, "0"});
 
         certificate.setText(listCertificate.get(0).getName());
 
@@ -329,7 +334,8 @@ public class List_Adapter extends ArrayAdapter {
             });
         }
     }
-    private void List_Class_View (@Nullable View convertView, int position) {
+
+    private void List_Class_View(@Nullable View convertView, int position) {
         TextView classID, className, startDate, endDate, programID, teacherName;
         ClassDTO listClass = (ClassDTO) arrayDataList.get(position);
 
@@ -346,11 +352,11 @@ public class List_Adapter extends ArrayAdapter {
         String idProgram = listClass.getIdProgram();
         String idStaff = listClass.getIdStaff();
         List<TeacherDTO> teacher = TeacherDAO.getInstance(mContext).SelectTeacher(mContext,
-                "STATUS = ? AND ID_TEACHER = ?", new String[] {"0", idTeacher});
+                "STATUS = ? AND ID_TEACHER = ?", new String[]{"0", idTeacher});
         List<ProgramDTO> program = ProgramDAO.getInstance(mContext).SelectProgram(mContext,
-                "ID_PROGRAM = ? AND STATUS = ?", new String[] {idProgram, "0"});
+                "ID_PROGRAM = ? AND STATUS = ?", new String[]{idProgram, "0"});
         List<StaffDTO> staff = StaffDAO.getInstance(mContext).SelectStaffVer2(mContext,
-                "ID_STAFF = ? AND STATUS = ?", new String[] {idStaff, "0"});
+                "ID_STAFF = ? AND STATUS = ?", new String[]{idStaff, "0"});
 
         classID.setText(listClass.getClassID());
         className.setText(listClass.getClassName());
@@ -397,7 +403,7 @@ public class List_Adapter extends ArrayAdapter {
                             try {
                                 int rowEffect = ClassDAO.getInstance(mContext).DeleteClass(mContext,
                                         listClass, "ID_CLASS = ? AND STATUS = ?",
-                                        new String[] {listClass.getClassID().toString(), "0"});
+                                        new String[]{listClass.getClassID().toString(), "0"});
                             } catch (Exception e) {
                                 Log.d("Delete class error: ", e.getMessage());
                             }
@@ -423,11 +429,11 @@ public class List_Adapter extends ArrayAdapter {
 
         if (convertView.findViewById(R.id.detailBtn) != null) {
             TextView staffID = convertView.findViewById(R.id.staffID);
-           if (staff.size() > 0)  {
-               staffID.setText(staff.get(0).getFullName().toString());
-           } else {
-               staffID.setText("");
-           }
+            if (staff.size() > 0) {
+                staffID.setText(staff.get(0).getFullName().toString());
+            } else {
+                staffID.setText("");
+            }
             Button detailBtn = convertView.findViewById(R.id.detailBtn);
             detailBtn.setTag(position);
             detailBtn.setOnClickListener(new View.OnClickListener() {
@@ -446,7 +452,7 @@ public class List_Adapter extends ArrayAdapter {
                         intent = new Intent(getContext(), Activity_Notifications_Second_Layer.class);
                         intent.putExtra("classID", listClass.getClassID());
                         idClassClick = listClass.getClassID();
-                       intent.putExtra("idCertificate", "");
+                        intent.putExtra("idCertificate", "");
                     }
                     mContext.startActivity(intent);
                 }
@@ -460,7 +466,7 @@ public class List_Adapter extends ArrayAdapter {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(getContext(), Activity_Notifications_ToolBars_Second_Layer.class);
-                        Log.d("Id class put to view schedule", listClass.getClassID() );
+                        Log.d("Id class put to view schedule", listClass.getClassID());
 
                         intent.putExtra("classIDtoViewSchedule", listClass.getClassID());
                         intent.putExtra("classID", "");
@@ -471,6 +477,7 @@ public class List_Adapter extends ArrayAdapter {
             }
         }
     }
+
     /*private void List_Class_Manage_View (@Nullable View convertView, int position) {
         TextView classID, className, startDate, endDate, programID, teacherName, staffID;
         ClassDTO_Manage listClass = (ClassDTO_Manage) arrayDataList.get(position);
@@ -548,7 +555,7 @@ public class List_Adapter extends ArrayAdapter {
             }
         });
     }*/
-    private void PotentialStudentDTO_View (@Nullable View convertView, int position) {
+    private void PotentialStudentDTO_View(@Nullable View convertView, int position) {
         TextView studentName, phoneNumber, gender, address, level, appointmentNumber;
         studentName = convertView.findViewById(R.id.student_name);
         phoneNumber = convertView.findViewById(R.id.phone_number);
@@ -586,7 +593,7 @@ public class List_Adapter extends ArrayAdapter {
                         try {
                             int rowEffect = PotentialStudentDAO.getInstance(mContext).deletePotentialStudent(
                                     mContext, listTalentedStudent, "ID_STUDENT = ?",
-                                    new String[] {listTalentedStudent.getStudentID()});
+                                    new String[]{listTalentedStudent.getStudentID()});
                             Log.d("Delete Potential Student Error: ", String.valueOf(rowEffect));
                         } catch (Exception e) {
                             Log.d("Delete Potential Student Error: ", e.getMessage());
@@ -621,7 +628,8 @@ public class List_Adapter extends ArrayAdapter {
             }
         });
     }
-    private void OfficialStudentDTO_View (@Nullable View convertView, int position) {
+
+    private void OfficialStudentDTO_View(@Nullable View convertView, int position) {
         TextView studentName, phoneNumber, gender, address, birthday;
         studentName = convertView.findViewById(R.id.student_name);
         phoneNumber = convertView.findViewById(R.id.phone_number);
@@ -659,11 +667,11 @@ public class List_Adapter extends ArrayAdapter {
                         try {
                             List<TeachingDTO> teaching = TeachingDAO.getInstance(mContext).SelectTeaching(
                                     mContext, "ID_STUDENT = ? AND ID_CLASS = ? AND STATUS = ?",
-                                    new String[] {officialStudentDTO.getIdStudent(), idClassClick, "0"});
+                                    new String[]{officialStudentDTO.getIdStudent(), idClassClick, "0"});
 
                             int rowEffect = TeachingDAO.getInstance(mContext).DeleteTeaching(
                                     mContext, teaching.get(0), "ID_TEACHING = ?",
-                                    new String[] {teaching.get(0).getIdClass().toString()});
+                                    new String[]{teaching.get(0).getIdClass().toString()});
                             if (rowEffect > 0) {
                                 Toast.makeText(mContext, "Xóa học viên trong lớp thành công",
                                         Toast.LENGTH_SHORT).show();
@@ -705,7 +713,8 @@ public class List_Adapter extends ArrayAdapter {
             }
         });
     }
-    private void Schedule_View (@Nullable View convertView, int position) {
+
+    private void Schedule_View(@Nullable View convertView, int position) {
         TextView dayOfWeek, startTime, endTime, idClass, idClassroom;
         dayOfWeek = convertView.findViewById(R.id.day_of_week);
         startTime = convertView.findViewById(R.id.start_time);
@@ -720,15 +729,15 @@ public class List_Adapter extends ArrayAdapter {
         } else {
             dayOfWeek.setText("Thứ " + listSchedule.getDayOfWeek());
         }
-       // dayOfWeek.setText(listSchedule.dayOfWeek);
+        // dayOfWeek.setText(listSchedule.dayOfWeek);
 
         startTime.setText(listSchedule.getStartTime() + "h00");
         endTime.setText(listSchedule.getEndTime() + "h00");
 
         List<ClassDTO> listClass = ClassDAO.getInstance(getContext()).selectClass(getContext(),
-                "ID_CLASS= ?", new String[] {listSchedule.getIdClass()});
+                "ID_CLASS= ?", new String[]{listSchedule.getIdClass()});
         List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(getContext()).SelectClassroom(
-                getContext(), "ID_CLASSROOM = ?", new String[] {listSchedule.idClassroom});
+                getContext(), "ID_CLASSROOM = ?", new String[]{listSchedule.idClassroom});
 
         idClass.setText(listClass.get(0).getClassName());
         idClassroom.setText(listClassroom.get(0).getName());
@@ -772,7 +781,7 @@ public class List_Adapter extends ArrayAdapter {
                                     int rowEffect = ScheduleDAO.getInstance(mContext).DeleteSchedule(
                                             mContext, scheduleDelete,
                                             "ID_SCHEDULE = ? AND STATUS = ?",
-                                            new String[] {scheduleDelete.getIdSchedule(), "0"});
+                                            new String[]{scheduleDelete.getIdSchedule(), "0"});
                                     if (rowEffect > 0) {
                                         Toast.makeText(mContext, "Xóa lịch học thành công",
                                                 Toast.LENGTH_SHORT).show();
@@ -805,7 +814,8 @@ public class List_Adapter extends ArrayAdapter {
             });
         }
     }
-    private void Certificate_View (@Nullable View convertView, int position) {
+
+    private void Certificate_View(@Nullable View convertView, int position) {
         TextView idCertificate, name, content;
         CertificateDTO listCertificate = (CertificateDTO) arrayDataList.get(position);
 
@@ -824,23 +834,24 @@ public class List_Adapter extends ArrayAdapter {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), Activity_Notifications_Second_Layer.class);
                 intent.putExtra("idCertificate", listCertificate.getIdCertificate().toString());
-                Log.d("ID certificate found", listCertificate.getIdCertificate() );
-               intent.putExtra("classID", "");
+                Log.d("ID certificate found", listCertificate.getIdCertificate());
+                intent.putExtra("classID", "");
                 mContext.startActivity(intent);
             }
         });
 
     }
-    private void Account_View (@Nullable View convertView, int position) {
+
+    private void Account_View(@Nullable View convertView, int position) {
         TextView idAccount, idUser, username, password;
         AccountDTO listAccount = (AccountDTO) arrayDataList.get(position);
 
-       // idAccount = convertView.findViewById(R.id.idAccount);
+        // idAccount = convertView.findViewById(R.id.idAccount);
         idUser = convertView.findViewById(R.id.idUser);
         username = convertView.findViewById(R.id.username);
         password = convertView.findViewById(R.id.password);
 
-       // idAccount.setText(listAccount.getIdAccount());
+        // idAccount.setText(listAccount.getIdAccount());
         idUser.setText(listAccount.getIdUser());
         username.setText(listAccount.getUserName());
         password.setText(listAccount.getPassWord());
@@ -863,8 +874,8 @@ public class List_Adapter extends ArrayAdapter {
                                 null, null, null);
                         try {
                             int rowEffect = AccountDAO.getInstance(mContext).DeleteAccount(mContext, account,
-                                    "ID_ACCOUNT = ?", new String[] {listAccount.getIdAccount()});
-                            if(rowEffect > 0) {
+                                    "ID_ACCOUNT = ?", new String[]{listAccount.getIdAccount()});
+                            if (rowEffect > 0) {
                                 Toast.makeText(mContext, "Xóa tài khoản thành công!", Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
@@ -900,7 +911,8 @@ public class List_Adapter extends ArrayAdapter {
             }
         });
     }
-    private void Classroom_View (@Nullable View convertView, int position) {
+
+    private void Classroom_View(@Nullable View convertView, int position) {
         ClassroomDTO listClassromm = (ClassroomDTO) arrayDataList.get(position);
         TextView idClassroom, nameClassroom, name;
         //idClassroom = convertView.findViewById(R.id.idClassroom);
@@ -910,16 +922,16 @@ public class List_Adapter extends ArrayAdapter {
         nameClassroom.setText(listClassromm.getName());
 
 
-
         LinearLayout layout;
         layout = convertView.findViewById(R.id.linear_layout);
         if (true) {
             name.setText("Hê hê");
             layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.red_border));
-        } else layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.blue_border));
+        } else
+            layout.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.blue_border));
     }
 
-    private void Staff_View (@Nullable View convertView, int position) {
+    private void Staff_View(@Nullable View convertView, int position) {
         StaffDTO listStaff = (StaffDTO) arrayDataList.get(position);
         TextView idStaff, fullName, address, phoneNumber, gender, birthday, type;
         idStaff = convertView.findViewById(R.id.idStaff);
@@ -965,7 +977,7 @@ public class List_Adapter extends ArrayAdapter {
                         try {
                             int rowEffect = StaffDAO.getInstance(mContext).DeleteStaff(mContext,
                                     staff, "ID_STAFF = ? AND STATUS = ?",
-                                    new String[] {listStaff.getIdStaff().toString(), "0"});
+                                    new String[]{listStaff.getIdStaff().toString(), "0"});
                             if (rowEffect > 0) {
                                 Toast.makeText(mContext, "Xóa nhân viên thành công!",
                                         Toast.LENGTH_SHORT).show();
@@ -1007,7 +1019,7 @@ public class List_Adapter extends ArrayAdapter {
         });
     }
 
-    private void Teacher_View (@Nullable View convertView, int position) {
+    private void Teacher_View(@Nullable View convertView, int position) {
         TeacherDTO listStaff = (TeacherDTO) arrayDataList.get(position);
         TextView idStaff, fullName, address, phoneNumber, gender, birthday, type;
         idStaff = convertView.findViewById(R.id.idStaff);
@@ -1053,8 +1065,8 @@ public class List_Adapter extends ArrayAdapter {
                         try {
                             int rowEffect = TeacherDAO.getInstance(mContext).DeleteTeacher(mContext,
                                     teacher, "ID_TEACHER = ? AND STATUS = ?",
-                                    new String[] {listStaff.getIdTeacher(), "0"});
-                            if (rowEffect > 0)  {
+                                    new String[]{listStaff.getIdTeacher(), "0"});
+                            if (rowEffect > 0) {
                                 Toast.makeText(mContext, "Xóa giáo viên thành công!",
                                         Toast.LENGTH_SHORT).show();
                             } else {
@@ -1095,4 +1107,17 @@ public class List_Adapter extends ArrayAdapter {
         });
     }
 
+    private void Collecting_Fees_View(@Nullable View convertView, int position) {
+        ClassCollectingFees listClass = (ClassCollectingFees) arrayDataList.get(position);
+        TextView idClass, className, numStudent, totalMoney;
+        idClass = convertView.findViewById(R.id.idClass);
+        className = convertView.findViewById(R.id.className);
+        numStudent = convertView.findViewById(R.id.numStudent);
+        totalMoney = convertView.findViewById(R.id.totalMoney);
+
+        idClass.setText(listClass.getIdClass());
+        className.setText(listClass.getClassName());
+        numStudent.setText(listClass.getNumStudent());
+        totalMoney.setText(listClass.getTotalMoney());
+    }
 }

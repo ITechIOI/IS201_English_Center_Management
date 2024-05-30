@@ -22,6 +22,7 @@ import com.example.app.adapter.ScheduleDAO;
 import com.example.app.adapter.StaffDAO;
 import com.example.app.model.AccountDTO;
 import com.example.app.model.CertificateDTO;
+import com.example.app.model.ClassCollectingFees;
 import com.example.app.model.ClassDTO;
 
 import com.example.app.model.ClassroomDTO;
@@ -191,6 +192,10 @@ public class Activity_Notifications extends AppCompatActivity {
                     dataArrayList.add(listAccount.get(i));
                 }
                 listAdapter = new List_Adapter(Activity_Notifications.this, R.layout.list_account_item, dataArrayList);
+                break;
+            case "Thống kê doanh thu":
+                dataArrayList.add(new ClassCollectingFees("1","1","1","1"));
+                listAdapter = new List_Adapter(Activity_Notifications.this, R.layout.list_collecting_fees_item, dataArrayList);
                 break;
         }
         listView.setAdapter(listAdapter);

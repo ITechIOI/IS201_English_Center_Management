@@ -2,6 +2,7 @@ package com.example.app.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
@@ -165,33 +166,67 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        switch (message) {
-            case "Quản lý học viên":
-                Intent addPotential = new Intent(Activity_Notifications_ToolBars.this, Activity_Add_Potential_Student.class);
-                addPotential.putExtra("studentID", "");
-                startActivity(addPotential);
-                break;
-            case "Quản lý tài khoản":
-                Intent addAccount = new Intent(Activity_Notifications_ToolBars.this, Activity_Add_Account.class);
-                addAccount.putExtra("idAccount", "");
-                startActivity(addAccount);
-                break;
-            case "Quản lý nhân viên/giáo viên":
-                Intent addStaff = new Intent(Activity_Notifications_ToolBars.this, Activity_Add_Staff.class);
-                addStaff.putExtra("idStaff","");
-                addStaff.putExtra("idTeacher","");
-                startActivity(addStaff);
-                break;
-            case "Quản lý lớp học":
-                Intent addClass = new Intent(Activity_Notifications_ToolBars.this, Activity_Add_Class.class);
-                addClass.putExtra("classID", "");
-                startActivity(addClass);
-                break;
-            case "Quản lý thông báo":
-                Intent intent = new Intent(Activity_Notifications_ToolBars.this, Activity_Add_Notification.class);
-                intent.putExtra("idNotification", "");
-                startActivity(intent);
-                break;
+        if (id == R.id.add)
+            switch (message) {
+                case "Quản lý học viên":
+                    Intent addPotential = new Intent(Activity_Notifications_ToolBars.this, Activity_Add_Potential_Student.class);
+                    addPotential.putExtra("studentID", "");
+                    startActivity(addPotential);
+                    break;
+                case "Quản lý tài khoản":
+                    Intent addAccount = new Intent(Activity_Notifications_ToolBars.this, Activity_Add_Account.class);
+                    addAccount.putExtra("idAccount", "");
+                    startActivity(addAccount);
+                    break;
+                case "Quản lý nhân viên/giáo viên":
+                    Intent addStaff = new Intent(Activity_Notifications_ToolBars.this, Activity_Add_Staff.class);
+                    addStaff.putExtra("idStaff", "");
+                    addStaff.putExtra("idTeacher", "");
+                    startActivity(addStaff);
+                    break;
+                case "Quản lý lớp học":
+                    Intent addClass = new Intent(Activity_Notifications_ToolBars.this, Activity_Add_Class.class);
+                    addClass.putExtra("classID", "");
+                    startActivity(addClass);
+                    break;
+                case "Quản lý thông báo":
+                    Intent intent = new Intent(Activity_Notifications_ToolBars.this, Activity_Add_Notification.class);
+                    intent.putExtra("idNotification", "");
+                    startActivity(intent);
+                    break;
+            }
+        if (id == R.id.search) {
+            SearchView searchView = (SearchView) item.getActionView();
+            searchView.setQueryHint("Search here");
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    listAdapter.getFilter().filter(newText);
+                    return false;
+                }
+            });
+            /*switch (message) {
+                case "Quản lý học viên":
+
+                    break;
+                case "Quản lý tài khoản":
+
+                    break;
+                case "Quản lý nhân viên/giáo viên":
+
+                    break;
+                case "Quản lý lớp học":
+
+                    break;
+                case "Quản lý thông báo":
+
+                    break;
+            }*/
         }
         return super.onOptionsItemSelected(item);
     }

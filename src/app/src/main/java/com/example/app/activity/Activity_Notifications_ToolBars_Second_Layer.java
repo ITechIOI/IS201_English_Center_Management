@@ -207,15 +207,26 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
         /*Intent addOffical = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Official_Student.class);
         addOffical.putExtra("studentID", "");
         startActivity(addOffical);*/
-        if (!message1.equals("")) {
-            Intent addOffical = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Official_Student.class);
-            addOffical.putExtra("studentID", "");
-            startActivity(addOffical);
+        if (id == R.id.add) {
+            if (!message1.equals("")) {
+                Intent addOffical = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Official_Student.class);
+                addOffical.putExtra("studentID", "");
+                startActivity(addOffical);
+            }
+            if (!message2.equals("")) {
+                Intent addSchedule = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Schedule.class);
+                addSchedule.putExtra("idSchedule", "");
+                startActivity(addSchedule);
+            }
         }
-        if (!message2.equals("")) {
-            Intent addSchedule = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Schedule.class);
-            addSchedule.putExtra("idSchedule", "");
-            startActivity(addSchedule);
+
+        if (id == R.id.search) {
+            if (!message1.equals("")) {
+
+            }
+            if (!message2.equals("")) {
+
+            }
         }
         return super.onOptionsItemSelected(item);
     }

@@ -7,36 +7,12 @@
     android:orientation="vertical"
     tools:context=".activity.Activity_Total_Revenue">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/english_center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:orientation="vertical"
-            android:padding="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-        <ImageView
-            android:layout_width="116dp"
-            android:layout_height="116dp"
-            android:layout_gravity="center"
-            android:src="@drawable/owl" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <ImageView
+        android:layout_marginTop="5dp"
+        android:layout_width="116dp"
+        android:layout_height="116dp"
+        android:layout_gravity="center"
+        android:src="@drawable/owl" />
     <TextView
         android:id="@+id/title"
         android:textColor="#37B2EC"
@@ -60,5 +36,17 @@
         android:layout_marginEnd="10dp"
         android:layout_width="match_parent"
         android:layout_height="320dp"/>
+
+    <Button
+        android:id="@+id/detailBtn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Chi tiết"
+        app:backgroundTint="@null"
+        android:background="@drawable/rectangular_button"
+        android:textColor="#F3EDED"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:textSize="17dp"/>
 
 </LinearLayout>
