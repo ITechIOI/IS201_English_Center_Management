@@ -24,8 +24,9 @@ public class TeacherDAO {
         return instance;
     }
 
-    public void insertTeacher(Context context, TeacherDTO teacher) {
+    public int insertTeacher(Context context, TeacherDTO teacher) {
         ContentValues values = new ContentValues();
+        int rowEffect = -1;
 
         int maxId = DataProvider.getInstance(context).getMaxId("TEACHERS", "ID_TEACHER");
 
@@ -41,7 +42,7 @@ public class TeacherDAO {
         Log.d("Id max of teacher: ", String.valueOf(maxId + 1));
 
         try {
-            int rowEffect = DataProvider.getInstance(context).insertData("TEACHERS", values);
+            rowEffect = DataProvider.getInstance(context).insertData("TEACHERS", values);
             if (rowEffect > 0 ) {
                 Log.d("Insert Teacher: ", "success");
             } else {
@@ -50,6 +51,7 @@ public class TeacherDAO {
         } catch (SQLException e) {
             Log.d("Insert Teacher Error: ", e.getMessage());
         }
+        return rowEffect;
     }
 
     public void deleteTeacher(Context context, String whereClause, String[] whereArgs)  {
@@ -65,8 +67,9 @@ public class TeacherDAO {
         }
     }
 
-    public void updateTeacher(Context context, TeacherDTO teacher, String whereClause, String[] whereArgs) {
+    public int updateTeacher(Context context, TeacherDTO teacher, String whereClause, String[] whereArgs) {
         ContentValues values = new ContentValues();
+        int rowsUpdated= -1;
 
         values.put("FULLNAME", teacher.getFullName());
         values.put("ADDRESS",teacher.getAddress());
@@ -76,7 +79,7 @@ public class TeacherDAO {
         //values.put("STATUS", teacher.getStatus());
 
         try {
-            int rowsUpdated = DataProvider.getInstance(context).updateData("TEACHERS", values, whereClause, whereArgs);
+            rowsUpdated = DataProvider.getInstance(context).updateData("TEACHERS", values, whereClause, whereArgs);
             if (rowsUpdated > 0) {
                 Log.d("Update Teacher: ", "Success");
             } else {
@@ -85,6 +88,8 @@ public class TeacherDAO {
         } catch (SQLException e) {
             Log.e("Update Teacher Error: ", e.getMessage());
         }
+
+        return rowsUpdated;
     }
 
     public List<TeacherDTO> SelectTeacher(Context context, String whereClause, String[] whereArg) {

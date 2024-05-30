@@ -69,7 +69,7 @@
                 android:textColor="#3B84F1"
                 android:textSize="12dp"/>
         </LinearLayout>
-
+<!--
         <LinearLayout
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="17dp"/>
         </LinearLayout>
-
+-->
         <LinearLayout
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"

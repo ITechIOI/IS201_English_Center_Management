@@ -24,8 +24,9 @@ public class StaffDAO {
         return instance;
     }
 
-    public void insertStaff(Context context, StaffDTO staff) {
+    public int insertStaff(Context context, StaffDTO staff) {
         ContentValues values = new ContentValues();
+        int rowEffect = -1;
 
         int maxId = DataProvider.getInstance(context).getMaxId("STAFF", "ID_STAFF");
 
@@ -40,7 +41,7 @@ public class StaffDAO {
         values.put("STATUS", 0);
 
         try {
-            int rowEffect = DataProvider.getInstance(context).insertData("STAFF", values);
+            rowEffect = DataProvider.getInstance(context).insertData("STAFF", values);
             Log.d("Staff information: ", staff.toString());
             if (rowEffect > 0 ) {
                 Log.d("Insert Staff: ", "success");
@@ -50,6 +51,7 @@ public class StaffDAO {
         } catch (SQLException e) {
             Log.d("Insert Staff Error: ", e.getMessage());
         }
+        return rowEffect;
     }
 
     public void deleteStaff(Context context, String whereClause, String[] whereArgs)  {
