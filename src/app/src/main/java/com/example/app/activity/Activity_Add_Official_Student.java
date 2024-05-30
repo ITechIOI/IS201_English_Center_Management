@@ -85,7 +85,6 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
         studentName = findViewById(R.id.fullName);
         phoneNumber = findViewById(R.id.phoneNumber);
         address = findViewById(R.id.address);
-        birthday = findViewById(R.id.birthday);
         exitBtn = findViewById(R.id.exit_btn);
         doneBtn = findViewById(R.id.done_btn);
 
