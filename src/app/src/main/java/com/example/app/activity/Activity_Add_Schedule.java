@@ -1,11 +1,14 @@
 package com.example.app.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,6 +38,7 @@ public class Activity_Add_Schedule extends AppCompatActivity {
     String[] idClassroomItem = {"Huhu", "Chào Loan"};
     AutoCompleteTextView dayOfWeek, classTime, idClassroom;
     ArrayAdapter<String> dayOfWeekAdapter, classTimeAdapter, idClassroomAdapter;
+    String dayOfWeekText, classTimeText, idClassroomText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +53,19 @@ public class Activity_Add_Schedule extends AppCompatActivity {
 
         dayOfWeek = findViewById(R.id.dayOfWeek);
         dayOfWeek.setText("Thứ " + lisSchedule.get(0).getDayOfWeek());
+        if (Integer.parseInt(lisSchedule.get(0).getDayOfWeek()) > 7) {
+            dayOfWeek.setText("Chủ nhật");
+        } else {
+            dayOfWeek.setText("Thứ " + lisSchedule.get(0).getDayOfWeek());
+        }
         dayOfWeekAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, dayOfWeekItem);
         dayOfWeek.setAdapter(dayOfWeekAdapter);
+        dayOfWeekText = dayOfWeek.getText().toString();
         dayOfWeek.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
+               dayOfWeekText = parent.getItemAtPosition(position).toString();
+               Log.d("Day of week: ", dayOfWeekText);
             }
         });
 
@@ -63,10 +74,12 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                 lisSchedule.get(0).getEndTime() + "h00");
         classTimeAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, classTimeItem);
         classTime.setAdapter(classTimeAdapter);
+        classTimeText = classTime.getText().toString();
         classTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
+                classTimeText = parent.getItemAtPosition(position).toString();
+                Log.d("Class time: ", classTimeText);
             }
         });
 
@@ -86,14 +99,16 @@ public class Activity_Add_Schedule extends AppCompatActivity {
         idClassroom.setText(classroomSelect.get(0).getName());
         idClassroomAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, idClassroomItem);
         idClassroom.setAdapter(idClassroomAdapter);
+        idClassroomText = idClassroom.getText().toString();
         idClassroom.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
+                idClassroomText = parent.getItemAtPosition(position).toString();
+                Log.d("Id classroom: ", idClassroomText);
             }
         });
 
-        startDate = findViewById(R.id.start_date);
+        /*startDate = findViewById(R.id.start_date);
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,9 +132,9 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                 month++;
                 startDate.setText(dayOfMonth + "/" + month + "/" + year);
             }
-        };
+        };*/
 
-        endDate = findViewById(R.id.end_date);
+       /*endDate = findViewById(R.id.end_date);
         endDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -143,26 +158,130 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                 month++;
                 endDate.setText(dayOfMonth + "/" + month + "/" + year);
             }
-        };
+        };*/
 
         doneBtn = findViewById(R.id.done_btn);
         exitBtn = findViewById(R.id.exit_btn);
-        exitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        doneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dayOfWeek.getText().equals("") || idClassroom.getText().equals("")) {
-                    Toast.makeText(Activity_Add_Schedule.this, "Nhập lại", Toast.LENGTH_SHORT).show();
-                } else {
-                    finish();
+
+        if(!message.equals("")) {
+            exitBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Add_Schedule.this);
+                    builder.setTitle("Xác nhận")
+                            .setMessage("Bạn có chắc chắn muốn thoát?");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+                    builder.setNegativeButton("Hủy", null);
+                    builder.show();
                 }
-            }
-        });
+            });
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (dayOfWeek.getText().equals("") || idClassroom.getText().equals("")
+                        || classTime.getText().equals("")) {
+                        Toast.makeText(Activity_Add_Schedule.this, "Hãy nhập đầy đủ thông tin!",
+                                Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Add_Schedule.this);
+                        builder.setTitle("Thông báo")
+                                .setMessage("Bạn có chắn chắn muốn chỉnh sửa thời khóa biểu của học viên không?");
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Get day of week
+                                int firstDigitIndex = dayOfWeek.getText().toString().indexOf("\\d"); // "\\d" là biểu thức chính quy cho một chữ số
+                                if (firstDigitIndex!= -1) {
+                                    String numberPart = dayOfWeek.getText().toString().substring(firstDigitIndex);
+                                    dayOfWeekText = dayOfWeek.getText().toString().substring(0, firstDigitIndex);
+                                } else {
+                                    dayOfWeekText = "8";
+                                }
+                                // Get time of class
+                                String[] parts = classTimeText.split("-");
+                                String startHourStr = parts[0].substring(0, 2); // Lấy số giờ từ phần đầu
+                                String endHourStr = parts[1].substring(0, 2);
+
+                                if (parts[0].length() == 6) {
+                                    startHourStr = parts[0].substring(0,2);
+                                } else {
+                                   startHourStr = parts[0].substring(0,1);
+                                }
+                                if (parts[1].length() == 6) {
+                                    endHourStr = parts[1].substring(1,3);
+                                } else {
+                                    endHourStr = parts[1].substring(1,2);
+                                }
+
+                                Log.d("Time hour: ", startHourStr + "  " + endHourStr);
+
+                                // Get id classroom
+                                List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(Activity_Add_Schedule.this)
+                                        .SelectClassroom(Activity_Add_Schedule.this,
+                                                "NAME = ? AND STATUS = ? ",
+                                                new String[] {idClassroomText, "0"});
+
+                                ScheduleDTO scheduleUpdate = new ScheduleDTO(message, dayOfWeekText,
+                                        startHourStr,endHourStr, lisSchedule.get(0).getIdClass(), listClassroom.get(0).getIdRoom());
+
+                                try {
+                                    int rowEffect = ScheduleDAO.getInstance(Activity_Add_Schedule.this)
+                                            .UpdateSchedule(Activity_Add_Schedule.this, scheduleUpdate,
+                                                    "ID_SCHEDULE = ? AND STATUS = ?",
+                                                    new String[] {message, "0"});
+                                    if (rowEffect > 0) {
+                                        Toast.makeText(Activity_Add_Schedule.this, "Sửa thời khóa biểu cho lớp học thành công!",
+                                                Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(Activity_Add_Schedule.this, "Sửa thời khóa biểu cho lớp học thất bại!",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch(Exception e) {
+                                    Log.d("Update schedule error: ", e.getMessage());
+                                }
+                            }
+                        });
+
+                        builder.setNegativeButton("Hủy", null);
+                        builder.show();
+                    }
+                }
+            });
+        } else {
+            exitBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Add_Schedule.this);
+                    builder.setTitle("Xác nhận")
+                            .setMessage("Bạn có chắc chắn muốn thoát?");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+                    builder.setNegativeButton("Hủy", null);
+                    builder.show();
+                }
+            });
+            doneBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (dayOfWeek.getText().equals("") || idClassroom.getText().equals("")) {
+                        Toast.makeText(Activity_Add_Schedule.this, "Nhập lại", Toast.LENGTH_SHORT).show();
+                    } else {
+                        finish();
+                    }
+                }
+            });
+        }
+
     }
 
 }
