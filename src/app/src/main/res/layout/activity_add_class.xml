@@ -79,8 +79,6 @@
                 android:textSize="14dp" />
         </LinearLayout>
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -145,8 +143,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mã phòng:  "
                 android:layout_gravity="center_vertical"
+                android:text="Phòng:  "
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
@@ -178,7 +176,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Mã chương trình:  "
+                android:text="ên chương trình:  "
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
@@ -209,7 +207,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mã nhân viên quản lý: "
+                android:text="Nhân viên quản lý: "
                 android:textSize="14dp"
                 android:textStyle="bold" />
 

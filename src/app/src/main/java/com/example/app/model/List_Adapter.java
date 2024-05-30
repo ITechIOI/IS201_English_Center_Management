@@ -40,6 +40,7 @@ import com.example.app.adapter.NotificationDAO;
 import com.example.app.adapter.OfficialStudentDAO;
 import com.example.app.adapter.PotentialStudentDAO;
 import com.example.app.adapter.ProgramDAO;
+import com.example.app.adapter.ScheduleDAO;
 import com.example.app.adapter.StaffDAO;
 import com.example.app.adapter.TeacherDAO;
 import com.example.app.adapter.TeachingDAO;
@@ -87,6 +88,10 @@ public class List_Adapter extends ArrayAdapter {
             Certificate_View(convertView, position);
         else if (item instanceof ClassroomDTO)
             Classroom_View(convertView, position);
+        else if (item instanceof StaffDTO)
+            Staff_View(convertView, position);
+        else if (item instanceof TeacherDTO)
+            Teacher_View(convertView, position);
         else
             throw new IllegalArgumentException("Unknown data type: " + item.getClass().getName());
 
@@ -714,7 +719,7 @@ public class List_Adapter extends ArrayAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), Activity_Add_Schedule.class);
-                    intent.putExtra("idSchedule", "1");
+                    intent.putExtra("idSchedule", listSchedule.getIdSchedule());
                     mContext.startActivity(intent);
                 }
             });
@@ -734,6 +739,29 @@ public class List_Adapter extends ArrayAdapter {
                             int position = (int) v.getTag();
                             arrayDataList.remove(position);
                             notifyDataSetChanged();
+
+                            try {
+                                ScheduleDTO scheduleDelete = new ScheduleDTO(listSchedule.getIdSchedule(),
+                                        null, null, null, null, null);
+                                try {
+                                    int rowEffect = ScheduleDAO.getInstance(mContext).DeleteSchedule(
+                                            mContext, scheduleDelete,
+                                            "ID_SCHEDULE = ? AND STATUS = ?",
+                                            new String[] {scheduleDelete.getIdSchedule(), "0"});
+                                    if (rowEffect > 0) {
+                                        Toast.makeText(mContext, "Xóa lịch học thành công",
+                                                Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(mContext, "Xóa lịch học thất bại",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (Exception e) {
+                                    Log.d("Delete schedule error: ", e.getMessage());
+                                }
+                            } catch (Exception e) {
+                                Log.d("Delete schedule error: ", e.getMessage());
+                            }
+
                         }
                     });
 

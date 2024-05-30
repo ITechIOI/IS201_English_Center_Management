@@ -13,6 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app.R;
+import com.example.app.adapter.ClassroomDAO;
+import com.example.app.adapter.ScheduleDAO;
+import com.example.app.model.ClassroomDTO;
+import com.example.app.model.ScheduleDTO;
+
+import java.util.List;
 
 public class Activity_Add_Schedule extends AppCompatActivity {
     EditText startTime, endTime;
@@ -30,7 +36,13 @@ public class Activity_Add_Schedule extends AppCompatActivity {
         setContentView(R.layout.activity_add_schedule);
         String message = getIntent().getStringExtra("idSchedule");
 
+        List<ScheduleDTO> lisSchedule = ScheduleDAO.getInstance(Activity_Add_Schedule.this)
+                .SelectSchedule(Activity_Add_Schedule.this,
+                        "ID_SCHEDULE = ? AND STATUS = ?",
+                        new String[] {message, "0"});
+
         dayOfWeek = findViewById(R.id.dayOfWeek);
+        dayOfWeek.setText("Thứ " + lisSchedule.get(0).getDayOfWeek());
         dayOfWeekAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, dayOfWeekItem);
         dayOfWeek.setAdapter(dayOfWeekAdapter);
         dayOfWeek.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -41,6 +53,8 @@ public class Activity_Add_Schedule extends AppCompatActivity {
         });
 
         classTime = findViewById(R.id.classTime);
+        classTime.setText(lisSchedule.get(0).getStartTime() + "h00 - " +
+                lisSchedule.get(0).getEndTime() + "h00");
         classTimeAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, classTimeItem);
         classTime.setAdapter(classTimeAdapter);
         classTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -50,7 +64,20 @@ public class Activity_Add_Schedule extends AppCompatActivity {
             }
         });
 
+        List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(Activity_Add_Schedule.this)
+                .SelectClassroom(Activity_Add_Schedule.this, "STATUS = ?",
+                        new String[] {"0"});
+        for (int i = 0; i < listClassroom.size(); i++) {
+            idClassroomItem[i] = listClassroom.get(i).getName();
+        }
+
+        List<ClassroomDTO> classroomSelect = ClassroomDAO.getInstance(Activity_Add_Schedule.this)
+                .SelectClassroom(Activity_Add_Schedule.this,
+                        "ID_CLASSROOM = ? AND STATUS = ?",
+                        new String[] {lisSchedule.get(0).getIdClassroom(), "0"});
+
         idClassroom = findViewById(R.id.idClassroom);
+        idClassroom.setText(classroomSelect.get(0).getName());
         idClassroomAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, idClassroomItem);
         idClassroom.setAdapter(idClassroomAdapter);
         idClassroom.setOnItemClickListener(new AdapterView.OnItemClickListener() {

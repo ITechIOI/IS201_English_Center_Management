@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.util.Log;
 
 import com.example.app.model.OfficialStudentDTO;
+import com.example.app.model.PotentialStudentDTO;
 import com.example.app.model.ProgramDTO;
 import com.example.app.model.ScheduleDTO;
 import com.example.app.model.TeachingDTO;
@@ -197,5 +198,22 @@ public class ScheduleDAO {
 
         return listSchedule;
     }
+
+    public int DeleteSchedule(Context context, ScheduleDTO schedule, String whereClause,
+                              String[] whereArgs) {
+        int rowEffect = -1;
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("SCHEDULE", values,
+                    "ID_SCHEDULE = ?", new String[] {schedule.getIdSchedule()});
+        } catch (SQLException e) {
+            Log.d("Delete schedule Error: ", e.getMessage());
+        }
+
+        return rowEffect;
+    }
+
 
 }
