@@ -99,6 +99,8 @@ public class List_Adapter extends ArrayAdapter {
             Teacher_View(convertView, position);
         else if (item instanceof ClassCollectingFees)
             Collecting_Fees_View(convertView, position);
+        else if (item instanceof CollectionTuitionFeesDTO)
+            Collecting_Tuition_Fees_View(convertView, position);
         else
             throw new IllegalArgumentException("Unknown data type: " + item.getClass().getName());
 
@@ -1118,15 +1120,26 @@ public class List_Adapter extends ArrayAdapter {
 
     private void Collecting_Fees_View(@Nullable View convertView, int position) {
         ClassCollectingFees listClass = (ClassCollectingFees) arrayDataList.get(position);
-        TextView idClass, className, numStudent, totalMoney;
-        idClass = convertView.findViewById(R.id.idClass);
-        className = convertView.findViewById(R.id.className);
+        TextView className, numStudent, totalMoney;
+        // idClass = convertView.findViewById(R.id.idClass);
+
+        className = convertView.findViewById(R.id.studentId);
         numStudent = convertView.findViewById(R.id.numStudent);
         totalMoney = convertView.findViewById(R.id.totalMoney);
 
-        idClass.setText(listClass.getIdClass());
+        // idClass.setText(listClass.getIdClass());
         className.setText(listClass.getClassName());
         numStudent.setText(listClass.getNumStudent());
         totalMoney.setText(listClass.getTotalMoney());
+    }
+
+    private void Collecting_Tuition_Fees_View(@Nullable View convertView, int position) {
+        CollectionTuitionFeesDTO fees = (CollectionTuitionFeesDTO) arrayDataList.get(position);
+        TextView studentName, collectionDate, totalMoney;
+        studentName = convertView.findViewById(R.id.studentName);
+        collectionDate = convertView.findViewById(R.id.collectionDate);
+        totalMoney = collectionDate.findViewById(R.id.totalMoney);
+
+        collectionDate.setText(fees.getMoney());
     }
 }

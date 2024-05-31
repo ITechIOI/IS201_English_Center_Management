@@ -14,7 +14,9 @@ import com.example.app.R;
 import com.example.app.model.ClassCollectingFees;
 import com.example.app.model.List_Adapter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Activity_List_Revenue extends AppCompatActivity {
     private List_Adapter listAdapter;
@@ -40,7 +42,9 @@ public class Activity_List_Revenue extends AppCompatActivity {
             }
         });
 
+        LocalDate now = LocalDate.now();
         year = findViewById(R.id.year);
+        year.setText(String.valueOf(now.getYear()));
         yearAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, yearItem);
         year.setAdapter(yearAdapter);
         year.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -51,6 +55,7 @@ public class Activity_List_Revenue extends AppCompatActivity {
         });
 
         month = findViewById(R.id.month);
+        month.setText(String.valueOf(now.getMonth().getValue()));
         monthAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, monthItem);
         month.setAdapter(monthAdapter);
         month.setOnItemClickListener(new AdapterView.OnItemClickListener() {

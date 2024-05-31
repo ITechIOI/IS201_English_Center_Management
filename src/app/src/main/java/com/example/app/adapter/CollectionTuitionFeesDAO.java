@@ -83,13 +83,13 @@ public class CollectionTuitionFeesDAO {
         return rowEffect;
     }
 
-    public List<CollectionTuitionFeesDTO> SelectCollectionTuitionFees(Context context, String whereClause, String[] whereArg) {
+    public List<CollectionTuitionFeesDTO> SelectCollectionTuitionFees(Context context, String month, String year) {
         List<CollectionTuitionFeesDTO> listCollection = new ArrayList<>();
         Cursor cursor = null;
 
         try {
             cursor = DataProvider.getInstance(context).selectData("COLLECTING_TUITION_FEES",
-                    new String[]{"*"},  whereClause, whereArg, null);
+                    new String[]{"*"},  "STATUS = ?", new String[] {"0"}, null);
         } catch(SQLException e) {
             Log.d("Select Collection Tuition Fees: ", e.getMessage());
         }
@@ -114,7 +114,15 @@ public class CollectionTuitionFeesDAO {
                 if (moneyIndex != -1) {
                     money = cursor.getString(moneyIndex);
                 }
-                listCollection.add(new CollectionTuitionFeesDTO(idBill, idStudent, collectionDate, money));
+
+                String[] yearStringArr = collectionDate.split(" ");
+                String yearString = yearStringArr[0];
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy");
+                LocalDate date = LocalDate.parse(yearString, formatter);
+                if (date.getMonth().getValue() == Integer.parseInt(month)
+                        && date.getYear() == Integer.parseInt(year)) {
+                    listCollection.add(new CollectionTuitionFeesDTO(idBill, idStudent, collectionDate, money));
+                }
 
             } while (cursor.moveToNext());
         }
@@ -138,18 +146,10 @@ public class CollectionTuitionFeesDAO {
             Log.d("Select Collection Tuition Fees: ", e.getMessage());
         }
 
-        String idBill = "", idStudent = "", collectionDate = "", money = "";
+        String collectionDate = "", money = "";
         if (cursor.moveToFirst()) {
             do {
 
-                int idBillIndex = cursor.getColumnIndex("ID_BILL");
-                if (idBillIndex != -1) {
-                    idBill = cursor.getString(idBillIndex);
-                }
-                int idStudentIndex = cursor.getColumnIndex("ID_STUDENT");
-                if (idStudentIndex!= -1) {
-                    idStudent = cursor.getString(idStudentIndex);
-                }
                 int collectionDateIndex = cursor.getColumnIndex("COLLECTION_DATE");
                 if (collectionDateIndex != -1) {
                     collectionDate = cursor.getString(collectionDateIndex);
