@@ -71,6 +71,37 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:gravity="end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="45dp"
+                android:layout_height="24dp"
+                android:gravity="center"
+                android:text="Tổng: "
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@id/totalMoney"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:textSize="20dp"
+                android:text="Oke nhies Loan"/>
+
+            <TextView
+                android:gravity="center"
+                android:layout_width="45dp"
+                android:layout_height="24dp"
+                android:textSize="20dp"
+                android:text=" đồng"/>
+        </LinearLayout>
+
         <ListView
             android:id="@+id/notification_listview"
             android:layout_width="match_parent"
@@ -78,8 +109,8 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="15sp"
             android:scrollbars="vertical"
-            app:layout_constraintTop_toBottomOf="@id/linear_layout"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_layout" />
     </LinearLayout>
 
     <ImageButton

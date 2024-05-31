@@ -1136,10 +1136,35 @@ public class List_Adapter extends ArrayAdapter {
     private void Collecting_Tuition_Fees_View(@Nullable View convertView, int position) {
         CollectionTuitionFeesDTO fees = (CollectionTuitionFeesDTO) arrayDataList.get(position);
         TextView studentName, collectionDate, totalMoney;
+
         studentName = convertView.findViewById(R.id.studentName);
         collectionDate = convertView.findViewById(R.id.collectionDate);
-        totalMoney = collectionDate.findViewById(R.id.totalMoney);
+        totalMoney = convertView.findViewById(R.id.totalMoney);
 
-        collectionDate.setText(fees.getMoney());
+        if (fees != null) {
+            String idStudent = fees.getIdStudent();
+            List<OfficialStudentDTO> student = OfficialStudentDAO.getInstance(mContext)
+                    .SelectStudentVer2(mContext, "ID_STUDENT = ? AND STATUS = ?",
+                            new String[] {idStudent, "0"});
+            // Log.d("Student found: ", student.toString());
+            if (student.size() == 0) {
+                studentName.setText("");
+            } else {
+                studentName.setText(student.get(0).getFullName());
+            }
+
+            if (fees.getCollectionDate() == null) {
+                collectionDate.setText("");
+            } else {
+                collectionDate.setText(fees.getCollectionDate());
+            }
+
+            if (fees.getMoney() == null) {
+                totalMoney.setText("");
+            } else {
+                totalMoney.setText(fees.getMoney());
+            }
+        }
+
     }
 }

@@ -49,7 +49,7 @@ public class Activity_Change_Setting extends AppCompatActivity {
 
     TextView position;
     private int flag;
-
+    EditText oldPass, newPass, retypePass;
 
     String fullName = "";
     String address = "";
@@ -302,11 +302,10 @@ public class Activity_Change_Setting extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.change_password_dialog, null);
 
-        EditText oldPass, newPass, retypePass;
         Button exitBtn, doneBtn;
-        oldPass = findViewById(R.id.oldPass);
-        newPass = findViewById(R.id.newPass);
-        retypePass = findViewById(R.id.retypePass);
+        oldPass = view.findViewById(R.id.oldPass);
+        newPass = view.findViewById(R.id.newPass);
+        retypePass = view.findViewById(R.id.retypePass);
 
         exitBtn = dialog.findViewById(R.id.exitBtn);
         exitBtn.setOnClickListener(new View.OnClickListener() {
@@ -320,8 +319,9 @@ public class Activity_Change_Setting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Thêm cho t cái check sai mk nha
+               // oldPass = findViewById(R.id.oldPass);
 
-                if (oldPass == null || password.getText().toString() != oldPass.getText().toString())  {
+                if (oldPass.getText().toString() == "" || !password.getText().toString().equals(oldPass.getText().toString()))  {
                     Toast.makeText(Activity_Change_Setting.this, "Sai mật khẩu", Toast.LENGTH_SHORT).show();
                 }
                 else if (newPass == null || newPass.getText().toString().length() < 8) {
@@ -330,26 +330,28 @@ public class Activity_Change_Setting extends AppCompatActivity {
                 else if (retypePass == null || newPass.getText().toString() != retypePass.getText().toString()) {
                     Toast.makeText(Activity_Change_Setting.this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
                 } else {
-                    dialog.dismiss();
+
+                    AccountDTO account = new AccountDTO(Activity_Login.idAccount, Activity_Login.idUser,
+                        Activity_Login.username, newPass.getText().toString());
+                    try {
+                        int rowEffect = AccountDAO.getInstance(Activity_Change_Setting.this)
+                                .updateAccount(Activity_Change_Setting.this, account,
+                                        "ID_ACCOUNT = ? AND STATUS = ?",
+                                        new String[] {account.getIdAccount(), "0"});
+                        if (rowEffect > 0) {
+                            Toast.makeText(Activity_Change_Setting.this, "Đổi mật khẩu " +
+                                    "thành công!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Activity_Change_Setting.this, "Đổi mật khẩu " +
+                                    "thất bại!", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e)  {
+                        Log.d("Update password error: ", e.getMessage());
+                    }
+
+                    //dialog.dismiss();
                 }
 
-                /*AccountDTO account = new AccountDTO(Activity_Login.idAccount, Activity_Login.idUser,
-                        Activity_Login.username, newPass.getText().toString());
-                try {
-                    int rowEffect = AccountDAO.getInstance(Activity_Change_Setting.this)
-                            .updateAccount(Activity_Change_Setting.this, account,
-                                    "ID_ACCOUNT = ? AND STATUS = ?",
-                                    new String[] {account.getIdAccount(), "0"});
-                    if (rowEffect > 0) {
-                        Toast.makeText(Activity_Change_Setting.this, "Đổi mật khẩu " +
-                                "thành công!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(Activity_Change_Setting.this, "Đổi mật khẩu " +
-                                "thất bại!", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e)  {
-                    Log.d("Update password error: ", e.getMessage());
-                }*/
 
             }
         });

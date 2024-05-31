@@ -16,17 +16,21 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app.R;
+import com.example.app.adapter.CollectionTuitionFeesDAO;
 import com.example.app.adapter.OfficialStudentDAO;
 import com.example.app.adapter.TeacherDAO;
 import com.example.app.adapter.TeachingDAO;
+import com.example.app.model.CollectionTuitionFeesDTO;
 import com.example.app.model.List_Adapter;
 import com.example.app.model.OfficialStudentDTO;
 import com.example.app.model.TeachingDTO;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 
@@ -194,6 +198,8 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
             });
 
         } else {
+            LinearLayout showCollectingDate = findViewById(R.id.showCollectingDate);
+            showCollectingDate.setVisibility(View.GONE);
             exitBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -216,7 +222,8 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                 public void onClick(View v) {
                     if (address.getText().equals("")
                             || birthday.getText().equals("") || studentName.getText().equals("")
-                            || gender.getText().equals("") || phoneNumber.getText().equals("")) {
+                            || gender.getText().equals("") || phoneNumber.getText().equals("")
+                            || totalMoney.getText().equals("")) {
                         Toast.makeText(Activity_Add_Official_Student.this, "Hãy nhập đầy " +
                                 "đủ thông tin", Toast.LENGTH_SHORT).show();
                     } else {
@@ -274,6 +281,21 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                             }
                         } catch (Exception e) {
                             Log.d("Add new teaching relationship: ", "failed");
+                        }
+
+                        CollectionTuitionFeesDTO collectingTuition = new CollectionTuitionFeesDTO(null, idStudent,
+                                LocalDateTime.now().toString().replace("T", " "),
+                                totalMoney.getText().toString());
+                        try {
+                            int rowEffect = CollectionTuitionFeesDAO.getInstance(Activity_Add_Official_Student.this)
+                                    .InsertCollection_Tuition_Fees(Activity_Add_Official_Student.this, collectingTuition);
+                            if (rowEffect > 0)  {
+                                Log.d("Add new collection tuition: ", "success");
+                            } else {
+                                Log.d("Add new collection tuition: ", "failed");
+                            }
+                        } catch (Exception e) {
+                            Log.d("Add new collecting tuition fees error", e.getMessage());
                         }
 
                     }
