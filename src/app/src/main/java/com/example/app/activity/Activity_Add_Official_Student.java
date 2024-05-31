@@ -31,14 +31,14 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Activity_Add_Official_Student extends AppCompatActivity {
-    EditText studentName, phoneNumber, address;
-    TextView birthday;
+    EditText studentName, phoneNumber, address, totalMoney;
+    TextView birthday, collectingDate;
     Button doneBtn, exitBtn;
     String[] genderItem = {"Nam", "Nữ"};
     AutoCompleteTextView gender;
     ArrayAdapter<String> genderAdapter;
     String genderText = "";
-    DatePickerDialog.OnDateSetListener birthDt;
+    DatePickerDialog.OnDateSetListener birthDt, collectDt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +82,36 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
             }
         };
 
+        collectingDate = findViewById(R.id.collectingDate);
+        collectingDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dialog = new DatePickerDialog(
+                        Activity_Add_Official_Student.this,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                        collectDt,
+                        year, month, day);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+        collectDt = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month++;
+                collectingDate.setText(dayOfMonth + "/" + month + "/" + year);
+            }
+        };
+
         studentName = findViewById(R.id.fullName);
         phoneNumber = findViewById(R.id.phoneNumber);
         address = findViewById(R.id.address);
+        totalMoney = findViewById(R.id.totalMoney);
         exitBtn = findViewById(R.id.exit_btn);
         doneBtn = findViewById(R.id.done_btn);
 
