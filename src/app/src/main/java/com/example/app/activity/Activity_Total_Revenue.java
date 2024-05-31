@@ -117,12 +117,10 @@ public class Activity_Total_Revenue extends AppCompatActivity {
                 Log.d("List collecting revenue: ", collectingTuition.toString());
 
                 for (Integer value : collectingTuition.keySet()) {
-                    entries.add (new Entry(value, (collectingTuition.get(value) / 100000000)/1.0f));
+                    entries.add(new Entry(value, (collectingTuition.get(value) / 1000000000)/1.0f));
                 }
                 LineDataSet dataSet = new LineDataSet(entries, "");
                 dataSet.setColor(Color.RED);
-
-
             }
         });
 

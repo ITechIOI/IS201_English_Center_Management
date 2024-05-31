@@ -55,7 +55,7 @@ public class Fragment_Information extends Fragment implements AdapterView.OnItem
                 //Nhân viên học vụ
                 dataArrayList.add(new List_Information("Xem các lớp học", R.drawable.lophoc));
                 dataArrayList.add(new List_Information("Xem chứng chỉ", R.drawable.chuong_trinh_dt));
-                //dataArrayList.add(new List_Information("Quản lý lịch học", R.drawable.baseline_schedule_24));
+                dataArrayList.add(new List_Information("Lịch sử thu", R.drawable.baseline_monetization_on_24));
                 //Nhân viên hv + ghi danh
                 dataArrayList.add(new List_Information("Quản lý thông báo", R.drawable.tb_he_thong));
             } else if (type == 4) {
@@ -65,7 +65,6 @@ public class Fragment_Information extends Fragment implements AdapterView.OnItem
                 dataArrayList.add(new List_Information("Quản lý thông tin phòng học", R.drawable.classroom));
                 dataArrayList.add(new List_Information("Quản lý nhân viên/giáo viên", R.drawable.quanlynhansu));
                 dataArrayList.add(new List_Information("Quản lý doanh thu", R.drawable.baseline_auto_graph_24));
-
             }
         }
 
@@ -82,7 +81,7 @@ public class Fragment_Information extends Fragment implements AdapterView.OnItem
         if (selectedText == "Thông báo hệ thống" || selectedText == "Tra cứu điểm"
                 || selectedText == "Tra cứu chương trình đào tạo" || selectedText == "Lịch học"
                 || selectedText == "Quản lý thông tin phòng học" || selectedText == "Xem các lớp học"
-                || selectedText == "Xem chứng chỉ") {
+                || selectedText == "Xem chứng chỉ" || selectedText == "Lịch sử thu") {
             intent = new Intent(getContext(), Activity_Notifications.class);
             intent.putExtra("message", selectedText);
         } else {

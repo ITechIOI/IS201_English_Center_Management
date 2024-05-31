@@ -26,6 +26,7 @@ import com.example.app.model.ClassCollectingFees;
 import com.example.app.model.ClassDTO;
 
 import com.example.app.model.ClassroomDTO;
+import com.example.app.model.CollectionTuitionFeesDTO;
 import com.example.app.model.List_Adapter;
 import com.example.app.model.NotificationDTO;
 import com.example.app.model.ExamScoreDTO;
@@ -192,6 +193,10 @@ public class Activity_Notifications extends AppCompatActivity {
                     dataArrayList.add(listAccount.get(i));
                 }
                 listAdapter = new List_Adapter(Activity_Notifications.this, R.layout.list_account_item, dataArrayList);
+                break;
+            case "Lịch sử thu":
+                dataArrayList.add(new CollectionTuitionFeesDTO("1","1","1","1"));
+                listAdapter = new List_Adapter(Activity_Notifications.this, R.layout.list_collecting_tuition_fees_item, dataArrayList);
                 break;
         }
     }

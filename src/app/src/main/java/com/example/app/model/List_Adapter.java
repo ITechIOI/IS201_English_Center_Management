@@ -99,6 +99,8 @@ public class List_Adapter extends ArrayAdapter {
             Teacher_View(convertView, position);
         else if (item instanceof ClassCollectingFees)
             Collecting_Fees_View(convertView, position);
+        else if (item instanceof CollectionTuitionFeesDTO)
+            Collecting_Tuition_Fees_View(convertView, position);
         else
             throw new IllegalArgumentException("Unknown data type: " + item.getClass().getName());
 
@@ -1128,5 +1130,15 @@ public class List_Adapter extends ArrayAdapter {
         className.setText(listClass.getClassName());
         numStudent.setText(listClass.getNumStudent());
         totalMoney.setText(listClass.getTotalMoney());
+    }
+
+    private void Collecting_Tuition_Fees_View(@Nullable View convertView, int position) {
+        CollectionTuitionFeesDTO fees = (CollectionTuitionFeesDTO) arrayDataList.get(position);
+        TextView studentName, collectionDate, totalMoney;
+        studentName = convertView.findViewById(R.id.studentName);
+        collectionDate = convertView.findViewById(R.id.collectionDate);
+        totalMoney = collectionDate.findViewById(R.id.totalMoney);
+
+        collectionDate.setText(fees.getMoney());
     }
 }
