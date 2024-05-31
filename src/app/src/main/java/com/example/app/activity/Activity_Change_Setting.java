@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -291,61 +292,48 @@ public class Activity_Change_Setting extends AppCompatActivity {
 
     }
     private void openChangePasswordDialog(int gravity) {
-        final Dialog dialog = new Dialog(this);
+        final Dialog dialog = new Dialog(Activity_Change_Setting.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.change_password_dialog);
-
-        Window window = dialog.getWindow();
-        if (window == null)
-            return;
-
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        WindowManager.LayoutParams windowsAttributes = window.getAttributes();
-        windowsAttributes.gravity = gravity;
-        window.setAttributes(windowsAttributes);
-
-        dialog.setCancelable(true);
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.change_password_dialog, null);
 
         EditText oldPass, newPass, retypePass;
         Button exitBtn, doneBtn;
-        oldPass = view.findViewById(R.id.oldPass);
-        newPass = view.findViewById(R.id.newPass);
-        retypePass = view.findViewById(R.id.retypePass);
+        oldPass = findViewById(R.id.oldPass);
+        newPass = findViewById(R.id.newPass);
+        retypePass = findViewById(R.id.retypePass);
 
-        exitBtn = view.findViewById(R.id.exitBtn);
+        exitBtn = dialog.findViewById(R.id.exitBtn);
         exitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-        doneBtn = view.findViewById(R.id.doneBtn);
+        doneBtn = dialog.findViewById(R.id.doneBtn);
         doneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Thêm cho t cái check sai mk nha
 
-                if (password.getText().toString() != oldPass.getText().toString())  {
+                if (oldPass == null || password.getText().toString() != oldPass.getText().toString())  {
                     Toast.makeText(Activity_Change_Setting.this, "Sai mật khẩu", Toast.LENGTH_SHORT).show();
-                    return;
                 }
-
-                if (newPass.getText().toString().length() < 8) {
+                else if (newPass == null || newPass.getText().toString().length() < 8) {
                     Toast.makeText(Activity_Change_Setting.this, "Mật khẩu phải có ít nhất 8 ký tự", Toast.LENGTH_SHORT).show();
-                    return;
                 }
-
-                if (newPass.getText().toString() != retypePass.getText().toString()) {
+                else if (retypePass == null || newPass.getText().toString() != retypePass.getText().toString()) {
                     Toast.makeText(Activity_Change_Setting.this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
-                    return;
+                } else {
+                    dialog.dismiss();
                 }
 
-                AccountDTO account = new AccountDTO(Activity_Login.idAccount, Activity_Login.idUser,
+                /*AccountDTO account = new AccountDTO(Activity_Login.idAccount, Activity_Login.idUser,
                         Activity_Login.username, newPass.getText().toString());
                 try {
                     int rowEffect = AccountDAO.getInstance(Activity_Change_Setting.this)
@@ -361,7 +349,7 @@ public class Activity_Change_Setting extends AppCompatActivity {
                     }
                 } catch (Exception e)  {
                     Log.d("Update password error: ", e.getMessage());
-                }
+                }*/
 
             }
         });
