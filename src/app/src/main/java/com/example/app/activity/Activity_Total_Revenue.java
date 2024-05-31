@@ -17,6 +17,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.app.R;
+import com.example.app.adapter.CollectionTuitionFeesDAO;
+import com.example.app.model.CollectionTuitionFeesDTO;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -31,6 +33,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class Activity_Total_Revenue extends AppCompatActivity {
     LineChart lineChart;
@@ -50,16 +53,6 @@ public class Activity_Total_Revenue extends AppCompatActivity {
         returnFrag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { finish(); }
-        });
-
-        year = findViewById(R.id.year);
-        yearAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, yearItem);
-        year.setAdapter(yearAdapter);
-        year.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-            }
         });
 
         lineChart = findViewById(R.id.chart);
@@ -87,7 +80,7 @@ public class Activity_Total_Revenue extends AppCompatActivity {
 
         List<Entry> entries = new ArrayList<>();
         entries.add(new Entry(0,0f));
-        entries.add(new Entry(1,1f));
+/*       entries.add(new Entry(1,1f));
         entries.add(new Entry(2,2f));
         entries.add(new Entry(3,3f));
         entries.add(new Entry(4,0f));
@@ -98,7 +91,40 @@ public class Activity_Total_Revenue extends AppCompatActivity {
         entries.add(new Entry(9,1f));
         entries.add(new Entry(10,2f));
         entries.add(new Entry(11,3f));
-        entries.add(new Entry(12,3f));
+        entries.add(new Entry(12,3f));*/
+
+        Map<Integer, Integer> collectingTuition = CollectionTuitionFeesDAO
+                .getInstance(Activity_Total_Revenue.this)
+                .SelectCollectionTuitionFeesByYear(Activity_Total_Revenue.this, "2024");
+        Log.d("List collecting revenue: ", collectingTuition.toString());
+
+        for (Integer value : collectingTuition.keySet()) {
+            entries.add (new Entry(value, collectingTuition.get(value)));
+        }
+
+        year = findViewById(R.id.year);
+        year.setText("2024");
+        yearAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, yearItem);
+        year.setAdapter(yearAdapter);
+        year.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+
+                Map<Integer, Integer> collectingTuition = CollectionTuitionFeesDAO
+                        .getInstance(Activity_Total_Revenue.this)
+                        .SelectCollectionTuitionFeesByYear(Activity_Total_Revenue.this, item);
+                Log.d("List collecting revenue: ", collectingTuition.toString());
+
+                for (Integer value : collectingTuition.keySet()) {
+                    entries.add (new Entry(value, (collectingTuition.get(value) / 100000000)/1.0f));
+                }
+                LineDataSet dataSet = new LineDataSet(entries, "");
+                dataSet.setColor(Color.RED);
+
+
+            }
+        });
 
         LineDataSet dataSet = new LineDataSet(entries, "");
         dataSet.setColor(Color.RED);
