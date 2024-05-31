@@ -289,7 +289,6 @@ public class Activity_Change_Setting extends AppCompatActivity {
         });
 
     }
-
     private void openChangePasswordDialog(int gravity) {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -306,10 +305,7 @@ public class Activity_Change_Setting extends AppCompatActivity {
         windowsAttributes.gravity = gravity;
         window.setAttributes(windowsAttributes);
 
-        if (Gravity.BOTTOM == gravity)
-            dialog.setCancelable(true);
-        else
-            dialog.setCancelable(true);
+        dialog.setCancelable(true);
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.change_password_dialog, null);

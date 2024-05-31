@@ -7,12 +7,14 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.app.R;
 import com.example.app.adapter.AccountDAO;
@@ -39,6 +41,8 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
     private ArrayList<Object> dataArrayList;
     private ImageButton returnBtn;
     private String message;
+    private int idLayout;
+    ArrayList<Object> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,7 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
         returnBtn = findViewById(R.id.return_to_frag_btn);
         message = getIntent().getStringExtra("message");
         dataArrayList = new ArrayList<>();
+        list = new ArrayList<>();
 
         returnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,8 +93,8 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
                 for(int i = 0; i < listPotentialStudent.size(); i++) {
                     dataArrayList.add(listPotentialStudent.get(i));
                 }
+                idLayout = R.layout.list_potential_student_item;
 
-                listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_potential_student_item, dataArrayList);
                 break;
 
             case "Quản lý tài khoản":
@@ -101,8 +106,9 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
                 for (int i = 0; i < listAccount.size(); i++) {
                     dataArrayList.add(listAccount.get(i));
                 }
+                idLayout = R.layout.list_account_item;
+
                 // dataArrayList.add(new AccountDTO("1", "1", "1", "1"));
-                listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_account_item, dataArrayList);
                 break;
 
             case "Quản lý nhân viên/giáo viên":
@@ -121,10 +127,10 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
                 for(int i = 0; i < listTeacher.size(); i++) {
                     dataArrayList.add(listStaff.get(i));
                 }
+                idLayout = R.layout.list_staff_item;
 
 
-              //  dataArrayList.add(new StaffDTO("1","1","1","1","1","1",1,"1",10));
-                listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_staff_item, dataArrayList);
+                //  dataArrayList.add(new StaffDTO("1","1","1","1","1","1",1,"1",10));
                 break;
             case "Quản lý lớp học":
                 toolbar.setTitle("Lớp học");
@@ -138,8 +144,8 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
                 for (int i = 0; i < listClass.size(); i++)  {
                     dataArrayList.add(listClass.get(i));
                 }
+                idLayout = R.layout.list_class_to_manage_item;
 
-                listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_class_to_manage_item, dataArrayList);
                 break;
             case "Quản lý thông báo":
                 toolbar.setTitle("Thông báo");
@@ -151,10 +157,12 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
                 for (int i = 0; i < listNotification.size(); i++) {
                     dataArrayList.add(listNotification.get(i));
                 }
+                idLayout = R.layout.list_notification_manage_item;
 
-                listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, R.layout.list_notification_manage_item, dataArrayList);
                 break;
         }
+
+        listAdapter = new List_Adapter(Activity_Notifications_ToolBars.this, idLayout, dataArrayList);
         listView.setAdapter(listAdapter);
         setSupportActionBar(toolbar);
     }
@@ -197,6 +205,7 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
                     startActivity(intent);
                     break;
             }
+
         if (id == R.id.search) {
             SearchView searchView = (SearchView) item.getActionView();
             searchView.setQueryHint("Search here");
@@ -208,28 +217,57 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-                    listAdapter.getFilter().filter(newText);
-                    return false;
+                    filterList(newText);
+                    return true;
                 }
             });
-            /*switch (message) {
-                case "Quản lý học viên":
-
-                    break;
-                case "Quản lý tài khoản":
-
-                    break;
-                case "Quản lý nhân viên/giáo viên":
-
-                    break;
-                case "Quản lý lớp học":
-
-                    break;
-                case "Quản lý thông báo":
-
-                    break;
-            }*/
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void filterList(String text) {
+            list.clear();
+            for (int i = 0; i < dataArrayList.size(); i++) {
+                Object item = dataArrayList.get(i);
+                switch (message) {
+                    case "Quản lý học viên":
+                        PotentialStudentDTO potentialStudentDTO = (PotentialStudentDTO) item;
+                        if (potentialStudentDTO.getStudentName().toLowerCase().contains(text.toLowerCase()))
+                            list.add(potentialStudentDTO);
+                        break;
+                    case "Quản lý tài khoản":
+                        AccountDTO accountDTO = (AccountDTO) item;
+                        if (accountDTO.getUserName().toLowerCase().contains(text.toLowerCase()))
+                            list.add(accountDTO);
+                        break;
+                    case "Quản lý nhân viên/giáo viên":
+                        if (item instanceof StaffDTO) {
+                            StaffDTO staffDTO = (StaffDTO) item;
+                            if (staffDTO.getFullName().toLowerCase().contains(text.toLowerCase()))
+                                list.add(staffDTO);
+                        } else if (item instanceof TeacherDTO) {
+                            TeacherDTO staffDTO = (TeacherDTO) item;
+                            if (staffDTO.getFullName().toLowerCase().contains(text.toLowerCase()))
+                                list.add(staffDTO);
+                        }
+                        break;
+                    case "Quản lý lớp học":
+                        ClassDTO classDTO = (ClassDTO) item;
+                        if (classDTO.getClassName().toLowerCase().contains(text.toLowerCase()))
+                            list.add(classDTO);
+                        break;
+                    case "Quản lý thông báo":
+                        NotificationDTO notificationDTO = (NotificationDTO) item;
+                        if (notificationDTO.getTitle().toLowerCase().contains(text.toLowerCase()))
+                            list.add(notificationDTO);
+                        break;
+                }
+            }
+            if (list.isEmpty())
+                Toast.makeText(this, "Không tìm thấy dữ liệu nào", Toast.LENGTH_SHORT).show();
+            else {
+                listAdapter.setFilterList(list);
+                //listAdapter.notifyDataSetChanged();
+            }
     }
 }

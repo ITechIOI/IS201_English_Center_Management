@@ -70,19 +70,19 @@
                 android:src="@drawable/gender" />
 
             <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="2dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-                <AutoCompleteTextView
-                    android:layout_gravity="center_vertical"
-                    android:id="@+id/input_gender"
-                    android:padding="8dp"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:inputType="none"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="2dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+                    <AutoCompleteTextView
+                        android:layout_gravity="center_vertical"
+                        android:id="@+id/input_gender"
+                        android:padding="8dp"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

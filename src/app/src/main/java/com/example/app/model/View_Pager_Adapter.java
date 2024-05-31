@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class View_Pager_Adapter extends FragmentPagerAdapter {
     private final ArrayList<Fragment> fragArrayList = new ArrayList<>();
@@ -36,4 +37,5 @@ public class View_Pager_Adapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return fragTitle.get(position);
     }
+
 }

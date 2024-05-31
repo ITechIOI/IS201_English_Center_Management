@@ -193,11 +193,6 @@ public class Activity_Notifications extends AppCompatActivity {
                 }
                 listAdapter = new List_Adapter(Activity_Notifications.this, R.layout.list_account_item, dataArrayList);
                 break;
-            case "Thống kê doanh thu":
-                dataArrayList.add(new ClassCollectingFees("1","1","1","1"));
-                listAdapter = new List_Adapter(Activity_Notifications.this, R.layout.list_collecting_fees_item, dataArrayList);
-                break;
         }
-        listView.setAdapter(listAdapter);
     }
 }

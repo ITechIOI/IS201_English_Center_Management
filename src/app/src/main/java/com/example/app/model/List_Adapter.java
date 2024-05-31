@@ -61,6 +61,11 @@ public class List_Adapter extends ArrayAdapter {
         this.idLayout = idLayout;
     }
 
+    public void setFilterList(ArrayList<Object> filterList) {
+        this.arrayDataList = filterList;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
