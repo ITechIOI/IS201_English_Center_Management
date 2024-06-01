@@ -1143,9 +1143,12 @@ public class List_Adapter extends ArrayAdapter {
 
         if (fees != null) {
             String idStudent = fees.getIdStudent();
+            List<TeachingDTO> teaching = TeachingDAO.getInstance(mContext)
+                    .SelectTeaching(mContext, "ID_TEACHING = ? AND STATUS = ?",
+                            new String[] {idStudent, "0"});
             List<OfficialStudentDTO> student = OfficialStudentDAO.getInstance(mContext)
                     .SelectStudentVer2(mContext, "ID_STUDENT = ? AND STATUS = ?",
-                            new String[] {idStudent, "0"});
+                            new String[] {teaching.get(0).getIdStudent(), "0"});
             // Log.d("Student found: ", student.toString());
             if (student.size() == 0) {
                 studentName.setText("");

@@ -38,7 +38,7 @@ public class CollectionTuitionFeesDAO {
         int maxId = DataProvider.getInstance(context).getMaxId("COLLECTING_TUITION_FEES", "ID_BILL");
 
         values.put("ID_BILL", "CTF" + String.valueOf(maxId + 1));
-        values.put("ID_STUDENT", collection.getIdStudent());
+        values.put("ID_TEACHING", collection.getIdStudent());
         values.put("COLLECTION_DATE", collection.getCollectionDate());
         values.put("TOTAL_MONEY", collection.getMoney());
         values.put("STATUS", 0);
@@ -63,8 +63,8 @@ public class CollectionTuitionFeesDAO {
         ContentValues values = new ContentValues();
 
 
-        values.put("ID_STUDENT", collection.getIdStudent());
-        values.put("COLLECTION_DATE", collection.getCollectionDate());
+       // values.put("ID_TEACHING", collection.getIdStudent());
+       // values.put("COLLECTION_DATE", collection.getCollectionDate());
         values.put("TOTAL_MONEY", collection.getMoney());
         values.put("STATUS", 0);
 
@@ -102,7 +102,7 @@ public class CollectionTuitionFeesDAO {
                 if (idBillIndex != -1) {
                     idBill = cursor.getString(idBillIndex);
                 }
-                int idStudentIndex = cursor.getColumnIndex("ID_STUDENT");
+                int idStudentIndex = cursor.getColumnIndex("ID_TEACHING");
                 if (idStudentIndex!= -1) {
                     idStudent = cursor.getString(idStudentIndex);
                 }
@@ -123,6 +123,47 @@ public class CollectionTuitionFeesDAO {
                         && date.getYear() == Integer.parseInt(year)) {
                     listCollection.add(new CollectionTuitionFeesDTO(idBill, idStudent, collectionDate, money));
                 }
+
+            } while (cursor.moveToNext());
+        }
+
+        return listCollection;
+    }
+
+    public List<CollectionTuitionFeesDTO> SelectCollectionTuitionFeesToGetList(Context context, String whereClause,
+                                                                               String[] whereArgs) {
+        List<CollectionTuitionFeesDTO> listCollection = new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            cursor = DataProvider.getInstance(context).selectData("COLLECTING_TUITION_FEES",
+                    new String[]{"*"},  whereClause, whereArgs, null);
+        } catch(SQLException e) {
+            Log.d("Select Collection Tuition Fees: ", e.getMessage());
+        }
+
+        String idBill = "", idStudent = "", collectionDate = "", money = "";
+        if (cursor.moveToFirst()) {
+            do {
+
+                int idBillIndex = cursor.getColumnIndex("ID_BILL");
+                if (idBillIndex != -1) {
+                    idBill = cursor.getString(idBillIndex);
+                }
+                int idStudentIndex = cursor.getColumnIndex("ID_TEACHING");
+                if (idStudentIndex!= -1) {
+                    idStudent = cursor.getString(idStudentIndex);
+                }
+                int collectionDateIndex = cursor.getColumnIndex("COLLECTION_DATE");
+                if (collectionDateIndex != -1) {
+                    collectionDate = cursor.getString(collectionDateIndex);
+                }
+                int moneyIndex = cursor.getColumnIndex("TOTAL_MONEY");
+                if (moneyIndex != -1) {
+                    money = cursor.getString(moneyIndex);
+                }
+
+                listCollection.add(new CollectionTuitionFeesDTO(idBill, idStudent, collectionDate, money));
 
             } while (cursor.moveToNext());
         }
