@@ -348,7 +348,7 @@ public class Activity_Change_Setting extends AppCompatActivity {
                                                 "ID_ACCOUNT = ? AND STATUS = ?",
                                                 new String[] {account.getIdAccount(), "0"});
                                 if (rowEffect > 0) {
-                                    Log.d("All passwords: ", account.toString());
+                                    Log.d("All passwords: ", oldPass.getText().toString() + "  " + newPass.getText().toString());
                                     Toast.makeText(Activity_Change_Setting.this, "Đổi mật khẩu " +
                                             "thành công!", Toast.LENGTH_SHORT).show();
                                    // dialog.dismiss();
