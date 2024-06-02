@@ -14,7 +14,7 @@ import java.io.IOException;
 public class DataProvider extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ENGLISH_CENTER_MANAGEMENT.db";
     private static DataProvider instance;
-    private static final int DATABASE_VERSION = 107;
+    private static final int DATABASE_VERSION = 110;
 
     private DataProvider(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -266,7 +266,8 @@ public class DataProvider extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("UPDATE COLLECTING_TUITION_FEES SET COLLECTION_DATE = '22/05/2024 23:23:23'");
+        db.execSQL("UPDATE CLASS SET START_DATE = '22/05/2024'," +
+                "END_DATE = '22/06/2024'");
         try {
 
             db.execSQL("CREATE TABLE IF NOT EXISTS CERTIFICATE (" +
