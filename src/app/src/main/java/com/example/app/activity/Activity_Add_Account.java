@@ -14,10 +14,16 @@ import android.widget.Toast;
 
 import com.example.app.R;
 import com.example.app.adapter.AccountDAO;
+import com.example.app.adapter.OfficialStudentDAO;
 import com.example.app.adapter.PotentialStudentDAO;
+import com.example.app.adapter.StaffDAO;
 import com.example.app.model.AccountDTO;
+import com.example.app.model.OfficialStudentDTO;
 import com.example.app.model.PotentialStudentDTO;
+import com.example.app.model.StaffDTO;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Activity_Add_Account extends AppCompatActivity {
@@ -109,19 +115,64 @@ public class Activity_Add_Account extends AppCompatActivity {
 
 
         }  else {
-            String idUserNew = idUser.getText().toString();
-            String usernameNew = username.getText().toString();
-            String passwordNew = password.getText().toString();
-            AccountDTO accountNew = new AccountDTO(null, idUserNew, usernameNew, passwordNew);
 
             doneBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String idUserNew = idUser.getText().toString();
+                    String usernameNew = username.getText().toString();
+                    String passwordNew = password.getText().toString();
+                    AccountDTO accountNew = new AccountDTO(null, idUserNew, usernameNew, passwordNew);
                     if (idUser.getText().toString().equals("")
                             || username.getText().toString().equals("") || password.getText().toString().equals("")) {
-                        Toast.makeText(Activity_Add_Account.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Add_Account.this, "Hãy nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                     } else {
+
+                        String subString = idUserNew.substring(0, 3);
+                        String[] subIdStaffArr = {"STA", "STU"};
+                        ArrayList<String> subIdStaffList = new ArrayList<>(Arrays.asList(subIdStaffArr));
+                        if (! subIdStaffList.contains(subString)) {
+                            Toast.makeText(Activity_Add_Account.this, "Hãy viết đúng định " +
+                                    "dạng mã của người dùng!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        List<AccountDTO> listAccount = AccountDAO.getInstance(Activity_Add_Account.this)
+                                .selectAccountVer2(Activity_Add_Account.this,
+                                        "ID_USER = ? AND STATUS = ?",
+                                        new String[] {idUserNew, "0"});
+                      //  Log.d("List account to add account: ", String.valueOf(listAccount.isEmpty()));
+
+                        if (!listAccount.isEmpty()) {
+                            Toast.makeText(Activity_Add_Account.this, "Người dùng " +
+                                    "này đã có tài khoản trên hệ thống!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (subString.equals("STA")) {
+                            List<StaffDTO> listStaff = StaffDAO.getInstance(Activity_Add_Account.this)
+                                    .SelectStaffVer2(Activity_Add_Account.this,
+                                            "ID_STAFF = ? AND STATUS = ?",
+                                            new String[] {idUserNew, "0"});
+                            if (listStaff.isEmpty()) {
+                                Toast.makeText(Activity_Add_Account.this, "Mã nhân viên này" +
+                                        " không tồn tại trên hệ thống", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        } else {
+                            List<OfficialStudentDTO> listStudent = OfficialStudentDAO.getInstance(Activity_Add_Account.this)
+                                    .SelectStudentVer2(Activity_Add_Account.this,
+                                            "ID_STUDENT = ? AND STATUS = ?",
+                                            new String[] {idUserNew, "0"});
+                            if (listStudent.isEmpty()) {
+                                Toast.makeText(Activity_Add_Account.this, "Mã học viên này" +
+                                        " không tồn tại trên hệ thống", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                        }
+
                         try {
+
                             int rowEffect = AccountDAO.getInstance(Activity_Add_Account.this).insertAccount(
                                     Activity_Add_Account.this, accountNew);
                             if (rowEffect > 0) {
@@ -131,7 +182,6 @@ public class Activity_Add_Account extends AppCompatActivity {
                                 idUser.setText("");
                                 username.setText("");
                                 password.setText("");
-
 
                             } else {
                                 Log.d("Add new account: ", "failed");

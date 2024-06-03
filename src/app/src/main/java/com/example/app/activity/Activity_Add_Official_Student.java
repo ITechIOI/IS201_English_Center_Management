@@ -21,17 +21,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app.R;
+import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.CollectionTuitionFeesDAO;
 import com.example.app.adapter.OfficialStudentDAO;
+import com.example.app.adapter.ProgramDAO;
 import com.example.app.adapter.TeacherDAO;
 import com.example.app.adapter.TeachingDAO;
+import com.example.app.model.ClassDTO;
 import com.example.app.model.CollectionTuitionFeesDTO;
 import com.example.app.model.List_Adapter;
 import com.example.app.model.OfficialStudentDTO;
+import com.example.app.model.ProgramDTO;
 import com.example.app.model.TeacherDTO;
 import com.example.app.model.TeachingDTO;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
@@ -215,7 +220,7 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                                                 "ID_STUDENT = ? AND ID_CLASS = ? AND STATUS = ?",
                                                 new String[] {studentId, List_Adapter.idClassClick, "0"});
 
-                                if (getTeaching.size() != 0) {
+                               /* if (getTeaching.size() != 0) {
                                     CollectionTuitionFeesDTO collectingMoney = new CollectionTuitionFeesDTO(null, null,
                                             null, totalMoney.getText().toString());
                                     try {
@@ -231,7 +236,7 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                                     } catch (Exception e) {
                                         Log.d("Update Collecting Tuition Error: ", e.getMessage());
                                     }
-                                }
+                                }*/
 
                             }
                         });
@@ -244,6 +249,8 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
         } else {
             LinearLayout showCollectingDate = findViewById(R.id.showCollectingDate);
             showCollectingDate.setVisibility(View.GONE);
+            LinearLayout showTuition = findViewById(R.id.layoutShowTuition);
+            showTuition.setVisibility(View.GONE);
             exitBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -333,10 +340,26 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                                         "ID_STUDENT = ? AND ID_CLASS = ? AND STATUS = ?",
                                         new String[] {teachingNew.getIdStudent(), teachingNew.getIdClass(), "0"});
 
+                        List<ClassDTO> listClassGetTuition = ClassDAO.getInstance(Activity_Add_Official_Student.this)
+                                .selectClass(Activity_Add_Official_Student.this,
+                                        "ID_CLASS = ? AND STATUS = ?",
+                                        new String[] {List_Adapter.idClassClick, "0"});
+                        String idProgram = "";
+                        if (listClassGetTuition.size() != 0) {
+                            idProgram = listClassGetTuition.get(0).getIdProgram();
+                        }
+                        List<ProgramDTO> listProgram = ProgramDAO.getInstance(Activity_Add_Official_Student.this)
+                                .SelectProgram(Activity_Add_Official_Student.this,
+                                        "ID_PROGRAM = ? AND STATUS = ?",
+                                        new String[] {idProgram, "0"});
+
+                        LocalDateTime timeNow = LocalDateTime.now();
+                        LocalDateTime roundedDateTime = timeNow.with(LocalTime.from(timeNow.toLocalTime().withSecond(timeNow.getSecond()).withNano(0)));
+
                         CollectionTuitionFeesDTO collectingTuition = new CollectionTuitionFeesDTO(null,
                                 getTeaching.get(0).getIdTeaching(),
-                                LocalDateTime.now().toString().replace("T", " "),
-                                totalMoney.getText().toString());
+                                roundedDateTime.toString().replace("T", " "),
+                                String.valueOf(listProgram.get(0).getTuitionFees()));
                         Log.d("Collecting tuition object: ", collectingTuition.toString());
                         try {
                             int row = CollectionTuitionFeesDAO.getInstance(Activity_Add_Official_Student.this)
@@ -441,7 +464,7 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                                                 "ID_STUDENT = ? AND ID_CLASS = ? AND STATUS = ?",
                                                 new String[] {studentId, List_Adapter.idClassClick, "0"});
 
-                                if (getTeaching.size() != 0) {
+                                /*if (getTeaching.size() != 0) {
                                     CollectionTuitionFeesDTO collectingMoney = new CollectionTuitionFeesDTO(null, null,
                                             null, totalMoney.getText().toString());
                                     try {
@@ -457,7 +480,7 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                                     } catch (Exception e) {
                                         Log.d("Update Collecting Tuition Error: ", e.getMessage());
                                     }
-                                }
+                                }*/
                             }
                         });
                         builder.setNegativeButton("Hủy", null);
@@ -558,10 +581,26 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                         DateTimeFormatter formatterNew = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
                         String timeNowString = timeNow.format(formatterNew);
 
+                        List<ClassDTO> listClassGetTuition = ClassDAO.getInstance(Activity_Add_Official_Student.this)
+                                .selectClass(Activity_Add_Official_Student.this,
+                                        "ID_CLASS = ? AND STATUS = ?",
+                                        new String[] {List_Adapter.idClassClick, "0"});
+                        String idProgram = "";
+                        if (listClassGetTuition.size() != 0) {
+                            idProgram = listClassGetTuition.get(0).getIdProgram();
+                        }
+                        List<ProgramDTO> listProgram = ProgramDAO.getInstance(Activity_Add_Official_Student.this)
+                                .SelectProgram(Activity_Add_Official_Student.this,
+                                        "ID_PROGRAM = ? AND STATUS = ?",
+                                        new String[] {idProgram, "0"});
+                        LocalDateTime roundedDateTime = LocalDateTime.now().with(LocalTime.from(timeNow.toLocalTime().withSecond(timeNow.getSecond()).withNano(0)));
+
                         CollectionTuitionFeesDTO collectingTuition = new CollectionTuitionFeesDTO(null,
                                 getTeaching.get(0).getIdTeaching(),
-                                timeNowString, totalMoney.getText().toString());
+                                roundedDateTime.toString().replace("T", " "),
+                                String.valueOf(listProgram.get(0).getTuitionFees()));
                         Log.d("Collecting tuition object: ", collectingTuition.toString());
+
                         try {
                             int row = CollectionTuitionFeesDAO.getInstance(Activity_Add_Official_Student.this)
                                     .InsertCollection_Tuition_Fees(Activity_Add_Official_Student.this, collectingTuition);

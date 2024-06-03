@@ -945,7 +945,7 @@ public class List_Adapter extends ArrayAdapter {
        // idStaff.setText(listStaff.getIdStaff());
 
         fullName = convertView.findViewById(R.id.fullName);
-        fullName.setText(listStaff.getFullName());
+        fullName.setText(listStaff.getIdStaff() + " - " + listStaff.getFullName());
 
         address = convertView.findViewById(R.id.address);
         address.setText(listStaff.getAddress());

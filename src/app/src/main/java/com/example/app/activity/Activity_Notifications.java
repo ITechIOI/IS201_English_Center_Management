@@ -199,5 +199,6 @@ public class Activity_Notifications extends AppCompatActivity {
                 listAdapter = new List_Adapter(Activity_Notifications.this, R.layout.list_collecting_tuition_fees_item, dataArrayList);
                 break;
         }
+        listView.setAdapter(listAdapter);
     }
 }
