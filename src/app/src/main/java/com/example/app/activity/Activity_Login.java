@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app.R;
@@ -46,6 +47,7 @@ import com.example.app.model.TeachingDTO;
 
 public class Activity_Login extends AppCompatActivity {
     EditText usernameInput, passwordInput;
+    TextView fogotPassBtn;
     Button loginBtn;
     public static String idUser;
     public static String password;
@@ -60,6 +62,14 @@ public class Activity_Login extends AppCompatActivity {
         usernameInput = findViewById(R.id.input_username);
         passwordInput = findViewById(R.id.input_password);
         loginBtn = findViewById(R.id.login_btn);
+        fogotPassBtn = findViewById(R.id.fogotPassBtn);
+
+        fogotPassBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Activity_Login.this, Activity_Fogot_Password.class));
+            }
+        });
 
         // Initialize database
 

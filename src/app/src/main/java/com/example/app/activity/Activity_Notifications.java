@@ -69,13 +69,13 @@ public class Activity_Notifications extends AppCompatActivity {
         switch (message) {
             //Học viên
             case "Thông báo hệ thống":
-
-                List<NotificationDTO> listNotification = NotificationDAO.getInstance(Activity_Notifications.this).SelectNotification(
+                /*List<NotificationDTO> listNotification = NotificationDAO.getInstance(Activity_Notifications.this).SelectNotification(
                         Activity_Notifications.this, whereClause, whereArgs
                 );
                 for (int i = 0; i < listNotification.size(); i++) {
                     dataArrayList.add(listNotification.get(i));
-                }
+                }*/
+                dataArrayList.add(new NotificationDTO("1","1","1","1"));
                 listAdapter = new List_Adapter(Activity_Notifications.this, R.layout.list_notification_item, dataArrayList);
                 break;
 
@@ -150,6 +150,7 @@ public class Activity_Notifications extends AppCompatActivity {
                         "10 buổi", "10.000.000",
                         "Hehe","Đoán coi"));
                         */
+                //dataArrayList.add(new ClassroomDTO("1","1"));
                 int typeClass = AccountDAO.getInstance(Activity_Notifications.this).GetObjectLogin(Activity_Notifications.this,
                         Activity_Login.username, Activity_Login.password);
                 List<ClassDTO> listClass = ClassDAO.getInstance(
@@ -199,5 +200,7 @@ public class Activity_Notifications extends AppCompatActivity {
                 listAdapter = new List_Adapter(Activity_Notifications.this, R.layout.list_collecting_tuition_fees_item, dataArrayList);
                 break;
         }
+        listView.setAdapter(listAdapter);
+
     }
 }

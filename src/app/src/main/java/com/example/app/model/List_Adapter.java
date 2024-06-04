@@ -125,15 +125,15 @@ public class List_Adapter extends ArrayAdapter {
 
         NotificationDTO listNotifications = (NotificationDTO) arrayDataList.get(position);
 
-        String idPoster = listNotifications.getPoster();
+        /*String idPoster = listNotifications.getPoster();
         List<AccountDTO> accountPost = AccountDAO.getInstance(mContext).selectAccountVer2(mContext,
                 "ID_ACCOUNT = ? AND STATUS = ?", new String[]{idPoster, "0"});
         List<StaffDTO> staffPost = StaffDAO.getInstance(mContext).SelectStaffVer2(mContext,
-                "ID_STAFF = ? AND STATUS = ?", new String[]{accountPost.get(0).getIdUser(), "0"});
+                "ID_STAFF = ? AND STATUS = ?", new String[]{accountPost.get(0).getIdUser(), "0"});*/
 
-        title.setText(listNotifications.getTitle());
-        poster.setText(staffPost.get(0).getFullName());
-        description.setText(listNotifications.getDescription());
+        title.setText("1");
+        poster.setText("1");
+        description.setText("1");
 
         if (convertView.findViewById(R.id.edit_notification) != null) {
             Button remove = convertView.findViewById(R.id.remove_notification);
