@@ -353,12 +353,13 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                                         "ID_PROGRAM = ? AND STATUS = ?",
                                         new String[] {idProgram, "0"});
 
-                        LocalDateTime timeNow = LocalDateTime.now();
-                        LocalDateTime roundedDateTime = timeNow.with(LocalTime.from(timeNow.toLocalTime().withSecond(timeNow.getSecond()).withNano(0)));
+                        LocalDateTime roundedDateTime = LocalDateTime.now().with(LocalTime.from(LocalDateTime.now().toLocalTime().withSecond(LocalDateTime.now().getSecond()).withNano(0)));
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm:ss");
+                        String formattedDateTime = roundedDateTime.format(formatter);
 
                         CollectionTuitionFeesDTO collectingTuition = new CollectionTuitionFeesDTO(null,
                                 getTeaching.get(0).getIdTeaching(),
-                                roundedDateTime.toString().replace("T", " "),
+                                formattedDateTime.replace("T", " "),
                                 String.valueOf(listProgram.get(0).getTuitionFees()));
                         Log.d("Collecting tuition object: ", collectingTuition.toString());
                         try {
@@ -593,11 +594,14 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                                 .SelectProgram(Activity_Add_Official_Student.this,
                                         "ID_PROGRAM = ? AND STATUS = ?",
                                         new String[] {idProgram, "0"});
+
                         LocalDateTime roundedDateTime = LocalDateTime.now().with(LocalTime.from(timeNow.toLocalTime().withSecond(timeNow.getSecond()).withNano(0)));
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy'T'HH:mm:ss");
+                        String formattedDateTime = roundedDateTime.format(formatter);
 
                         CollectionTuitionFeesDTO collectingTuition = new CollectionTuitionFeesDTO(null,
                                 getTeaching.get(0).getIdTeaching(),
-                                roundedDateTime.toString().replace("T", " "),
+                                formattedDateTime.replace("T", " "),
                                 String.valueOf(listProgram.get(0).getTuitionFees()));
                         Log.d("Collecting tuition object: ", collectingTuition.toString());
 

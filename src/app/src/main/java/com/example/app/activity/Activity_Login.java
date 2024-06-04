@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,36 +13,7 @@ import android.widget.Toast;
 
 import com.example.app.R;
 import com.example.app.adapter.AccountDAO;
-import com.example.app.adapter.CertificateDAO;
-import com.example.app.adapter.ClassDAO;
-import com.example.app.adapter.ClassroomDAO;
-import com.example.app.adapter.CollectionTuitionFeesDAO;
 import com.example.app.adapter.DataProvider;
-import com.example.app.adapter.ExamScoreDAO;
-import com.example.app.adapter.ExaminationDAO;
-import com.example.app.adapter.NotificationDAO;
-import com.example.app.adapter.OfficialStudentDAO;
-import com.example.app.adapter.PotentialStudentDAO;
-import com.example.app.adapter.ProgramDAO;
-import com.example.app.adapter.ScheduleDAO;
-import com.example.app.adapter.StaffDAO;
-import com.example.app.adapter.TeacherDAO;
-import com.example.app.adapter.TeachingDAO;
-import com.example.app.model.AccountDTO;
-import com.example.app.model.CertificateDTO;
-import com.example.app.model.ClassDTO;
-import com.example.app.model.ClassroomDTO;
-import com.example.app.model.CollectionTuitionFeesDTO;
-import com.example.app.model.ExamScoreDTO;
-import com.example.app.model.ExaminationDTO;
-import com.example.app.model.NotificationDTO;
-import com.example.app.model.OfficialStudentDTO;
-import com.example.app.model.PotentialStudentDTO;
-import com.example.app.model.ProgramDTO;
-import com.example.app.model.ScheduleDTO;
-import com.example.app.model.StaffDTO;
-import com.example.app.model.TeacherDTO;
-import com.example.app.model.TeachingDTO;
 
 public class Activity_Login extends AppCompatActivity {
     EditText usernameInput, passwordInput;
@@ -67,7 +37,7 @@ public class Activity_Login extends AppCompatActivity {
         fogotPassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Activity_Login.this, Activity_Fogot_Password.class));
+                startActivity(new Intent(Activity_Login.this, Activity_Forgot_Password.class));
             }
         });
 
@@ -83,7 +53,7 @@ public class Activity_Login extends AppCompatActivity {
                 username = usernameInput.getText().toString();
                 password = passwordInput.getText().toString();
                 if (username.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(Activity_Login.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Login.this, "Hãy nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                 } else {
 
                     String whereClause = "USERNAME = ? AND PASSWORD = ?";
@@ -94,7 +64,8 @@ public class Activity_Login extends AppCompatActivity {
                         Intent intent = new Intent(Activity_Login.this, Activity_Main_Screen.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(Activity_Login.this, "Please enter correct username and password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Login.this, "Hãy nhập đúng " +
+                                "tên đăng nhập và mật khẩu!", Toast.LENGTH_SHORT).show();
                     }
 
                     if (cursor.moveToFirst()) {
@@ -135,7 +106,7 @@ public class Activity_Login extends AppCompatActivity {
                 username = usernameInput.getText().toString();
                 password = passwordInput.getText().toString();
                 if (username.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(Activity_Login.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Login.this, "Hãy nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                 } else {
 
                     String whereClause = "USERNAME = ? AND PASSWORD = ?";
@@ -146,7 +117,8 @@ public class Activity_Login extends AppCompatActivity {
                         Intent intent = new Intent(Activity_Login.this, Activity_Main_Screen.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(Activity_Login.this, "Please enter correct username and password", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Activity_Login.this, "Hãy nhập đúng tên đăng " +
+                                "nhập và mật khẩu!", Toast.LENGTH_SHORT).show();
                     }
 
                     if (cursor.moveToFirst()) {

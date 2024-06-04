@@ -125,7 +125,7 @@ public class Activity_Notifications_ToolBars extends AppCompatActivity {
                     dataArrayList.add(listStaff.get(i));
                 }
                 for(int i = 0; i < listTeacher.size(); i++) {
-                    dataArrayList.add(listStaff.get(i));
+                    dataArrayList.add(listTeacher.get(i));
                 }
                 idLayout = R.layout.list_staff_item;
 
