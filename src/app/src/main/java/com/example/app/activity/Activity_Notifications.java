@@ -201,6 +201,5 @@ public class Activity_Notifications extends AppCompatActivity {
                 break;
         }
         listView.setAdapter(listAdapter);
-
     }
 }

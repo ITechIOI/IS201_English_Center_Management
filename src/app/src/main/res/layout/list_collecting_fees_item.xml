@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/login_background">
+            <!--
             <TextView
                 android:id="@+id/idClass"
                 android:layout_marginTop="5dp"
@@ -33,8 +34,9 @@
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:text="Mã lớp"/>
+              -->
             <TextView
-                android:id="@+id/className"
+                android:id="@+id/studentId"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_marginStart="5dp"
@@ -51,12 +53,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tổng doanh thu: "
-                android:textStyle="bold"
-                android:textSize="17dp"/>
+                android:text="Số tiền nộp"
+                android:textSize="17dp"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/totalMoney"
                 android:layout_width="wrap_content"
@@ -77,12 +80,13 @@
             android:layout_marginStart="5dp"
             android:layout_marginBottom="5dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Số học viên: "
-                android:textStyle="bold"
-                android:textSize="17dp"/>
+                android:text="Thời gian nộp"
+                android:textSize="17dp"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/numStudent"
                 android:layout_width="wrap_content"

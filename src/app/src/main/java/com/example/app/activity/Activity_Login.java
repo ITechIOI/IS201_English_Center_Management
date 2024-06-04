@@ -118,7 +118,61 @@ public class Activity_Login extends AppCompatActivity {
 
             }
         });
+
     }
+
+    @Override
+
+    protected  void onStart()  {
+        super.onStart();
+        DataProvider.getInstance(Activity_Login.this).recreateDatabase(Activity_Login.this);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // handle login event
+                username = usernameInput.getText().toString();
+                password = passwordInput.getText().toString();
+                if (username.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(Activity_Login.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    String whereClause = "USERNAME = ? AND PASSWORD = ?";
+                    String[] whereArgs = new String[]{username, password};
+                    Cursor cursor = AccountDAO.getInstance(Activity_Login.this).selectAccount(Activity_Login.this, whereClause, whereArgs);
+
+                    if (cursor != null && cursor.getCount() > 0) {
+                        Intent intent = new Intent(Activity_Login.this, Activity_Main_Screen.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(Activity_Login.this, "Please enter correct username and password", Toast.LENGTH_SHORT).show();
+                    }
+
+                    if (cursor.moveToFirst()) {
+                        do {
+                            int idIndex = cursor.getColumnIndex("ID_USER");
+                            if (idIndex != -1) {
+                                idUser = cursor.getString(idIndex);
+                            }
+                            int idAccIndex = cursor.getColumnIndex("ID_ACCOUNT");
+                            if (idAccIndex != -1) {
+                                idAccount = cursor.getString(idAccIndex);
+                            }
+
+                        } while (cursor.moveToNext());
+                    }
+
+                    cursor.close();
+                }
+
+                // Log.d("I'm on create: ", username.toString() + "  " + password + "  ");
+
+            }
+        });
+
+    }
+
 }
 
 /*
@@ -276,11 +330,9 @@ public class Activity_Login extends AppCompatActivity {
         TeachingDAO.getInstance(Activity_Login.this).InsertDate(Activity_Login.this,
                 teaching3);
 
-
-
-
     }
-
+*/
+/*
     @Override
     protected void onStart() {
         super.onStart();

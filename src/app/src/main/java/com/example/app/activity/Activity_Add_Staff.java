@@ -125,6 +125,12 @@ public class Activity_Add_Staff extends AppCompatActivity {
                             || birthday.getText().equals("") || salary.getText().equals("")) {
                         Toast.makeText(Activity_Add_Staff.this, "Hãy nhập" +
                                 " đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (Integer.parseInt(salary.getText().toString()) <= 0) {
+                        Toast.makeText(Activity_Add_Staff.this, "Tiền lương âm là không hợp lệ",
+                                Toast.LENGTH_SHORT).show();
+                        return;
                     }
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Add_Staff.this);
@@ -253,6 +259,13 @@ public class Activity_Add_Staff extends AppCompatActivity {
                         Toast.makeText(Activity_Add_Staff.this, "Hãy nhập" +
                                 " đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     } else {
+
+                        if (Integer.parseInt(salary.getText().toString()) <= 0) {
+                            Toast.makeText(Activity_Add_Staff.this, "Tiền lương âm là không hợp lệ",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         int typeInt = -1;
                         if (type.getText().toString().equals("Nhân viên ghi danh")) {
                             typeInt = 1;
@@ -297,6 +310,11 @@ public class Activity_Add_Staff extends AppCompatActivity {
             address.setText(listTeacher.get(0).getAddress());
             birthday.setText(listTeacher.get(0).getBirthday());
             salary.setText(String.valueOf(listTeacher.get(0).getSalary()));
+            if (Integer.parseInt(salary.getText().toString()) <= 0) {
+                Toast.makeText(Activity_Add_Staff.this, "Tiền lương âm là không hợp lệ",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
             exitBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -323,6 +341,13 @@ public class Activity_Add_Staff extends AppCompatActivity {
                         Toast.makeText(Activity_Add_Staff.this, "Hãy nhập " +
                                 "đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     } else {
+
+                        if (Integer.parseInt(salary.getText().toString()) <= 0) {
+                            Toast.makeText(Activity_Add_Staff.this, "Tiền lương âm là không hợp lệ",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         TeacherDTO teacherUpdate = new TeacherDTO(listTeacher.get(0).getIdTeacher(),
                                 fullName.getText().toString(), address.getText().toString(),
                                 phoneNumber.getText().toString(), gender.getText().toString(),

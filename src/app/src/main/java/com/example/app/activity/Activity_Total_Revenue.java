@@ -1,11 +1,23 @@
 package com.example.app.activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.documentfile.provider.DocumentFile;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.text.TextPaint;
 import android.util.Log;
 import android.view.View;
@@ -15,10 +27,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.app.R;
 import com.example.app.adapter.CollectionTuitionFeesDAO;
 import com.example.app.model.CollectionTuitionFeesDTO;
+import com.example.app.model.RevenueReportByYear;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
@@ -30,12 +44,27 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+//Import android.Manifest;
+
 
 public class Activity_Total_Revenue extends AppCompatActivity {
+    private static final int REQUEST_CODE_FOLDER = 1001;
     LineChart lineChart;
     List<String> xValues;
     Button detailBtn, printBtn;
@@ -43,6 +72,8 @@ public class Activity_Total_Revenue extends AppCompatActivity {
     String[] yearItem = {"2020", "2021", "2022","2023","2024"};
     AutoCompleteTextView year;
     ArrayAdapter<String> yearAdapter;
+    List<RevenueReportByYear> listRevenue = new ArrayList<>();
+    String selectedDirectoryPath = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +130,7 @@ public class Activity_Total_Revenue extends AppCompatActivity {
         Log.d("List collecting revenue: ", collectingTuition.toString());
 
         for (Integer value : collectingTuition.keySet()) {
-            entries.add (new Entry(value, collectingTuition.get(value)));
+            entries.add(new Entry(value, (collectingTuition.get(value) / 1000000000)/1.0f));
         }
 
         year = findViewById(R.id.year);
@@ -109,6 +140,12 @@ public class Activity_Total_Revenue extends AppCompatActivity {
         year.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                listRevenue = CollectionTuitionFeesDAO.getInstance(Activity_Total_Revenue.this)
+                        .SelectCollectionTuitionFeesToSummarizeRevenueByYear(
+                                Activity_Total_Revenue.this, year.getText().toString());
+                Log.d("List revenue log: ", listRevenue.toString());
+
                 String item = parent.getItemAtPosition(position).toString();
 
                 Map<Integer, Integer> collectingTuition = CollectionTuitionFeesDAO
@@ -123,6 +160,9 @@ public class Activity_Total_Revenue extends AppCompatActivity {
                 dataSet.setColor(Color.RED);
             }
         });
+        listRevenue = CollectionTuitionFeesDAO.getInstance(Activity_Total_Revenue.this)
+                .SelectCollectionTuitionFeesToSummarizeRevenueByYear(
+                        Activity_Total_Revenue.this, year.getText().toString());
 
         LineDataSet dataSet = new LineDataSet(entries, "");
         dataSet.setColor(Color.RED);
@@ -139,10 +179,88 @@ public class Activity_Total_Revenue extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Activity_Total_Revenue.this, Activity_List_Revenue.class);
                 intent.putExtra("message", "Thống kê doanh thu");
+
                 startActivity(intent);
             }
         });
 
         printBtn = findViewById(R.id.printBtn);
+        printBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                showFolderSelectionDialog();
+
+            }
+        });
     }
+    private void showFolderSelectionDialog() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        startActivityForResult(intent, REQUEST_CODE_FOLDER);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_FOLDER && resultCode == RESULT_OK) {
+            Uri uri = null;
+            if (data!= null) {
+                uri = data.getData();
+            }
+            saveCsvFile(uri);
+        }
+    }
+
+    private void saveCsvFile(Uri uri) {
+        try {
+            ContentResolver contentResolver = getContentResolver();
+            DocumentFile directory = DocumentFile.fromTreeUri(this, uri);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            String currentDateandTime = sdf.format(new Date());
+            String fileName = "report_" + currentDateandTime + ".csv";
+
+            // Tạo file mới trong thư mục được chọn
+            DocumentFile csvFile = directory.createFile("text/csv", fileName);
+
+            if (csvFile!= null && csvFile.exists()) {
+                OutputStream outputStream = contentResolver.openOutputStream(csvFile.getUri());
+                Writer writer = new BufferedWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8));
+
+                // Thêm BOM vào đầu file
+                writer.write("\ufeff");
+
+                // Header
+                writer.write("STT,Tháng,Mã lớp,Tên lớp,Chương trình đào tạo,Học phí,Số lượng học viên,Doanh thu");
+                writer.write(System.lineSeparator()); // Sử dụng System.lineSeparator() để thêm một dòng mới
+
+                // Write data from listRevenue
+                for (int i = 0; i < listRevenue.size(); i++) {
+                    RevenueReportByYear report = listRevenue.get(i);
+                    writer.write(String.format("%d,%d,%s,%s,%s,%d,%d,%d",
+                            i+1,
+                            report.getMonth(),
+                            report.getIdClass(),
+                            report.getNameClass(),
+                            report.getNameProgram(),
+                            report.getTuition(),
+                            report.getNumberOfStudents(),
+                            report.getRevenue()));
+                    writer.write(System.lineSeparator()); // Sử dụng System.lineSeparator() để thêm một dòng mới
+                }
+
+                writer.close();
+                Toast.makeText(this, "File saved successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Failed to create file", Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            Log.e("MainActivity", "Error writing to file", e);
+            Toast.makeText(this, "Error saving file", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
 }

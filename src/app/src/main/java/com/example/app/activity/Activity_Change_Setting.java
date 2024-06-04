@@ -31,9 +31,11 @@ import com.example.app.R;
 import com.example.app.adapter.AccountDAO;
 import com.example.app.adapter.OfficialStudentDAO;
 import com.example.app.adapter.StaffDAO;
+import com.example.app.adapter.TeacherDAO;
 import com.example.app.model.AccountDTO;
 import com.example.app.model.OfficialStudentDTO;
 import com.example.app.model.StaffDTO;
+import com.example.app.model.TeacherDTO;
 
 import java.util.Calendar;
 
@@ -49,7 +51,7 @@ public class Activity_Change_Setting extends AppCompatActivity {
 
     TextView position;
     private int flag;
-
+    EditText oldPass, newPass, retypePass;
 
     String fullName = "";
     String address = "";
@@ -302,11 +304,10 @@ public class Activity_Change_Setting extends AppCompatActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.change_password_dialog, null);
 
-        EditText oldPass, newPass, retypePass;
         Button exitBtn, doneBtn;
-        oldPass = findViewById(R.id.oldPass);
-        newPass = findViewById(R.id.newPass);
-        retypePass = findViewById(R.id.retypePass);
+        oldPass = dialog.findViewById(R.id.oldPass);
+        newPass = dialog.findViewById(R.id.newPass);
+        retypePass = dialog.findViewById(R.id.retypePass);
 
         exitBtn = dialog.findViewById(R.id.exitBtn);
         exitBtn.setOnClickListener(new View.OnClickListener() {
@@ -320,36 +321,52 @@ public class Activity_Change_Setting extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Thêm cho t cái check sai mk nha
+               // oldPass = findViewById(R.id.oldPass);
 
-                if (oldPass == null || password.getText().toString() != oldPass.getText().toString())  {
+                if (oldPass.getText().toString() == "" || !password.getText().toString().equals(oldPass.getText().toString()))  {
                     Toast.makeText(Activity_Change_Setting.this, "Sai mật khẩu", Toast.LENGTH_SHORT).show();
                 }
                 else if (newPass == null || newPass.getText().toString().length() < 8) {
                     Toast.makeText(Activity_Change_Setting.this, "Mật khẩu phải có ít nhất 8 ký tự", Toast.LENGTH_SHORT).show();
                 }
-                else if (retypePass == null || newPass.getText().toString() != retypePass.getText().toString()) {
+                else if (oldPass.getText().toString() == ""  || !newPass.getText().toString().equals(retypePass.getText().toString())) {
                     Toast.makeText(Activity_Change_Setting.this, "Mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
+                    Log.d("All passwords: ", newPass.getText().toString() + "  " + retypePass.getText().toString());
                 } else {
-                    dialog.dismiss();
+
+
+                    androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(Activity_Change_Setting.this);
+                    builder.setTitle("Thông báo")
+                            .setMessage("Bạn có chắn chắn muốn đổi mật khẩu không?");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            AccountDTO account = new AccountDTO(Activity_Login.idAccount, Activity_Login.idUser,
+                                    Activity_Login.username, newPass.getText().toString());
+                            try {
+                                int rowEffect = AccountDAO.getInstance(Activity_Change_Setting.this)
+                                        .updateAccount(Activity_Change_Setting.this, account,
+                                                "ID_ACCOUNT = ? AND STATUS = ?",
+                                                new String[] {account.getIdAccount(), "0"});
+                                if (rowEffect > 0) {
+                                    Log.d("All passwords: ", oldPass.getText().toString() + "  " + newPass.getText().toString());
+                                    Toast.makeText(Activity_Change_Setting.this, "Đổi mật khẩu " +
+                                            "thành công!", Toast.LENGTH_SHORT).show();
+                                   // dialog.dismiss();
+                                } else {
+                                    Toast.makeText(Activity_Change_Setting.this, "Đổi mật khẩu " +
+                                            "thất bại!", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e)  {
+                                Log.d("Update password error: ", e.getMessage());
+                            }
+                        }
+                    });
+                    builder.setNegativeButton("Hủy",null);
+                    builder.show();
+
+                    //dialog.dismiss();
                 }
 
-                /*AccountDTO account = new AccountDTO(Activity_Login.idAccount, Activity_Login.idUser,
-                        Activity_Login.username, newPass.getText().toString());
-                try {
-                    int rowEffect = AccountDAO.getInstance(Activity_Change_Setting.this)
-                            .updateAccount(Activity_Change_Setting.this, account,
-                                    "ID_ACCOUNT = ? AND STATUS = ?",
-                                    new String[] {account.getIdAccount(), "0"});
-                    if (rowEffect > 0) {
-                        Toast.makeText(Activity_Change_Setting.this, "Đổi mật khẩu " +
-                                "thành công!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(Activity_Change_Setting.this, "Đổi mật khẩu " +
-                                "thất bại!", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e)  {
-                    Log.d("Update password error: ", e.getMessage());
-                }*/
 
             }
         });

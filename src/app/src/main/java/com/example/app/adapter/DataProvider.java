@@ -14,7 +14,7 @@ import java.io.IOException;
 public class DataProvider extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "ENGLISH_CENTER_MANAGEMENT.db";
     private static DataProvider instance;
-    private static final int DATABASE_VERSION = 102;
+    private static final int DATABASE_VERSION = 110;
 
     private DataProvider(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -28,7 +28,7 @@ public class DataProvider extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("DELETE FROM NOTIFICATION");
+       // db.execSQL("DELETE FROM NOTIFICATION");
 
         try {
 
@@ -266,8 +266,8 @@ public class DataProvider extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("UPDATE STAFF SET STATUS = 0");
-        db.execSQL("UPDATE TEACHING SET STATUS = 0");
+        db.execSQL("UPDATE CLASS SET START_DATE = '22/05/2024'," +
+                "END_DATE = '22/06/2024'");
         try {
 
             db.execSQL("CREATE TABLE IF NOT EXISTS CERTIFICATE (" +
@@ -349,15 +349,15 @@ public class DataProvider extends SQLiteOpenHelper {
         } catch ( Exception e) {
             Log.d("CREATE OFFICIAL_STUDENTS",  e.getMessage());
         }
-
+      //  db.execSQL("DROP TABLE COLLECTING_TUITION_FEES");
         try {
             db.execSQL("CREATE TABLE IF NOT EXISTS COLLECTING_TUITION_FEES (" +
                     "ID_BILL TEXT PRIMARY KEY , " +
-                    "ID_STUDENT TEXT, " +
+                    "ID_TEACHING TEXT, " +
                     "COLLECTION_DATE TEXT, " +
                     "TOTAL_MONEY INTEGER, " +
                     "STATUS INTEGER," +
-                    "FOREIGN KEY (ID_STUDENT) REFERENCES OFFICAL_STUDENT(ID_STUDENT))");
+                    "FOREIGN KEY (ID_TEACHING) REFERENCES TEACHING(ID_TEACHING))");
             Log.d("CREATE COLLECTING_TUITION_FEES", "Database created successfully");
         } catch ( Exception e) {
             Log.d("CREATE COLLECTING_TUITION_FEES",  e.getMessage());

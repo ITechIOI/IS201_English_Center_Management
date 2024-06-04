@@ -44,4 +44,14 @@ public class AccountDTO {
     public void setPassWord(String passWord) {
         this.passWord = passWord;
     }
+
+    @Override
+    public String toString() {
+        return "AccountDTO{" +
+                "idAccount='" + idAccount + '\'' +
+                ", idUser='" + idUser + '\'' +
+                ", userName='" + userName + '\'' +
+                ", passWord='" + passWord + '\'' +
+                '}';
+    }
 }
