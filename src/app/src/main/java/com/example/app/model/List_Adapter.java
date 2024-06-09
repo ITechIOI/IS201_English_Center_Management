@@ -452,12 +452,15 @@ public class List_Adapter extends ArrayAdapter {
                         intent = new Intent(getContext(), Activity_Notifications_ToolBars_Second_Layer.class);
                         intent.putExtra("classID", listClass.getClassID());
                         intent.putExtra("classIDtoViewSchedule", "");
+                        intent.putExtra("idClass", "");
                         idClassClick = listClass.getClassID();
                         Log.d("ID class to show list student in class", idClassClick);
                     } else {
                         //Nhân viên học vụ
-                        intent = new Intent(getContext(), Activity_Notifications_Second_Layer.class);
-                        intent.putExtra("classID", listClass.getClassID());
+                        intent = new Intent(getContext(), Activity_Notifications_ToolBars_Second_Layer.class);
+                        intent.putExtra("classID", "");
+                        intent.putExtra("classIDtoViewSchedule", "");
+                        intent.putExtra("idClass", listClass.getClassID());
                         idClassClick = listClass.getClassID();
                         intent.putExtra("idCertificate", "");
                     }
@@ -474,7 +477,7 @@ public class List_Adapter extends ArrayAdapter {
                     public void onClick(View v) {
                         Intent intent = new Intent(getContext(), Activity_Notifications_ToolBars_Second_Layer.class);
                         Log.d("Id class put to view schedule", listClass.getClassID());
-
+                        intent.putExtra("idClass", "");
                         intent.putExtra("classIDtoViewSchedule", listClass.getClassID());
                         intent.putExtra("classID", "");
                         idClassClick = listClass.getClassID();

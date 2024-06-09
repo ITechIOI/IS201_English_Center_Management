@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActivity {
-    private String message1, message2;
+    private String message1, message2, message3;
     Toolbar toolbar;
     private List_Adapter listAdapter;
     private ListView listView;
@@ -72,6 +72,7 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
         //listAdapter.clear();
         message1 = getIntent().getStringExtra("classID");
         message2 = getIntent().getStringExtra("classIDtoViewSchedule");
+        message3 = getIntent().getStringExtra("idClass");
         String message7 = getIntent().getStringExtra("idSchedule");
 
         dataArrayList = new ArrayList<>();
@@ -132,6 +133,12 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
             listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_schedule_manage_item, dataArrayList);
         }
 
+        if (!message3.equals("")) {
+            toolbar.setTitle("Học viên");
+            listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_score_manage_item, dataArrayList);
+
+        }
+
 
         /*if (!message1.equals("")) {
             //toolbar.setTitle("Chi tiết lớp học");
@@ -173,6 +180,11 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
                 addSchedule.putExtra("idSchedule", "");
                 startActivity(addSchedule);
             }
+            if (!message3.equals("")) {
+                Intent addScore = new Intent(Activity_Notifications_ToolBars_Second_Layer.this, Activity_Add_Exam_Score.class);
+                addScore.putExtra("idStudent", "");
+                startActivity(addScore);
+            }
         }
 
         if (id == R.id.search) {
@@ -208,6 +220,12 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
                 OfficialStudentDTO officialStudentDTO = (OfficialStudentDTO) item;
                 if (officialStudentDTO.getFullName().toLowerCase().contains(text.toLowerCase()))
                     list.add(officialStudentDTO);
+            }
+
+            if (item instanceof ExamScoreDTO) {
+                ExamScoreDTO examScoreDTO = (ExamScoreDTO) item;
+                if (examScoreDTO.getIdStudent().toLowerCase().contains(text.toLowerCase()))
+                    list.add(examScoreDTO);
             }
         }
         if (list.isEmpty())
