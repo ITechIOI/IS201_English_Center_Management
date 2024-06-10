@@ -36,6 +36,8 @@ import com.example.app.adapter.AccountDAO;
 import com.example.app.adapter.CertificateDAO;
 import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.ClassroomDAO;
+import com.example.app.adapter.ExamScoreDAO;
+import com.example.app.adapter.ExaminationDAO;
 import com.example.app.adapter.NotificationDAO;
 import com.example.app.adapter.OfficialStudentDAO;
 import com.example.app.adapter.PotentialStudentDAO;
@@ -125,15 +127,15 @@ public class List_Adapter extends ArrayAdapter {
 
         NotificationDTO listNotifications = (NotificationDTO) arrayDataList.get(position);
 
-        /*String idPoster = listNotifications.getPoster();
+        String idPoster = listNotifications.getPoster();
         List<AccountDTO> accountPost = AccountDAO.getInstance(mContext).selectAccountVer2(mContext,
                 "ID_ACCOUNT = ? AND STATUS = ?", new String[]{idPoster, "0"});
         List<StaffDTO> staffPost = StaffDAO.getInstance(mContext).SelectStaffVer2(mContext,
-                "ID_STAFF = ? AND STATUS = ?", new String[]{accountPost.get(0).getIdUser(), "0"});*/
+                "ID_STAFF = ? AND STATUS = ?", new String[]{accountPost.get(0).getIdUser(), "0"});
 
-        title.setText("1");
-        poster.setText("1");
-        description.setText("1");
+        title.setText(listNotifications.getTitle().toString());
+        poster.setText(staffPost.get(0).getFullName());
+        description.setText(listNotifications.getDescription());
 
         if (convertView.findViewById(R.id.edit_notification) != null) {
             Button remove = convertView.findViewById(R.id.remove_notification);
@@ -239,9 +241,7 @@ public class List_Adapter extends ArrayAdapter {
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), Activity_Add_Exam_Score.class);
                     intent.putExtra("idStudent", listScore.getIdExamScore());
-
                     Log.d("Put exam score: ", listScore.getIdExamScore());
-
                     mContext.startActivity(intent);
                 }
             });
@@ -249,7 +249,15 @@ public class List_Adapter extends ArrayAdapter {
             //Giao diện học viên
             TextView courseID;
             courseID = convertView.findViewById(R.id.courseID);
-            courseID.setText(listScore.getIdExam());
+
+            List<ExaminationDTO> listExam = ExaminationDAO.getInstance(mContext).SelectExamination(
+                    mContext, "ID_EXAM = ? AND STATUS = ?",
+                    new String[] {listScore.getIdExam().toString(), "0"} );
+            List<ClassDTO> listClassExam = ClassDAO.getInstance(mContext).selectClass(mContext,
+                    "ID_CLASS = ? AND STATUS = ?",
+                    new String[] {listExam.get(0).getIdClass().toString(), "0"});
+
+            courseID.setText(listClassExam.get(0).getClassID() + " - " + listClassExam.get(0).getClassName());
         }
 
 

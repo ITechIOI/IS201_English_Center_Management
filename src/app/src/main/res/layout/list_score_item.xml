@@ -28,7 +28,7 @@
                 android:textSize="17dp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="Mã kỳ thi: "/>
+                android:text="Lớp: "/>
 
             <TextView
                 android:id="@+id/courseID"
@@ -50,6 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
