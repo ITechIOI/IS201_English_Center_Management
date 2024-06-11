@@ -179,7 +179,6 @@ public class Activity_Total_Revenue extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Activity_Total_Revenue.this, Activity_List_Revenue.class);
                 intent.putExtra("message", "Thống kê doanh thu");
-
                 startActivity(intent);
             }
         });

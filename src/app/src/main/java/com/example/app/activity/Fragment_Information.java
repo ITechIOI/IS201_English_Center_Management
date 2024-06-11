@@ -48,6 +48,7 @@ public class Fragment_Information extends Fragment implements AdapterView.OnItem
             } else if (type == 2) {
                 //Nhân viên ghi danh
                 dataArrayList.add(new List_Information("Quản lý học viên", R.drawable.quanlylophoc));
+                dataArrayList.add(new List_Information("Xem chứng chỉ", R.drawable.chuong_trinh_dt));
                 dataArrayList.add(new List_Information("Quản lý lớp học", R.drawable.lophoc));
                 //Nhân viên hv + ghi danh
                 dataArrayList.add(new List_Information("Quản lý thông báo", R.drawable.tb_he_thong));
@@ -55,13 +56,14 @@ public class Fragment_Information extends Fragment implements AdapterView.OnItem
                 //Nhân viên học vụ
                 dataArrayList.add(new List_Information("Xem các lớp học", R.drawable.lophoc));
                 dataArrayList.add(new List_Information("Xem chứng chỉ", R.drawable.chuong_trinh_dt));
-                dataArrayList.add(new List_Information("Lịch sử thu", R.drawable.baseline_monetization_on_24));
+                //dataArrayList.add(new List_Information("Lịch sử thu", R.drawable.baseline_monetization_on_24));
                 //Nhân viên hv + ghi danh
                 dataArrayList.add(new List_Information("Quản lý thông báo", R.drawable.tb_he_thong));
             } else if (type == 4) {
                 //Quản lý
                 dataArrayList.add(new List_Information("Thông báo hệ thống", R.drawable.tb_he_thong));
                 dataArrayList.add(new List_Information("Quản lý tài khoản", R.drawable.quanlytaikhoan));
+                dataArrayList.add(new List_Information("Xem chứng chỉ", R.drawable.chuong_trinh_dt));
                 dataArrayList.add(new List_Information("Quản lý thông tin phòng học", R.drawable.classroom));
                 dataArrayList.add(new List_Information("Quản lý nhân viên/giáo viên", R.drawable.quanlynhansu));
                 dataArrayList.add(new List_Information("Quản lý doanh thu", R.drawable.baseline_auto_graph_24));

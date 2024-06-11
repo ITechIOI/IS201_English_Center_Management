@@ -3,6 +3,7 @@ package com.example.app.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -61,6 +62,7 @@ public class Activity_List_Revenue extends AppCompatActivity {
                 List<CollectionTuitionFeesDTO> collectingTuition = CollectionTuitionFeesDAO.getInstance(Activity_List_Revenue.this)
                         .SelectCollectionTuitionFees(Activity_List_Revenue.this, month.getText().toString(),
                                 year.getText().toString());
+               // Log.d("List revenue show:", collectingTuition.toString());
                 int money = 0;
                 for (int i = 0; i < collectingTuition.size(); i++) {
                     dataArrayList.add(collectingTuition.get(i));
@@ -84,6 +86,7 @@ public class Activity_List_Revenue extends AppCompatActivity {
                 List<CollectionTuitionFeesDTO> collectingTuition = CollectionTuitionFeesDAO.getInstance(Activity_List_Revenue.this)
                         .SelectCollectionTuitionFees(Activity_List_Revenue.this, month.getText().toString(),
                                 year.getText().toString());
+               // Log.d("List revenue show:", collectingTuition.toString());
                 int money = 0;
                 for (int i = 0; i < collectingTuition.size(); i++) {
                     dataArrayList.add(collectingTuition.get(i));
@@ -100,6 +103,9 @@ public class Activity_List_Revenue extends AppCompatActivity {
                 .SelectCollectionTuitionFees(Activity_List_Revenue.this, month.getText().toString(),
                         year.getText().toString());
         int money = 0;
+
+        Log.d("List revenue show:", collectingTuition.toString());
+
         for (int i = 0; i < collectingTuition.size(); i++) {
             dataArrayList.add(collectingTuition.get(i));
             money += Integer.parseInt(collectingTuition.get(i).getMoney());

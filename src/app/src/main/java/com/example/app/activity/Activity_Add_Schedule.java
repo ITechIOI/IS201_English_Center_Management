@@ -166,8 +166,6 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                                 String startHourStr = ""; // Lấy số giờ từ phần đầu
                                 String endHourStr = "";
 
-                                Log.d("All parts of time: ", "t" + startHourStr + " " + endHourStr + "t");
-
                                 if (parts[0].length() == 6) {
                                     startHourStr = parts[0].substring(0,2);
                                 } else {
@@ -268,6 +266,30 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                                         "NAME = ? AND STATUS = ? ",
                                         new String[] {idClassroomText, "0"});
 
+                        List<ScheduleDTO> checkScheduleOfClassExist = ScheduleDAO.getInstance(Activity_Add_Schedule.this)
+                                .SelectSchedule(Activity_Add_Schedule.this,
+                                        "DAY_OF_WEEK = ? AND START_TIME = ? AND END_TIME = ? AND ID_CLASS = ? " +
+                                                "AND ID_CLASSROOM = ? AND STATUS = ?",
+                                        new String[] {dayOfWeekText,startHourStr,endHourStr,
+                                                List_Adapter.idClassClick, listClassroom.get(0).getIdRoom(), "0" });
+                        if (checkScheduleOfClassExist.size() > 0) {
+                            Toast.makeText(Activity_Add_Schedule.this, "Lịch học này của " +
+                                    "lớp đã tồn tại!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        List<ScheduleDTO> checkScheduleOfOtherClassExist = ScheduleDAO.getInstance(Activity_Add_Schedule.this)
+                                .SelectSchedule(Activity_Add_Schedule.this,
+                                        "DAY_OF_WEEK = ? AND START_TIME = ? AND END_TIME = ? " +
+                                                "AND ID_CLASSROOM = ? AND STATUS = ?",
+                                        new String[] {dayOfWeekText,startHourStr,endHourStr,
+                                                listClassroom.get(0).getIdRoom(), "0" });
+                        if (checkScheduleOfOtherClassExist.size() > 0) {
+                            Toast.makeText(Activity_Add_Schedule.this, "Lịch học này đã trùng với một " +
+                                    "lớp khác!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         ScheduleDTO scheduleNew = new ScheduleDTO(message, dayOfWeekText,
                                 startHourStr,endHourStr, List_Adapter.idClassClick, listClassroom.get(0).getIdRoom());
 
@@ -275,10 +297,10 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                             int rowEffect = ScheduleDAO.getInstance(Activity_Add_Schedule.this)
                                     .InsertSchedule(Activity_Add_Schedule.this, scheduleNew);
                             if (rowEffect > 0) {
-                                Toast.makeText(Activity_Add_Schedule.this, "Thêm lịch học mới" +
+                                Toast.makeText(Activity_Add_Schedule.this, "Thêm lịch học mới " +
                                         "cho lớp thành công!", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(Activity_Add_Schedule.this, "Thêm lịch học mới" +
+                                Toast.makeText(Activity_Add_Schedule.this, "Thêm lịch học mới " +
                                         "cho lớp thất bại!", Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {

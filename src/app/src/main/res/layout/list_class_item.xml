@@ -83,20 +83,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:text="Ngày kết thúc: "
                 android:textSize="15dp"
-                android:text="Ngày kết thúc: "/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/end_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
         </LinearLayout>
 
         <LinearLayout

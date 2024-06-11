@@ -36,6 +36,8 @@ import com.example.app.adapter.AccountDAO;
 import com.example.app.adapter.CertificateDAO;
 import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.ClassroomDAO;
+import com.example.app.adapter.ExamScoreDAO;
+import com.example.app.adapter.ExaminationDAO;
 import com.example.app.adapter.NotificationDAO;
 import com.example.app.adapter.OfficialStudentDAO;
 import com.example.app.adapter.PotentialStudentDAO;
@@ -125,15 +127,15 @@ public class List_Adapter extends ArrayAdapter {
 
         NotificationDTO listNotifications = (NotificationDTO) arrayDataList.get(position);
 
-        /*String idPoster = listNotifications.getPoster();
+        String idPoster = listNotifications.getPoster();
         List<AccountDTO> accountPost = AccountDAO.getInstance(mContext).selectAccountVer2(mContext,
                 "ID_ACCOUNT = ? AND STATUS = ?", new String[]{idPoster, "0"});
         List<StaffDTO> staffPost = StaffDAO.getInstance(mContext).SelectStaffVer2(mContext,
-                "ID_STAFF = ? AND STATUS = ?", new String[]{accountPost.get(0).getIdUser(), "0"});*/
+                "ID_STAFF = ? AND STATUS = ?", new String[]{accountPost.get(0).getIdUser(), "0"});
 
-        title.setText("1");
-        poster.setText("1");
-        description.setText("1");
+        title.setText(listNotifications.getTitle().toString());
+        poster.setText(staffPost.get(0).getFullName());
+        description.setText(listNotifications.getDescription());
 
         if (convertView.findViewById(R.id.edit_notification) != null) {
             Button remove = convertView.findViewById(R.id.remove_notification);
@@ -240,9 +242,7 @@ public class List_Adapter extends ArrayAdapter {
                 public void onClick(View v) {
                     Intent intent = new Intent(getContext(), Activity_Add_Exam_Score.class);
                     intent.putExtra("idStudent", listScore.getIdExamScore());
-
                     Log.d("Put exam score: ", listScore.getIdExamScore());
-
                     mContext.startActivity(intent);
                 }
             });
@@ -250,7 +250,15 @@ public class List_Adapter extends ArrayAdapter {
             //Giao diện học viên
             TextView courseID;
             courseID = convertView.findViewById(R.id.courseID);
-            courseID.setText(listScore.getIdExam());
+
+            List<ExaminationDTO> listExam = ExaminationDAO.getInstance(mContext).SelectExamination(
+                    mContext, "ID_EXAM = ? AND STATUS = ?",
+                    new String[] {listScore.getIdExam().toString(), "0"} );
+            List<ClassDTO> listClassExam = ClassDAO.getInstance(mContext).selectClass(mContext,
+                    "ID_CLASS = ? AND STATUS = ?",
+                    new String[] {listExam.get(0).getIdClass().toString(), "0"});
+
+            courseID.setText(listClassExam.get(0).getClassID() + " - " + listClassExam.get(0).getClassName());
         }
 
 
@@ -354,8 +362,6 @@ public class List_Adapter extends ArrayAdapter {
         programID = convertView.findViewById(R.id.programID);
         teacherName = convertView.findViewById(R.id.teacher_name);
 
-        Log.d("List class: ", listClass.toString());
-
         String idTeacher = listClass.getIdTeacher();
         String idProgram = listClass.getIdProgram();
         String idStaff = listClass.getIdStaff();
@@ -365,7 +371,7 @@ public class List_Adapter extends ArrayAdapter {
                 "ID_PROGRAM = ? AND STATUS = ?", new String[]{idProgram, "0"});
         List<StaffDTO> staff = StaffDAO.getInstance(mContext).SelectStaffVer2(mContext,
                 "ID_STAFF = ? AND STATUS = ?", new String[]{idStaff, "0"});
-
+        Log.d("Information show: ", teacher.toString() +  " \n" + program.toString() + "\n" + staff.toString());
         classID.setText(listClass.getClassID());
         className.setText(listClass.getClassName());
         startDate.setText(listClass.getStartDate());
@@ -382,6 +388,7 @@ public class List_Adapter extends ArrayAdapter {
         }
 
         if (convertView.findViewById(R.id.edit_class) != null) {
+
             //Tính năng thêm/xóa lớp của nhân viên ghi danh
             Button editClass = convertView.findViewById(R.id.edit_class);
             editClass.setTag(position);
@@ -436,12 +443,14 @@ public class List_Adapter extends ArrayAdapter {
         }
 
         if (convertView.findViewById(R.id.detailBtn) != null) {
+
             TextView staffID = convertView.findViewById(R.id.staffID);
             if (staff.size() > 0) {
                 staffID.setText(staff.get(0).getFullName().toString());
             } else {
                 staffID.setText("");
             }
+
             Button detailBtn = convertView.findViewById(R.id.detailBtn);
             detailBtn.setTag(position);
             detailBtn.setOnClickListener(new View.OnClickListener() {
@@ -1149,14 +1158,18 @@ public class List_Adapter extends ArrayAdapter {
             List<TeachingDTO> teaching = TeachingDAO.getInstance(mContext)
                     .SelectTeaching(mContext, "ID_TEACHING = ? AND STATUS = ?",
                             new String[] {idStudent, "0"});
-            List<OfficialStudentDTO> student = OfficialStudentDAO.getInstance(mContext)
-                    .SelectStudentVer2(mContext, "ID_STUDENT = ? AND STATUS = ?",
-                            new String[] {teaching.get(0).getIdStudent(), "0"});
-            // Log.d("Student found: ", student.toString());
-            if (student.size() == 0) {
-                studentName.setText("");
-            } else {
-                studentName.setText(student.get(0).getFullName());
+            Log.d("Teaching relationship: ", teaching.toString());
+            if (teaching.size() > 0) {
+                List<OfficialStudentDTO> student = OfficialStudentDAO.getInstance(mContext)
+                        .SelectStudentVer2(mContext, "ID_STUDENT = ? AND STATUS = ?",
+                                new String[] {teaching.get(0).getIdStudent(), "0"});
+                Log.d("Collecting tuition student: ", student.toString());
+                // Log.d("Student found: ", student.toString());
+                if (student.size() == 0) {
+                    studentName.setText("");
+                } else {
+                    studentName.setText(student.get(0).getFullName());
+                }
             }
 
             if (fees.getCollectionDate() == null) {

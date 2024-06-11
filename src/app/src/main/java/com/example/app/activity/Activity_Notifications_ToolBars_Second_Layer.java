@@ -16,12 +16,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.app.R;
+import com.example.app.adapter.ExamScoreDAO;
+import com.example.app.adapter.ExaminationDAO;
 import com.example.app.adapter.OfficialStudentDAO;
 import com.example.app.adapter.ScheduleDAO;
 import com.example.app.adapter.TeachingDAO;
 import com.example.app.model.AccountDTO;
 import com.example.app.model.ClassDTO;
 import com.example.app.model.ExamScoreDTO;
+import com.example.app.model.ExaminationDTO;
 import com.example.app.model.List_Adapter;
 import com.example.app.model.NotificationDTO;
 import com.example.app.model.OfficialStudentDTO;
@@ -134,9 +137,27 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
         }
 
         if (!message3.equals("")) {
-            toolbar.setTitle("Học viên");
-            listAdapter.add(new ExamScoreDTO("1","1","1","1","1","1","1"));
-            listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_score_manage_item, dataArrayList);
+            toolbar.setTitle("Danh sách điểm của học viên theo lớp");
+
+            List<TeachingDTO> listTeaching = TeachingDAO.getInstance(Activity_Notifications_ToolBars_Second_Layer.this)
+                    .SelectTeaching(Activity_Notifications_ToolBars_Second_Layer.this,
+                            "ID_CLASS = ? AND STATUS = ?",
+                            new String[] {message3, "0"});
+
+            List<ExaminationDTO>exam = ExaminationDAO.getInstance(Activity_Notifications_ToolBars_Second_Layer.this)
+                    .SelectExamination(Activity_Notifications_ToolBars_Second_Layer.this,
+                            "ID_CLASS = ? AND STATUS = ?", new String[] {message3, "0"});
+            if (exam.size() > 0) {
+                List<ExamScoreDTO> listExam = ExamScoreDAO.getInstance(Activity_Notifications_ToolBars_Second_Layer.this)
+                        .SelectExamScore(Activity_Notifications_ToolBars_Second_Layer.this,
+                                "ID_EXAM = ? AND STATUS = ?",
+                                new String[] {exam.get(0).getIdExam(), "0"});
+                for (int i = 0; i < listExam.size(); i++) {
+                    dataArrayList.add(listExam.get(i));
+                }
+            }
+            listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this,
+                    R.layout.list_score_manage_item, dataArrayList);
 
         }
 

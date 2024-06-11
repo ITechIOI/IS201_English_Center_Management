@@ -69,14 +69,16 @@ public class Activity_Notifications extends AppCompatActivity {
         switch (message) {
             //Học viên
             case "Thông báo hệ thống":
-                /*List<NotificationDTO> listNotification = NotificationDAO.getInstance(Activity_Notifications.this).SelectNotification(
+                List<NotificationDTO> listNotification = NotificationDAO.getInstance(Activity_Notifications.this).SelectNotification(
                         Activity_Notifications.this, whereClause, whereArgs
                 );
+                Log.d("List notification to show: ", listNotification.toString());
                 for (int i = 0; i < listNotification.size(); i++) {
                     dataArrayList.add(listNotification.get(i));
-                }*/
-                dataArrayList.add(new NotificationDTO("1","1","1","1"));
+                }
+               /// dataArrayList.add(new NotificationDTO("1","1","1","1"));
                 listAdapter = new List_Adapter(Activity_Notifications.this, R.layout.list_notification_item, dataArrayList);
+
                 break;
 
             case "Tra cứu điểm":

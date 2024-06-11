@@ -24,15 +24,18 @@ import android.widget.Toolbar;
 import com.example.app.R;
 import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.ClassroomDAO;
+import com.example.app.adapter.ExaminationDAO;
 import com.example.app.adapter.ProgramDAO;
 import com.example.app.adapter.StaffDAO;
 import com.example.app.adapter.TeacherDAO;
 import com.example.app.model.ClassDTO;
 import com.example.app.model.ClassroomDTO;
+import com.example.app.model.ExaminationDTO;
 import com.example.app.model.ProgramDTO;
 import com.example.app.model.StaffDTO;
 import com.example.app.model.TeacherDTO;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 
@@ -331,6 +334,30 @@ public class Activity_Add_Class extends AppCompatActivity {
                             }
                         } catch (Exception e) {
                             Log.d("Add new class failed", "failed");
+                        }
+
+                        String idClassJustAdd = "";
+                        List<ClassDTO> classJustAdd = ClassDAO.getInstance(Activity_Add_Class.this)
+                                .selectClass(Activity_Add_Class.this,
+                                        "NAME = ? AND START_DATE = ? AND END_DATE = ? AND STATUS = ?",
+                                        new String[] {classNew.getClassName(),
+                                        classNew.getStartDate(), classNew.getEndDate(), "0"});
+                        if (classJustAdd.size() > 0) {
+                            idClassJustAdd = classJustAdd.get(0).getClassID();
+                        }
+
+                        LocalDate timeExam = LocalDate.now().plusWeeks(2);
+                        String timeExamString = timeExam.toString().replace("T", " ");
+
+                        ExaminationDTO examination = new ExaminationDTO(null,
+                                "Kỳ thi tổng két cuối khóa", "Chuẩn format quốc tế",
+                                timeExamString, idClassJustAdd, "B1.11");
+                        int rowEffectAddExam = ExaminationDAO.getInstance(Activity_Add_Class.this)
+                                        .InsertExamination(Activity_Add_Class.this, examination);
+                        if (rowEffectAddExam > 0) {
+                            Log.d("Insert new exam", "success");
+                        } else {
+                            Log.d("Insert new exam", "failed");
                         }
 
                         className.setText("");

@@ -133,6 +133,8 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
        // String classId = getIntent().getStringExtra("classID");
 
         if (!studentId.equals("")) {
+            LinearLayout showTuitionLayout = findViewById(R.id.layoutShowTuition);
+            showTuitionLayout.setVisibility(View.GONE);
 
             List<OfficialStudentDTO> student = OfficialStudentDAO.getInstance(
                     Activity_Add_Official_Student.this).SelectStudentVer2(
