@@ -38,11 +38,11 @@
                 android:id="@+id/class_name"
                 android:layout_width="210dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
                 android:layout_gravity="center"
-                android:textSize="17dp"
+                android:layout_marginStart="2dp"
+                android:text="Hê hê"
                 android:textColor="@color/white"
-                android:text="Hê hê"/>
+                android:textSize="17dp" />
 
             <Button
                 android:id="@+id/detailBtn"
@@ -61,40 +61,43 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:text="Giảng viên: "
                 android:textSize="15dp"
-                android:text="Giảng viên: "/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/teacher_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:text="Ngày bắt đầu: "
                 android:textSize="15dp"
-                android:text="Ngày bắt đầu: "/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/start_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -119,20 +122,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
+                android:layout_height="match_parent"
+                android:text="Chương trình: "
                 android:textSize="15dp"
-                android:text="Mã chương trình: "/>
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/programID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -145,7 +150,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mã nhân viên quản lý: "
+                android:text="Nhân viên quản lý: "
                 android:textSize="15dp"
                 android:textStyle="bold" />
 

@@ -361,8 +361,6 @@ public class List_Adapter extends ArrayAdapter {
         programID = convertView.findViewById(R.id.programID);
         teacherName = convertView.findViewById(R.id.teacher_name);
 
-        Log.d("List class: ", listClass.toString());
-
         String idTeacher = listClass.getIdTeacher();
         String idProgram = listClass.getIdProgram();
         String idStaff = listClass.getIdStaff();
@@ -372,7 +370,7 @@ public class List_Adapter extends ArrayAdapter {
                 "ID_PROGRAM = ? AND STATUS = ?", new String[]{idProgram, "0"});
         List<StaffDTO> staff = StaffDAO.getInstance(mContext).SelectStaffVer2(mContext,
                 "ID_STAFF = ? AND STATUS = ?", new String[]{idStaff, "0"});
-
+        Log.d("Information show: ", teacher.toString() +  " \n" + program.toString() + "\n" + staff.toString());
         classID.setText(listClass.getClassID());
         className.setText(listClass.getClassName());
         startDate.setText(listClass.getStartDate());
@@ -389,6 +387,7 @@ public class List_Adapter extends ArrayAdapter {
         }
 
         if (convertView.findViewById(R.id.edit_class) != null) {
+
             //Tính năng thêm/xóa lớp của nhân viên ghi danh
             Button editClass = convertView.findViewById(R.id.edit_class);
             editClass.setTag(position);
@@ -443,12 +442,14 @@ public class List_Adapter extends ArrayAdapter {
         }
 
         if (convertView.findViewById(R.id.detailBtn) != null) {
+
             TextView staffID = convertView.findViewById(R.id.staffID);
             if (staff.size() > 0) {
                 staffID.setText(staff.get(0).getFullName().toString());
             } else {
                 staffID.setText("");
             }
+
             Button detailBtn = convertView.findViewById(R.id.detailBtn);
             detailBtn.setTag(position);
             detailBtn.setOnClickListener(new View.OnClickListener() {
