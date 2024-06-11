@@ -131,37 +131,26 @@ public class Activity_Add_Notification extends AppCompatActivity {
             doneBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (title.equals("") || content.equals("")) {
+                    if (title.getText().toString().equals("") || content.getText().toString().equals("")) {
                         Toast.makeText(Activity_Add_Notification.this,
                                 "Hãy nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show();
                     } else {
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Add_Notification.this);
-                        builder.setTitle("Xác nhận")
-                                .setMessage("Bạn có chắc chắn muốn thêm thông báo không?");
-                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                NotificationDTO notificationNew = new NotificationDTO(null, Activity_Login.idAccount,
-                                        title.getText().toString(), content.getText().toString());
-                                try {
-                                    int rowEffect = NotificationDAO.getInstance(Activity_Add_Notification.this)
-                                            .InsertNotification(Activity_Add_Notification.this, notificationNew);
-                                    if (rowEffect > 0) {
-                                        Toast.makeText(Activity_Add_Notification.this, "Thêm thông" +
-                                                "báo mới thành công!", Toast.LENGTH_SHORT).show();
-                                    } else {
-                                        Toast.makeText(Activity_Add_Notification.this, "Thêm thông" +
-                                                "báo mới thất bại!", Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch(Exception e)  {
-                                    Log.d("Add new notification information: ", e.getMessage());
-                                }
-
+                        NotificationDTO notificationNew = new NotificationDTO(null, Activity_Login.idAccount,
+                                title.getText().toString(), content.getText().toString());
+                        try {
+                            int rowEffect = NotificationDAO.getInstance(Activity_Add_Notification.this)
+                                    .InsertNotification(Activity_Add_Notification.this, notificationNew);
+                            if (rowEffect > 0) {
+                                Toast.makeText(Activity_Add_Notification.this, "Thêm thông" +
+                                        "báo mới thành công!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(Activity_Add_Notification.this, "Thêm thông" +
+                                        "báo mới thất bại!", Toast.LENGTH_SHORT).show();
                             }
-                        });
-                        builder.setNegativeButton("Hủy", null);
-                        builder.show();
+                        } catch(Exception e)  {
+                            Log.d("Add new notification information: ", e.getMessage());
+                        }
 
                         title.setText("");
                         content.setText("");

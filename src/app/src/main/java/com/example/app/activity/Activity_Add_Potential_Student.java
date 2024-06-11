@@ -92,6 +92,19 @@ public class Activity_Add_Potential_Student extends AppCompatActivity {
                     Log.d("Shift update student: ", "ok");
 
                     if (acceptSwitch) {
+
+                        if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
+                            Toast.makeText(Activity_Add_Potential_Student.this,
+                                    "Định dạng số điện thoại chưa đúng!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (!isInteger(appointmentNumber.getText().toString())) {
+                            Toast.makeText(Activity_Add_Potential_Student.this,
+                                    "Số lượng cuộc hẹn phải là số nguyên dương!",
+                                    Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         try {
                             if (!idStudent.equals("") || !idStudent.equals(null)) {
 
@@ -201,5 +214,18 @@ public class Activity_Add_Potential_Student extends AppCompatActivity {
             }
         });
 
+    }
+
+    public static boolean isInteger(String s) {
+        if (s == null || s.isEmpty()) {
+            return false;
+        }
+
+        try {
+            Integer.parseInt(s);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

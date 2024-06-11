@@ -215,5 +215,21 @@ public class ScheduleDAO {
         return rowEffect;
     }
 
+    public int DeleteScheduleByIdClass(Context context, String whereClause,
+                              String[] whereArgs) {
+        int rowEffect = -1;
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("SCHEDULE", values,
+                    whereClause, whereArgs);
+        } catch (SQLException e) {
+            Log.d("Delete schedule Error: ", e.getMessage());
+        }
+
+        return rowEffect;
+    }
+
 
 }

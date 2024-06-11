@@ -40,8 +40,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Activity_Add_Official_Student extends AppCompatActivity {
+    private static final String PHONE_NUMBER_REGEX = "^(0[3-9][0-9]{8}|(\\+84|84)[3-9][0-9]{8})$";
     EditText studentName, phoneNumber, address, totalMoney;
     TextView birthday, collectingDate;
     Button doneBtn, exitBtn;
@@ -191,6 +194,11 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                                 "đủ thông tin", Toast.LENGTH_SHORT).show();
                     } else {
 
+                        if (!isValidPhoneNumber(phoneNumber.getText().toString())) {
+                            Toast.makeText(Activity_Add_Official_Student.this, "Định dạng số điện thoại " +
+                                    "chưa chính xác!", Toast.LENGTH_SHORT).show();
+                        }
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Add_Official_Student.this);
                         builder.setTitle("Xác nhận")
                                 .setMessage("Bạn có chắc chắn muốn sửa thông tin của học viên không?");
@@ -279,6 +287,9 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                             || totalMoney.getText().equals("")) {
                         Toast.makeText(Activity_Add_Official_Student.this, "Hãy nhập đầy " +
                                 "đủ thông tin", Toast.LENGTH_SHORT).show();
+                    } else if (!isValidPhoneNumber(phoneNumber.getText().toString())) {
+                        Toast.makeText(Activity_Add_Official_Student.this, "Định dạng số điện thoại " +
+                                "chưa chính xác!", Toast.LENGTH_SHORT).show();
                     } else {
 
                         List<OfficialStudentDTO> listStudent = OfficialStudentDAO.getInstance(
@@ -379,9 +390,16 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                     }
                 }
             });
-        }
 
+        }
     }
+
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        Pattern pattern = Pattern.compile(PHONE_NUMBER_REGEX);
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
+    }
+
 
     @Override
 
@@ -435,6 +453,11 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                         Toast.makeText(Activity_Add_Official_Student.this, "Hãy nhập đầy " +
                                 "đủ thông tin", Toast.LENGTH_SHORT).show();
                     } else {
+
+                        if (!isValidPhoneNumber(phoneNumber.getText().toString())) {
+                            Toast.makeText(Activity_Add_Official_Student.this, "Định dạng số điện thoại " +
+                                    "chưa chính xác!", Toast.LENGTH_SHORT).show();
+                        }
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Add_Official_Student.this);
                         builder.setTitle("Xác nhận")
@@ -518,6 +541,9 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                             || gender.getText().equals("") || phoneNumber.getText().equals("")) {
                         Toast.makeText(Activity_Add_Official_Student.this, "Hãy nhập đầy " +
                                 "đủ thông tin", Toast.LENGTH_SHORT).show();
+                    }else if (!isValidPhoneNumber(phoneNumber.getText().toString())) {
+                        Toast.makeText(Activity_Add_Official_Student.this, "Định dạng số điện thoại " +
+                                "chưa chính xác!", Toast.LENGTH_SHORT).show();
                     } else {
 
                         List<OfficialStudentDTO> listStudent = OfficialStudentDAO.getInstance(
@@ -557,6 +583,15 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                             idStudent = findStudent.get(0).getIdStudent();
                         } else {
                             idStudent = listStudent.get(0).getIdStudent();
+                            List<TeachingDTO> checkExistTeaching = TeachingDAO.getInstance(Activity_Add_Official_Student.this)
+                                    .SelectTeaching(Activity_Add_Official_Student.this,
+                                            "ID_STUDENT = ? AND ID_CLASS = ? AND STATUS = ?",
+                                            new String[] {idStudent, List_Adapter.idClassClick, "0"});
+                            if (checkExistTeaching.size() > 0) {
+                                Toast.makeText(Activity_Add_Official_Student.this, "Sinh viên này đã được thêm vào " +
+                                        "lớp!", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                         }
 
                         TeachingDTO teachingNew = new TeachingDTO(null, idStudent,
@@ -618,6 +653,8 @@ public class Activity_Add_Official_Student extends AppCompatActivity {
                         } catch (Exception e) {
                             Log.d("Add new collecting tuition fees error", e.getMessage());
                         }
+
+
 
                     }
                 }

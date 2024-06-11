@@ -151,4 +151,21 @@ public class ExamScoreDAO {
         return listExamScore;
     }
 
+    public int DeleteExamScore(Context context, String whereClause, String[] whereArgs) {
+        int rowEffect = -1;
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("EXAM_SCORE", values,
+                    whereClause, whereArgs);
+            if (rowEffect > 0) {
+                Log.d("Delete exam score ", "success");
+            }
+        } catch (SQLException e) {
+            Log.d("Delete exam score error: ", e.getMessage());
+        }
+        return rowEffect;
+    }
+
 }
