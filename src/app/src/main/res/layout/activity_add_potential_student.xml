@@ -40,7 +40,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Lê Vũ dính Bug"
+            android:text=""
             android:textSize="18dp"
             android:textStyle="bold" />
 
