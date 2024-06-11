@@ -24,7 +24,7 @@
             android:orientation="horizontal">
             <TextView
                 android:id="@+id/idClass"
-                android:layout_width="210dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="4dp"
@@ -34,33 +34,6 @@
                 android:textColor="@color/white"
                 android:textStyle="bold"
                 android:text="IS201"/>
-
-            <Button
-                android:id="@+id/edit_schedule"
-                android:layout_width="55dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:padding="1dp"
-                android:text="Sửa"
-                app:backgroundTint="@null"
-                android:background="@drawable/ripple_effect"
-                android:textColor="#3B84F1"
-                android:textSize="12dp"/>
-
-            <Button
-                android:id="@+id/remove_schedule"
-                android:layout_width="55dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginStart="3dp"
-                android:padding="1dp"
-                android:text="Xóa"
-                app:backgroundTint="@null"
-                android:background="@drawable/ripple_effect"
-                android:textColor="#3B84F1"
-                android:textSize="12dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -69,14 +42,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:orientation="horizontal">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thứ trong tuần: "
-                android:textSize="17dp"
-                android:textStyle="bold" />
-
+                android:textStyle="bold"
+                android:textSize="17dp"/>
             <TextView
                 android:id="@+id/day_of_week"
                 android:layout_width="wrap_content"
@@ -110,7 +81,6 @@
             android:layout_marginStart="5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
@@ -126,6 +96,28 @@
                 android:textSize="17dp"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giảng viên phụ trách: "
+                android:textStyle="bold"
+                android:textSize="17dp"/>
+            <TextView
+                android:id="@+id/teacherName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thứ 8"
+                android:textSize="17dp"/>
+        </LinearLayout>
+
     </LinearLayout>
+
+
 
 </androidx.cardview.widget.CardView>

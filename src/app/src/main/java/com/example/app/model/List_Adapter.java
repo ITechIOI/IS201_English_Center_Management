@@ -817,12 +817,11 @@ public class List_Adapter extends ArrayAdapter {
     }
 
     private void Schedule_View(@Nullable View convertView, int position) {
-        TextView dayOfWeek, startTime, endTime, idClass, idClassroom;
+        TextView dayOfWeek, idClass, idClassroom, time;
         dayOfWeek = convertView.findViewById(R.id.day_of_week);
-        startTime = convertView.findViewById(R.id.start_time);
-        endTime = convertView.findViewById(R.id.end_time);
         idClass = convertView.findViewById(R.id.idClass);
         idClassroom = convertView.findViewById(R.id.idClassroom);
+        time = convertView.findViewById(R.id.time);
 
         ScheduleDTO listSchedule = (ScheduleDTO) arrayDataList.get(position);
 
@@ -831,10 +830,13 @@ public class List_Adapter extends ArrayAdapter {
         } else {
             dayOfWeek.setText("Thứ " + listSchedule.getDayOfWeek());
         }
-        // dayOfWeek.setText(listSchedule.dayOfWeek);
 
-        startTime.setText(listSchedule.getStartTime() + "h00");
-        endTime.setText(listSchedule.getEndTime() + "h00");
+        time.setText("1");
+
+        if (convertView.findViewById(R.id.teacherName) != null) {
+            TextView teacherName = convertView.findViewById(R.id.teacherName);
+            teacherName.setText("1");
+        }
 
         List<ClassDTO> listClass = ClassDAO.getInstance(getContext()).selectClass(getContext(),
                 "ID_CLASS= ?", new String[]{listSchedule.getIdClass()});

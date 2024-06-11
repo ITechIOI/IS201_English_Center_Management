@@ -65,31 +65,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Giờ bắt đầu: "
+                android:text="Thời gian: "
                 android:textStyle="bold"
                 android:textSize="17dp"/>
             <TextView
-                android:id="@+id/start_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Thứ 8"
-                android:textSize="17dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Giờ kết thúc: "
-                android:textStyle="bold"
-                android:textSize="17dp"/>
-            <TextView
-                android:id="@+id/end_time"
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thứ 8"
