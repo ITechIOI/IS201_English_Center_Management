@@ -135,6 +135,7 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
 
         if (!message3.equals("")) {
             toolbar.setTitle("Học viên");
+            listAdapter.add(new ExamScoreDTO("1","1","1","1","1","1","1"));
             listAdapter = new List_Adapter(Activity_Notifications_ToolBars_Second_Layer.this, R.layout.list_score_manage_item, dataArrayList);
 
         }

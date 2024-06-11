@@ -227,11 +227,12 @@ public class List_Adapter extends ArrayAdapter {
             //idStudent.setText(listScore.getIdStudent());
             studentName = convertView.findViewById(R.id.studentName);
 
-            List<OfficialStudentDTO> listStudent = OfficialStudentDAO.getInstance(mContext)
+            /*List<OfficialStudentDTO> listStudent = OfficialStudentDAO.getInstance(mContext)
                     .SelectStudentVer2(mContext, "ID_STUDENT = ? AND STATUS = ?",
                             new String[]{listScore.getIdStudent(), "0"});
 
-            studentName.setText(listStudent.get(0).getFullName());
+            studentName.setText(listStudent.get(0).getFullName());*/
+            studentName.setText(listScore.getIdStudent());
             Button editScore = convertView.findViewById(R.id.edit_score);
             editScore.setTag(position);
             editScore.setOnClickListener(new View.OnClickListener() {
@@ -462,7 +463,6 @@ public class List_Adapter extends ArrayAdapter {
                         intent.putExtra("classIDtoViewSchedule", "");
                         intent.putExtra("idClass", listClass.getClassID());
                         idClassClick = listClass.getClassID();
-                        intent.putExtra("idCertificate", "");
                     }
                     mContext.startActivity(intent);
                 }
