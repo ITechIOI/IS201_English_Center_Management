@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.app.model.ExaminationDTO;
 import com.example.app.model.NotificationDTO;
+import com.example.app.model.TeachingDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,6 +129,23 @@ public class ExaminationDAO {
         }
 
         return listExams;
+    }
+
+    public int DeleteExamination(Context context, String whereClause, String[] whereArgs) {
+        int rowEffect = -1;
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("EXAMINATION", values,
+                    whereClause, whereArgs);
+            if (rowEffect > 0) {
+                Log.d("Delete examination ", "success");
+            }
+        } catch (SQLException e) {
+            Log.d("Delete examination Error: ", e.getMessage());
+        }
+        return rowEffect;
     }
 
 }

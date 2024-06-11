@@ -83,7 +83,7 @@ public class Activity_Notifications_ToolBars_Second_Layer extends AppCompatActiv
 
         if (!message1.equals("")) {
 
-            toolbar.setTitle("Học viên");
+            toolbar.setTitle("Danh sách học viên");
             String message = getIntent().getStringExtra("classID");
             List<TeachingDTO> listTeaching = new ArrayList<>();
 

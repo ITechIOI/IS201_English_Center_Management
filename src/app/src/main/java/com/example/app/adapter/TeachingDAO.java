@@ -123,6 +123,25 @@ public class TeachingDAO {
 
         return rowEffect;
     }
+
+    public int DeleteTeachingByIdClass(Context context, String whereClause, String[] whereArgs) {
+        int rowEffect = -1;
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("TEACHING", values,
+                    whereClause, whereArgs);
+            if (rowEffect > 0) {
+                Log.d("Delete teaching ", "success");
+            }
+        } catch (SQLException e) {
+            Log.d("Delete teaching Error: ", e.getMessage());
+        }
+
+        return rowEffect;
+    }
+
     public int DeleteAccount(Context context, AccountDTO account, String whereClause, String[] whereArgs)  {
         ContentValues values = new ContentValues();
         values.put("STATUS", 1);

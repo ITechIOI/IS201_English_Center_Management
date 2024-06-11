@@ -36,6 +36,7 @@ import com.example.app.adapter.AccountDAO;
 import com.example.app.adapter.CertificateDAO;
 import com.example.app.adapter.ClassDAO;
 import com.example.app.adapter.ClassroomDAO;
+import com.example.app.adapter.CollectionTuitionFeesDAO;
 import com.example.app.adapter.ExamScoreDAO;
 import com.example.app.adapter.ExaminationDAO;
 import com.example.app.adapter.NotificationDAO;
@@ -419,8 +420,90 @@ public class List_Adapter extends ArrayAdapter {
                                 int rowEffect = ClassDAO.getInstance(mContext).DeleteClass(mContext,
                                         listClass, "ID_CLASS = ? AND STATUS = ?",
                                         new String[]{listClass.getClassID().toString(), "0"});
+                                if (rowEffect > 0) {
+                                    Toast.makeText(mContext, "Xóa lớp học thành công!", Toast.LENGTH_SHORT).show();
+                                }
                             } catch (Exception e) {
                                 Log.d("Delete class error: ", e.getMessage());
+                            }
+
+                            List<TeachingDTO> listTeaching = TeachingDAO.getInstance(mContext)
+                                    .SelectTeaching(mContext, "ID_CLASS = ? AND STATUS = ?",
+                                            new String[] {listClass.getClassID().toString(), "0"});
+
+                            if (listTeaching.size() > 0) {
+                                for (int i = 0; i < listTeaching.size(); i++) {
+                                    String idTeachingToDeleteCollecting = listTeaching.get(0).getIdTeaching();
+                                    int rowEffect = CollectionTuitionFeesDAO.getInstance(mContext)
+                                            .DeleteCollectingTuition(mContext, "ID_TEACHING = ? AND STATUS = ?",
+                                                    new String[] {idTeachingToDeleteCollecting, "0"});
+                                    if (rowEffect > 0) {
+                                        Log.d("Delete collecting tuition fees related to class ", "successful");
+                                    } else {
+                                        Log.d("Delete collecting tuition fees related to class ", "failed");
+                                    }
+                                }
+                            }
+
+                            try {
+                                int rowEffect = TeachingDAO.getInstance(mContext)
+                                        .DeleteTeachingByIdClass(mContext,
+                                                "ID_CLASS = ? AND STATUS = ?",
+                                                new String[] {listClass.getClassID().toString(), "0"});
+                                if (rowEffect > 0) {
+                                    Log.d("Delete teaching related to class ", "successful");
+                                } else {
+                                    Log.d("Delete teaching related to class ", "failed");
+                                }
+
+                            } catch (Exception e) {
+                                Log.d("Delete teaching error: ", e.getMessage());
+                            }
+
+                            List<ExaminationDTO> listExamination = ExaminationDAO.getInstance(mContext)
+                                    .SelectExamination(mContext, "ID_CLASS = ? AND STATUS = ?",
+                                            new String[] {listClass.getClassID().toString(), "0"});
+                            String idExamination = "";
+                            if (listExamination.size() > 0) {
+                                idExamination = listExamination.get(0).getIdExam();
+                            }
+
+                            try {
+                                int rowEffect = ExaminationDAO.getInstance(mContext).DeleteExamination(
+                                        mContext, "ID_CLASS = ? AND STATUS = ?",
+                                        new String[] {listClass.getClassID().toString(), "0"});
+                                if (rowEffect > 0) {
+                                    Log.d("Delete examination related to class ", "successful");
+                                } else {
+                                    Log.d("Delete examination related to class ", "failed");
+                                }
+                            } catch (Exception e) {
+                                Log.d("Delete examination related to class error", e.getMessage());
+                            }
+
+                            try {
+                                int rowEffect = ExamScoreDAO.getInstance(mContext).DeleteExamScore(mContext,
+                                        "ID_EXAM = ? AND STATUS = ?", new String[] {idExamination, "0"});
+                                if (rowEffect > 0) {
+                                    Log.d("Delete exam score related to class ", "successful");
+                                } else {
+                                    Log.d("Delete exam score related to class ", "failed");
+                                }
+                            } catch (Exception e) {
+                                Log.d("Delete exam score related to class error", e.getMessage());
+                            }
+
+                            try {
+                                int rowEffect = ScheduleDAO.getInstance(mContext).DeleteScheduleByIdClass(mContext,
+                                        "ID_CLASS = ? AND STATUS = ?",
+                                        new String[] {listClass.getClassID().toString(), "0"});
+                                if (rowEffect > 0) {
+                                    Log.d("Delete schedule related to class ", "successful");
+                                } else {
+                                    Log.d("Delete schedule related to class ", "failed");
+                                }
+                            } catch (Exception e) {
+                                Log.d("Delete schedule related to class error", e.getMessage());
                             }
 
                             notifyDataSetChanged();

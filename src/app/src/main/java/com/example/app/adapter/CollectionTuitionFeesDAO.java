@@ -383,4 +383,21 @@ public class CollectionTuitionFeesDAO {
         return listRevenue;
     }
 
+    public int DeleteCollectingTuition(Context context, String whereClause, String[] whereArgs) {
+        int rowEffect = -1;
+        ContentValues values = new ContentValues();
+        values.put("STATUS", 1);
+
+        try {
+            rowEffect = DataProvider.getInstance(context).updateData("COLLECTING_TUITION_FEES", values,
+                    whereClause, whereArgs);
+            if (rowEffect > 0) {
+                Log.d("Delete collecting tuition fees ", "success");
+            }
+        } catch (SQLException e) {
+            Log.d("Delete collecting tuition fees Error: ", e.getMessage());
+        }
+        return rowEffect;
+    }
+
 }
