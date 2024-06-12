@@ -44,16 +44,21 @@
             android:textSize="24dp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:gravity="center"
-            android:text="Học viên"
-            android:textColor="#8F0000"
-            android:textSize="14dp"
-            android:textStyle="bold" />
+            android:layout_marginEnd="2dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            <AutoCompleteTextView
+                android:id="@+id/type"
+                android:padding="8dp"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColor="#E32B2B"
+                android:inputType="none"/>
+        </com.google.android.material.textfield.TextInputLayout>
 <!--
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,7 +101,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="2dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
@@ -115,6 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="3dp"
             android:orientation="horizontal">
 
             <ImageView
@@ -157,6 +163,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginTop="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -194,7 +201,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="25dp"
-                android:src="@drawable/id" />
+                android:src="@drawable/baseline_monetization_on_24" />
 
             <EditText
                 android:id="@+id/salary"
@@ -209,6 +216,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="3dp"
             android:id="@+id/layoutPassword">
 
             <ImageView

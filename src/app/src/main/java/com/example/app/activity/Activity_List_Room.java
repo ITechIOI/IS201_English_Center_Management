@@ -28,7 +28,7 @@ public class Activity_List_Room extends AppCompatActivity {
     private ListView listView;
     private ArrayList<Object> dataArrayList;
     private ImageButton returnBtn;
-    String[] roomItem = {"Đau ẻ tàn bạo", "Đau ẻ thảm khốc", "Chào Loan nhé", "=)))"};
+    ArrayList<String> roomItem;
     AutoCompleteTextView room;
     ArrayAdapter<String> roomAdapter;
 
@@ -46,16 +46,17 @@ public class Activity_List_Room extends AppCompatActivity {
                 finish();
             }
         });
+        roomItem = new ArrayList<>();
 
-        /*List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(Activity_List_Room.this)
+        List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(Activity_List_Room.this)
                 .SelectClassroom(Activity_List_Room.this, "STATUS = ?",
                         new String[] {"0"});
         for (int i = 0; i < listClassroom.size(); i++) {
-            roomItem[i] = listClassroom.get(i).getName();
-            Log.d("List room in english center: ", roomItem[i]);
+            roomItem.add(listClassroom.get(i).getName());
+            Log.d("List room in english center: ", roomItem.get(i));
         }
 
-        List<ScheduleDTO> schedule = ScheduleDAO.getInstance(Activity_List_Room.this)
+        /*List<ScheduleDTO> schedule = ScheduleDAO.getInstance(Activity_List_Room.this)
                 .SelectSchedule(Activity_List_Room.this, "STATUS = 0",
                         new String[] {"0"});
         for (int i = 0; i < schedule.size(); i++) {
@@ -63,7 +64,7 @@ public class Activity_List_Room extends AppCompatActivity {
         }*/
 
         dataArrayList = new ArrayList<>();
-        dataArrayList.add(new ScheduleDTO("1","1","1","1","1","1"));
+        //dataArrayList.add(new ScheduleDTO("1","1","1","1","1","1"));
         listAdapter = new List_Adapter(Activity_List_Room.this, R.layout.list_schedule_for_manager_item, dataArrayList);
         listView.setAdapter(listAdapter);
 
