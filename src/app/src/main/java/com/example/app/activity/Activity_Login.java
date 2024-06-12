@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.example.app.R;
 import com.example.app.adapter.AccountDAO;
+import com.example.app.adapter.CollectionTuitionFeesDAO;
 import com.example.app.adapter.DataProvider;
+import com.example.app.model.CollectionTuitionFeesDTO;
 
 public class Activity_Login extends AppCompatActivity {
     EditText usernameInput, passwordInput;
@@ -89,6 +91,66 @@ public class Activity_Login extends AppCompatActivity {
 
             }
         });
+
+        CollectionTuitionFeesDTO collectionTuitionFees2 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/1/2024 15:23:22", "10000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees2);
+
+        CollectionTuitionFeesDTO collectionTuitionFees3 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/2/2024 15:23:22", "20000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees3);
+
+        CollectionTuitionFeesDTO collectionTuitionFees11 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/3/2024 15:23:22", "10000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees11);
+
+        CollectionTuitionFeesDTO collectionTuitionFees4 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/4/2024 15:23:22", "40000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees4);
+
+        CollectionTuitionFeesDTO collectionTuitionFees13 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/5/2024 15:23:22", "60000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees13);
+
+        CollectionTuitionFeesDTO collectionTuitionFees12 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/6/2024 15:23:22", "40000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees12);
+
+        CollectionTuitionFeesDTO collectionTuitionFees5 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/7/2024 15:23:22", "90000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees5);
+
+        CollectionTuitionFeesDTO collectionTuitionFees6 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/8/2024 15:23:22", "10000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees6);
+
+        CollectionTuitionFeesDTO collectionTuitionFees7 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/9/2024 15:23:22", "10000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees7);
+
+        CollectionTuitionFeesDTO collectionTuitionFees8 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/10/2024 15:23:22", "50000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees8);
+
+        CollectionTuitionFeesDTO collectionTuitionFees9 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/11/2024 15:23:22", "40000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees9);
+
+        CollectionTuitionFeesDTO collectionTuitionFees10 = new CollectionTuitionFeesDTO(
+                null, "STU2", "23/12/2024 15:23:22", "10000000");
+        CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
+                Activity_Login.this, collectionTuitionFees10);
 
     }
 

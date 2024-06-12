@@ -110,8 +110,8 @@ public class Activity_Total_Revenue extends AppCompatActivity {
         yAxis.setLabelCount(10);
 
         List<Entry> entries = new ArrayList<>();
-        entries.add(new Entry(0,0f));
-/*       entries.add(new Entry(1,1f));
+   /*     entries.add(new Entry(0,0f));
+       entries.add(new Entry(1,1f));
         entries.add(new Entry(2,2f));
         entries.add(new Entry(3,3f));
         entries.add(new Entry(4,0f));
@@ -123,6 +123,7 @@ public class Activity_Total_Revenue extends AppCompatActivity {
         entries.add(new Entry(10,2f));
         entries.add(new Entry(11,3f));
         entries.add(new Entry(12,3f));*/
+        entries.add(new Entry(0,0f));
 
         Map<Integer, Integer> collectingTuition = CollectionTuitionFeesDAO
                 .getInstance(Activity_Total_Revenue.this)
@@ -130,7 +131,10 @@ public class Activity_Total_Revenue extends AppCompatActivity {
         Log.d("List collecting revenue: ", collectingTuition.toString());
 
         for (Integer value : collectingTuition.keySet()) {
-            entries.add(new Entry(value, (collectingTuition.get(value) / 1000000000)/1.0f));
+            Log.d("Revenue by month", String.valueOf(collectingTuition.get(value)));
+           // entries.add(new Entry(value, (collectingTuition.get(value) / 1000000000)/1.0f));
+            entries.add(new Entry(value, (float)(collectingTuition.get(value) / 10000000)));
+
         }
 
         year = findViewById(R.id.year);
@@ -150,11 +154,15 @@ public class Activity_Total_Revenue extends AppCompatActivity {
 
                 Map<Integer, Integer> collectingTuition = CollectionTuitionFeesDAO
                         .getInstance(Activity_Total_Revenue.this)
-                        .SelectCollectionTuitionFeesByYear(Activity_Total_Revenue.this, item);
+                        .SelectCollectionTuitionFeesByYear(Activity_Total_Revenue.this,
+                                year.getText().toString());
                 Log.d("List collecting revenue: ", collectingTuition.toString());
 
                 for (Integer value : collectingTuition.keySet()) {
-                    entries.add(new Entry(value, (collectingTuition.get(value) / 1000000000)/1.0f));
+                    Log.d("Revenue by month", String.valueOf(collectingTuition.get(value)));
+                    // entries.add(new Entry(value, (collectingTuition.get(value) / 1000000000)/1.0f));
+                    entries.add(new Entry(value, (float)(collectingTuition.get(value) / 10000000)));
+
                 }
                 LineDataSet dataSet = new LineDataSet(entries, "");
                 dataSet.setColor(Color.RED);
