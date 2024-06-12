@@ -57,7 +57,9 @@ public class Activity_List_Room extends AppCompatActivity {
             roomItem.add(listClassroom.get(i).getName());
             Log.d("List room in english center: ", roomItem.get(i));
         }
-
+        room = findViewById(R.id.room);
+        roomAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, roomItem);
+        room.setAdapter(roomAdapter);
 
         LocalDate today = LocalDate.now();
         int dayOfWeek = today.getDayOfWeek().getValue();
@@ -66,6 +68,46 @@ public class Activity_List_Room extends AppCompatActivity {
                 .SelectSchedule(Activity_List_Room.this,
                         "DAY_OF_WEEK = ? AND STATUS = ?",
                         new String[]{String.valueOf(dayOfWeek + 1), "0"});
+        for (int i = 0; i < schedule.size(); i++) {
+            dataArrayList.add(schedule.get(i));
+        }
+        listAdapter = new List_Adapter(Activity_List_Room.this, R.layout.list_schedule_for_manager_item, dataArrayList);
+        listView.setAdapter(listAdapter);
+
+        room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // String item = parent.getItemAtPosition(position).toString();
+                List<ClassroomDTO> getClassroom = ClassroomDAO.getInstance(Activity_List_Room.this)
+                        .SelectClassroom(Activity_List_Room.this,
+                                "NAME = ? AND STATUS = ?",
+                                new String[] {room.getText().toString(), "0"});
+                String idClassroom = "";
+
+                if (getClassroom.size() > 0) {
+                    idClassroom = getClassroom.get(0).getIdRoom();
+                    Log.d("Classroom get: ", idClassroom);
+                    LocalDate today = LocalDate.now();
+                    int dayOfWeek = today.getDayOfWeek().getValue();
+                    Log.d("List Schedule select: ", String.valueOf(dayOfWeek));
+                    List<ScheduleDTO> listScheduleSelect = ScheduleDAO.getInstance(Activity_List_Room.this)
+                            .SelectSchedule(Activity_List_Room.this,
+                                    "DAY_OF_WEEK = ? AND STATUS = ? AND ID_CLASSROOM = ?",
+                                    new String[] {String.valueOf(dayOfWeek + 1), "0", idClassroom});
+
+                    Log.d("List Schedule select: ", listScheduleSelect.toString());
+
+                    dataArrayList = new ArrayList<>();
+                    for (int i = 0; i < listScheduleSelect.size(); i++) {
+                        dataArrayList.add(listScheduleSelect.get(i));
+                    }
+                    listAdapter = new List_Adapter(Activity_List_Room.this, R.layout.list_schedule_for_manager_item, dataArrayList);
+                    listView.setAdapter(listAdapter);
+                }
+
+            }
+        });
+
     }
 }
 
@@ -79,39 +121,8 @@ public class Activity_List_Room extends AppCompatActivity {
         room = findViewById(R.id.room);
         roomAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, roomItem);
         room.setAdapter(roomAdapter);
-        room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // String item = parent.getItemAtPosition(position).toString();
-                List<ClassroomDTO> getClassroom = ClassroomDAO.getInstance(Activity_List_Room.this)
-                        .SelectClassroom(Activity_List_Room.this,
-                                "NAME = ? AND STATUS = ?",
-                                new String[] {room.getText().toString(), "0"});
-                String idClassroom = "";
 
-                if (getClassroom.size() > 0) {
-                    idClassroom = getClassroom.get(0).getIdRoom();
-                    LocalDate today = LocalDate.now();
-                    int dayOfWeek = today.getDayOfWeek().getValue();
-                    Log.d("List Schedule select: ", String.valueOf(dayOfWeek));
-                    List<ScheduleDTO> listScheduleSelect = ScheduleDAO.getInstance(Activity_List_Room.this)
-                            .SelectSchedule(Activity_List_Room.this,
-                                    "DAY_OF_WEEK = ? AND STATUS = ? AND ID_CLASSROOM = ?",
-                                    new String[] {String.valueOf(dayOfWeek + 1), "0", idClassroom});
-
-                Log.d("List Schedule select: ", listScheduleSelect.toString());
-
-                dataArrayList = new ArrayList<>();
-                for (int i = 0; i < listScheduleSelect.size(); i++) {
-                        dataArrayList.add(listScheduleSelect.get(i));
-                    }
-                listAdapter = new List_Adapter(Activity_List_Room.this, R.layout.list_schedule_for_manager_item, dataArrayList);
-                listView.setAdapter(listAdapter);
-                }
-
-            }
-        });
     }
     }
-   
+
          */

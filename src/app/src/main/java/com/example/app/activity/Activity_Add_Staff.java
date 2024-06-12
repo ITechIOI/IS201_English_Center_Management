@@ -39,7 +39,7 @@ public class Activity_Add_Staff extends AppCompatActivity {
     TextView birthday;
     Button exitBtn, doneBtn;
     String[] genderItem = {"Nam", "Nữ"};
-    String[] typeItem = {"Giáo viên", "Nhân viên ghi danh"};
+    String[] typeItem = {"Giáo viên", "Nhân viên ghi danh", "Nhân viên học vụ", "Quản lý"};
     AutoCompleteTextView gender, type;
     ArrayAdapter<String> genderAdapter, typeAdapter;
     DatePickerDialog.OnDateSetListener birthDt;
@@ -143,6 +143,12 @@ public class Activity_Add_Staff extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
+
+                    if (!isInteger(salary.getText().toString())) {
+                        Toast.makeText(Activity_Add_Staff.this, "Tiền lương phải là một số nguyên dương!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
                         Toast.makeText(Activity_Add_Staff.this, "Định dạng số điện thoại " +
                                 "chưa chính xác!", Toast.LENGTH_SHORT).show();
@@ -238,6 +244,9 @@ public class Activity_Add_Staff extends AppCompatActivity {
             } else {
                 type.setText("Quản lý");
             }
+            type = findViewById(R.id.type);
+            typeAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, typeItem);
+            type.setAdapter(typeAdapter);
 
             gender.setText(listStaff.get(0).getGender());
             genderAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, genderItem);
@@ -407,5 +416,17 @@ public class Activity_Add_Staff extends AppCompatActivity {
     protected void onStart()  {
         super.onStart();
     }
+    public static boolean isInteger(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
 
 }

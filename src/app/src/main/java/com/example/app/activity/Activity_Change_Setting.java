@@ -210,6 +210,8 @@ public class Activity_Change_Setting extends AppCompatActivity {
         }
 
         genderInp.setText(gender);
+        genderAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, genderItem);
+        genderInp.setAdapter(genderAdapter);
         phoneInp.setText(phoneNumber);
         addrInp.setText(address);
         nameInp.setText(fullName);

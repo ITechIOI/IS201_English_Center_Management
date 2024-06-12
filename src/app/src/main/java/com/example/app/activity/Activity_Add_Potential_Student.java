@@ -73,7 +73,7 @@ public class Activity_Add_Potential_Student extends AppCompatActivity {
                 studentName.setText(potentialStudent.getStudentName());
                 address.setText(potentialStudent.getAddress());
                 phoneNumber.setText(potentialStudent.getPhoneNumber());
-                gender.setText(potentialStudent.getGender());
+               // gender.setText(potentialStudent.getGender());
                 level.setText(potentialStudent.getLevel());
                 appointmentNumber.setText(potentialStudent.getAppointmentNumber());
                 Log.d("Potential Student ID: ", message);

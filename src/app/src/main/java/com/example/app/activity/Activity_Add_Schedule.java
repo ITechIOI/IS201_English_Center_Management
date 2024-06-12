@@ -29,6 +29,8 @@ import com.example.app.model.ScheduleDTO;
 import java.util.List;
 
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Activity_Add_Schedule extends AppCompatActivity {
     TextView startDate, endDate;
@@ -154,12 +156,25 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Get day of week
-                                int firstDigitIndex = dayOfWeek.getText().toString().indexOf("\\d");
+                                /*int firstDigitIndex = dayOfWeek.getText().toString().indexOf("\\d");
                                 if (firstDigitIndex!= -1 && !dayOfWeek.getText().toString().isEmpty()) {
                                     dayOfWeekText = dayOfWeek.getText().toString().substring(0, firstDigitIndex);
                                 } else {
                                     dayOfWeekText = "8";
+                                }*/
+
+                                Pattern pattern = Pattern.compile("\\d+");
+                                Matcher matcher = pattern.matcher(dayOfWeek.getText().toString());
+
+                                if (matcher.find() && !dayOfWeek.getText().toString().isEmpty()) {
+                                    // Lấy chỉ số của chữ số đầu tiên
+                                    dayOfWeekText = matcher.group();
+                                } else {
+                                    dayOfWeekText = "8";
                                 }
+
+                                Log.d("Day of week text: ", dayOfWeekText);
+                                Log.d("Day of week text: ", dayOfWeekText);
                                 // Get time of class
                                 classTimeText = classTime.getText().toString();
                                 String[] parts = classTimeText.split("-");
@@ -236,12 +251,25 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                         Toast.makeText(Activity_Add_Schedule.this, "Nhập lại", Toast.LENGTH_SHORT).show();
                         Log.d("Id class in list adapter", List_Adapter.idClassClick);
                     } else {
-                        int firstDigitIndex = dayOfWeek.getText().toString().indexOf("\\d"); // "\\d" là biểu thức chính quy cho một chữ số
+                        /*int firstDigitIndex = dayOfWeek.getText().toString().indexOf("\\d"); // "\\d" là biểu thức chính quy cho một chữ số
                         if (firstDigitIndex!= -1) {
                             dayOfWeekText = dayOfWeek.getText().toString().substring(0, firstDigitIndex);
                         } else {
                             dayOfWeekText = "8";
+                        }*/
+
+                        Pattern pattern = Pattern.compile("\\d+");
+                        Matcher matcher = pattern.matcher(dayOfWeek.getText().toString());
+
+                        if (matcher.find() && !dayOfWeek.getText().toString().isEmpty()) {
+                            // Lấy chỉ số của chữ số đầu tiên
+                            dayOfWeekText = matcher.group();
+                        } else {
+                            dayOfWeekText = "8";
                         }
+
+                        Log.d("Day of week text: ", dayOfWeekText);
+
                         // Get time of class
                         String[] parts = classTimeText.split("-");
                         String startHourStr = parts[0].substring(0, 2); // Lấy số giờ từ phần đầu

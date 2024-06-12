@@ -148,7 +148,7 @@ public class Activity_Login extends AppCompatActivity {
 }
 
 /*
->>>>>>> 5b3d31b9f6d5afafad07ef854055b50f6eaaa3bd
+
 
         // Insert data in OFFICIAL_STUDENT
 
