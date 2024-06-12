@@ -48,16 +48,16 @@ public class Activity_List_Room extends AppCompatActivity {
                 finish();
             }
         });
-
         roomItem = new ArrayList<>();
 
         List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(Activity_List_Room.this)
                 .SelectClassroom(Activity_List_Room.this, "STATUS = ?",
-                        new String[] {"0"});
+                        new String[]{"0"});
         for (int i = 0; i < listClassroom.size(); i++) {
             roomItem.add(listClassroom.get(i).getName());
             Log.d("List room in english center: ", roomItem.get(i));
         }
+
 
         LocalDate today = LocalDate.now();
         int dayOfWeek = today.getDayOfWeek().getValue();
@@ -65,13 +65,14 @@ public class Activity_List_Room extends AppCompatActivity {
         List<ScheduleDTO> schedule = ScheduleDAO.getInstance(Activity_List_Room.this)
                 .SelectSchedule(Activity_List_Room.this,
                         "DAY_OF_WEEK = ? AND STATUS = ?",
-                        new String[] {String.valueOf(dayOfWeek + 1), "0"});
-        for (int i = 0; i < schedule.size(); i++) {
-            dataArrayList.add(schedule.get(i));
-        }
+                        new String[]{String.valueOf(dayOfWeek + 1), "0"});
+    }
+}
 
-        dataArrayList = new ArrayList<>();
-       // dataArrayList.add(new ScheduleDTO("1","1","1","1","1","1"));
+        /*List<ScheduleDTO> schedule = ScheduleDAO.getInstance(Activity_List_Room.this)
+                .SelectSchedule(Activity_List_Room.this, "STATUS = 0",
+                        new String[] {"0"});
+
         listAdapter = new List_Adapter(Activity_List_Room.this, R.layout.list_schedule_for_manager_item, dataArrayList);
         listView.setAdapter(listAdapter);
 
@@ -111,4 +112,6 @@ public class Activity_List_Room extends AppCompatActivity {
             }
         });
     }
-}
+    }
+   
+         */

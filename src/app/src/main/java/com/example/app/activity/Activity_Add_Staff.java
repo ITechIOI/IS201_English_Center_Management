@@ -106,7 +106,6 @@ public class Activity_Add_Staff extends AppCompatActivity {
         fullName = findViewById(R.id.fullName);
         address = findViewById(R.id.address);
         phoneNumber = findViewById(R.id.phoneNumber);
-        //type = findViewById(R.id.type);
 
         if (message1.equals("") && message2.equals("")) {
 
