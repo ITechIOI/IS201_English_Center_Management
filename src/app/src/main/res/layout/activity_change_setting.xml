@@ -79,7 +79,7 @@
                         android:layout_gravity="center_vertical"
                         android:id="@+id/input_gender"
                         android:padding="8dp"
-                        android:layout_width="100dp"
+                        android:layout_width="110dp"
                         android:layout_height="wrap_content"
                         android:textSize="15dp"
                         android:inputType="none"/>
