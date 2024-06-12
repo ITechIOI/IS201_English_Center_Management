@@ -105,7 +105,7 @@ public class Activity_Total_Revenue extends AppCompatActivity {
         YAxis yAxis = lineChart.getAxisLeft();
         yAxis.setAxisMaximum(10f);
         yAxis.setAxisMinimum(0f);
-        yAxis.setAxisLineWidth(0.2f);
+        yAxis.setAxisLineWidth(0.1f);
         yAxis.setAxisLineColor(Color.BLACK);
         yAxis.setLabelCount(10);
 
@@ -134,7 +134,6 @@ public class Activity_Total_Revenue extends AppCompatActivity {
             Log.d("Revenue by month", String.valueOf(collectingTuition.get(value)));
            // entries.add(new Entry(value, (collectingTuition.get(value) / 1000000000)/1.0f));
             entries.add(new Entry(value, (float)(collectingTuition.get(value) / 10000000)));
-
         }
 
         year = findViewById(R.id.year);
@@ -150,14 +149,13 @@ public class Activity_Total_Revenue extends AppCompatActivity {
                                 Activity_Total_Revenue.this, year.getText().toString());
                 Log.d("List revenue log: ", listRevenue.toString());
 
-                String item = parent.getItemAtPosition(position).toString();
-
                 Map<Integer, Integer> collectingTuition = CollectionTuitionFeesDAO
                         .getInstance(Activity_Total_Revenue.this)
                         .SelectCollectionTuitionFeesByYear(Activity_Total_Revenue.this,
                                 year.getText().toString());
                 Log.d("List collecting revenue: ", collectingTuition.toString());
 
+                entries.add(new Entry(0,0f));
                 for (Integer value : collectingTuition.keySet()) {
                     Log.d("Revenue by month", String.valueOf(collectingTuition.get(value)));
                     // entries.add(new Entry(value, (collectingTuition.get(value) / 1000000000)/1.0f));

@@ -91,6 +91,7 @@ public class Activity_Login extends AppCompatActivity {
 
             }
         });
+/*
 
         CollectionTuitionFeesDTO collectionTuitionFees2 = new CollectionTuitionFeesDTO(
                 null, "STU2", "23/1/2024 15:23:22", "10000000");
@@ -151,6 +152,7 @@ public class Activity_Login extends AppCompatActivity {
                 null, "STU2", "23/12/2024 15:23:22", "10000000");
         CollectionTuitionFeesDAO.getInstance(Activity_Login.this).InsertCollection_Tuition_Fees(
                 Activity_Login.this, collectionTuitionFees10);
+*/
 
     }
 
