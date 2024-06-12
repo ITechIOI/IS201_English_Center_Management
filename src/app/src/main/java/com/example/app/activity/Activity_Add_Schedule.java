@@ -26,6 +26,7 @@ import com.example.app.model.ClassroomDTO;
 import com.example.app.model.List_Adapter;
 import com.example.app.model.ScheduleDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Calendar;
@@ -38,7 +39,8 @@ public class Activity_Add_Schedule extends AppCompatActivity {
     Button doneBtn, exitBtn;
     String[] dayOfWeekItem = {"Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "Chủ nhật"};
     String[] classTimeItem = {"7h00 - 9h00", "9h00 - 11h00", "13h00 - 15h00", "15h00 - 17h00", "17h00 - 19h00", "19h00 - 21h00"};
-    String[] idClassroomItem = {"Huhu", "Chào Loan"};
+   // String[] idClassroomItem = {"Huhu", "Chào Loan"};
+    ArrayList<String> idClassroomItem = new ArrayList<>();
     AutoCompleteTextView dayOfWeek, classTime, idClassroom;
     ArrayAdapter<String> dayOfWeekAdapter, classTimeAdapter, idClassroomAdapter;
     String dayOfWeekText, classTimeText, idClassroomText;
@@ -81,7 +83,7 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                 .SelectClassroom(Activity_Add_Schedule.this, "STATUS = ?",
                         new String[] {"0"});
         for (int i = 0; i < listClassroom.size(); i++) {
-            idClassroomItem[i] = listClassroom.get(i).getName();
+            idClassroomItem.add(listClassroom.get(i).getName());
         }
 
         idClassroomText = idClassroom.getText().toString();
