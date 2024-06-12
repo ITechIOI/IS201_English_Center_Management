@@ -94,6 +94,12 @@ public class Activity_Add_Potential_Student extends AppCompatActivity {
                     if (acceptSwitch) {
 
                         if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
+                            Toast.makeText(Activity_Add_Potential_Student.this, "Định dạng số điện thoại " +
+                                    "chưa chính xác!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
                             Toast.makeText(Activity_Add_Potential_Student.this,
                                     "Định dạng số điện thoại chưa đúng!", Toast.LENGTH_SHORT).show();
                             return;
@@ -160,6 +166,11 @@ public class Activity_Add_Potential_Student extends AppCompatActivity {
                             gender.getText().toString().equals("") || phoneNumber.getText().toString().equals("")) {
                         Toast.makeText(Activity_Add_Potential_Student.this, "Hãy nhập đầy đủ thông tin",
                                 Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
+                        Toast.makeText(Activity_Add_Potential_Student.this, "Định dạng số điện thoại " +
+                                "chưa chính xác!", Toast.LENGTH_SHORT).show();
                         return;
                     }
 

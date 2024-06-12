@@ -36,6 +36,7 @@ import com.example.app.model.StaffDTO;
 import com.example.app.model.TeacherDTO;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 
@@ -173,6 +174,17 @@ public class Activity_Add_Class extends AppCompatActivity {
                             || idTeacher.getText().toString().equals("")) {
                         Toast.makeText(Activity_Add_Class.this, "Hãy nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     } else {
+
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+
+                        LocalDate date1 = LocalDate.parse(startDate.getText().toString(), formatter);
+                        LocalDate date2 = LocalDate.parse(endDate.getText().toString(), formatter);
+                        if (date1.isAfter(date2)) {
+                            Toast.makeText(Activity_Add_Class.this, "Ngày kết thúc lớp học " +
+                                    "phải sau ngày bắt đầu!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Add_Class.this);
                         builder.setTitle("Xác nhận")
                                 .setMessage("Bạn có chắc chắn muốn sửa thông tin lớp học này không?");
@@ -283,6 +295,16 @@ public class Activity_Add_Class extends AppCompatActivity {
                         Toast.makeText(Activity_Add_Class.this, "Hãy nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     } else {
 
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+
+                        LocalDate date1 = LocalDate.parse(startDate.getText().toString(), formatter);
+                        LocalDate date2 = LocalDate.parse(endDate.getText().toString(), formatter);
+                        if (date1.isAfter(date2)) {
+                            Toast.makeText(Activity_Add_Class.this, "Ngày kết thúc lớp học " +
+                                    "phải sau ngày bắt đầu!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         List<ProgramDTO> programSelect = ProgramDAO.getInstance(Activity_Add_Class.this).SelectProgram(
                                 Activity_Add_Class.this, "NAME = ? AND STATUS = ?",
                                 new String[] {program.getText().toString(), "0"});
@@ -346,12 +368,9 @@ public class Activity_Add_Class extends AppCompatActivity {
                             idClassJustAdd = classJustAdd.get(0).getClassID();
                         }
 
-                        LocalDate timeExam = LocalDate.now().plusWeeks(2);
-                        String timeExamString = timeExam.toString().replace("T", " ");
-
                         ExaminationDTO examination = new ExaminationDTO(null,
                                 "Kỳ thi tổng két cuối khóa", "Chuẩn format quốc tế",
-                                timeExamString, idClassJustAdd, "B1.11");
+                                endDate.getText().toString(), idClassJustAdd, "B1.11");
                         int rowEffectAddExam = ExaminationDAO.getInstance(Activity_Add_Class.this)
                                         .InsertExamination(Activity_Add_Class.this, examination);
                         if (rowEffectAddExam > 0) {

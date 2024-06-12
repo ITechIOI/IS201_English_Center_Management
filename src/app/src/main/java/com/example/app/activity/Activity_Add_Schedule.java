@@ -272,6 +272,7 @@ public class Activity_Add_Schedule extends AppCompatActivity {
                                                 "AND ID_CLASSROOM = ? AND STATUS = ?",
                                         new String[] {dayOfWeekText,startHourStr,endHourStr,
                                                 List_Adapter.idClassClick, listClassroom.get(0).getIdRoom(), "0" });
+                        Log.d("Add new schedule and check: ", checkScheduleOfClassExist.toString());
                         if (checkScheduleOfClassExist.size() > 0) {
                             Toast.makeText(Activity_Add_Schedule.this, "Lịch học này của " +
                                     "lớp đã tồn tại!", Toast.LENGTH_SHORT).show();

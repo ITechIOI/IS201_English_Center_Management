@@ -34,13 +34,14 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Activity_Add_Staff extends AppCompatActivity {
-    EditText address, phoneNumber, type, salary;
+    EditText address, phoneNumber, salary;
     TextView fullName;
     TextView birthday;
     Button exitBtn, doneBtn;
     String[] genderItem = {"Nam", "Nữ"};
-    AutoCompleteTextView gender;
-    ArrayAdapter<String> genderAdapter;
+    String[] typeItem = {"Giáo viên", "Nhân viên ghi danh"};
+    AutoCompleteTextView gender, type;
+    ArrayAdapter<String> genderAdapter, typeAdapter;
     DatePickerDialog.OnDateSetListener birthDt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,17 @@ public class Activity_Add_Staff extends AppCompatActivity {
                 String item = parent.getItemAtPosition(position).toString();
             }
         });
+
+        type = findViewById(R.id.type);
+        typeAdapter = new ArrayAdapter<String>(this, R.layout.combobox_item, typeItem);
+        type.setAdapter(typeAdapter);
+        type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+            }
+        });
+
 
         birthday = findViewById(R.id.birthday);
         birthday.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +106,7 @@ public class Activity_Add_Staff extends AppCompatActivity {
         fullName = findViewById(R.id.fullName);
         address = findViewById(R.id.address);
         phoneNumber = findViewById(R.id.phoneNumber);
-        type = findViewById(R.id.type);
+        //type = findViewById(R.id.type);
 
         if (message1.equals("") && message2.equals("")) {
 
@@ -130,6 +142,11 @@ public class Activity_Add_Staff extends AppCompatActivity {
                     if (Integer.parseInt(salary.getText().toString()) <= 0) {
                         Toast.makeText(Activity_Add_Staff.this, "Tiền lương âm là không hợp lệ",
                                 Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
+                        Toast.makeText(Activity_Add_Staff.this, "Định dạng số điện thoại " +
+                                "chưa chính xác!", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -260,6 +277,12 @@ public class Activity_Add_Staff extends AppCompatActivity {
                                 " đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     } else {
 
+                        if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
+                            Toast.makeText(Activity_Add_Staff.this, "Định dạng số điện thoại " +
+                                    "chưa chính xác!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         if (Integer.parseInt(salary.getText().toString()) <= 0) {
                             Toast.makeText(Activity_Add_Staff.this, "Tiền lương âm là không hợp lệ",
                                     Toast.LENGTH_SHORT).show();
@@ -341,6 +364,12 @@ public class Activity_Add_Staff extends AppCompatActivity {
                         Toast.makeText(Activity_Add_Staff.this, "Hãy nhập " +
                                 "đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     } else {
+
+                        if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
+                            Toast.makeText(Activity_Add_Staff.this, "Định dạng số điện thoại " +
+                                    "chưa chính xác!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
 
                         if (Integer.parseInt(salary.getText().toString()) <= 0) {
                             Toast.makeText(Activity_Add_Staff.this, "Tiền lương âm là không hợp lệ",

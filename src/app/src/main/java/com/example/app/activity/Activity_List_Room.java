@@ -20,6 +20,8 @@ import com.example.app.model.CollectionTuitionFeesDTO;
 import com.example.app.model.List_Adapter;
 import com.example.app.model.ScheduleDTO;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class Activity_List_Room extends AppCompatActivity {
     private ListView listView;
     private ArrayList<Object> dataArrayList;
     private ImageButton returnBtn;
-    String[] roomItem = {"Đau ẻ tàn bạo", "Đau ẻ thảm khốc", "Chào Loan nhé", "=)))"};
+    ArrayList<String> roomItem;
     AutoCompleteTextView room;
     ArrayAdapter<String> roomAdapter;
 
@@ -47,23 +49,29 @@ public class Activity_List_Room extends AppCompatActivity {
             }
         });
 
-        /*List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(Activity_List_Room.this)
+        roomItem = new ArrayList<>();
+
+        List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(Activity_List_Room.this)
                 .SelectClassroom(Activity_List_Room.this, "STATUS = ?",
                         new String[] {"0"});
         for (int i = 0; i < listClassroom.size(); i++) {
-            roomItem[i] = listClassroom.get(i).getName();
-            Log.d("List room in english center: ", roomItem[i]);
+            roomItem.add(listClassroom.get(i).getName());
+            Log.d("List room in english center: ", roomItem.get(i));
         }
 
+        LocalDate today = LocalDate.now();
+        int dayOfWeek = today.getDayOfWeek().getValue();
+        dataArrayList = new ArrayList<>();
         List<ScheduleDTO> schedule = ScheduleDAO.getInstance(Activity_List_Room.this)
-                .SelectSchedule(Activity_List_Room.this, "STATUS = 0",
-                        new String[] {"0"});
+                .SelectSchedule(Activity_List_Room.this,
+                        "DAY_OF_WEEK = ? AND STATUS = ?",
+                        new String[] {String.valueOf(dayOfWeek + 1), "0"});
         for (int i = 0; i < schedule.size(); i++) {
-
-        }*/
+            dataArrayList.add(schedule.get(i));
+        }
 
         dataArrayList = new ArrayList<>();
-        dataArrayList.add(new ScheduleDTO("1","1","1","1","1","1"));
+       // dataArrayList.add(new ScheduleDTO("1","1","1","1","1","1"));
         listAdapter = new List_Adapter(Activity_List_Room.this, R.layout.list_schedule_for_manager_item, dataArrayList);
         listView.setAdapter(listAdapter);
 
@@ -73,7 +81,33 @@ public class Activity_List_Room extends AppCompatActivity {
         room.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
+               // String item = parent.getItemAtPosition(position).toString();
+                List<ClassroomDTO> getClassroom = ClassroomDAO.getInstance(Activity_List_Room.this)
+                        .SelectClassroom(Activity_List_Room.this,
+                                "NAME = ? AND STATUS = ?",
+                                new String[] {room.getText().toString(), "0"});
+                String idClassroom = "";
+
+                if (getClassroom.size() > 0) {
+                    idClassroom = getClassroom.get(0).getIdRoom();
+                    LocalDate today = LocalDate.now();
+                    int dayOfWeek = today.getDayOfWeek().getValue();
+                    Log.d("List Schedule select: ", String.valueOf(dayOfWeek));
+                    List<ScheduleDTO> listScheduleSelect = ScheduleDAO.getInstance(Activity_List_Room.this)
+                            .SelectSchedule(Activity_List_Room.this,
+                                    "DAY_OF_WEEK = ? AND STATUS = ? AND ID_CLASSROOM = ?",
+                                    new String[] {String.valueOf(dayOfWeek + 1), "0", idClassroom});
+
+                Log.d("List Schedule select: ", listScheduleSelect.toString());
+
+                dataArrayList = new ArrayList<>();
+                for (int i = 0; i < listScheduleSelect.size(); i++) {
+                        dataArrayList.add(listScheduleSelect.get(i));
+                    }
+                listAdapter = new List_Adapter(Activity_List_Room.this, R.layout.list_schedule_for_manager_item, dataArrayList);
+                listView.setAdapter(listAdapter);
+                }
+
             }
         });
     }

@@ -230,12 +230,11 @@ public class List_Adapter extends ArrayAdapter {
             //idStudent.setText(listScore.getIdStudent());
             studentName = convertView.findViewById(R.id.studentName);
 
-            /*List<OfficialStudentDTO> listStudent = OfficialStudentDAO.getInstance(mContext)
+            List<OfficialStudentDTO> listStudent = OfficialStudentDAO.getInstance(mContext)
                     .SelectStudentVer2(mContext, "ID_STUDENT = ? AND STATUS = ?",
                             new String[]{listScore.getIdStudent(), "0"});
 
-            studentName.setText(listStudent.get(0).getFullName());*/
-            studentName.setText(listScore.getIdStudent());
+            studentName.setText(listStudent.get(0).getFullName());
             Button editScore = convertView.findViewById(R.id.edit_score);
             editScore.setTag(position);
             editScore.setOnClickListener(new View.OnClickListener() {
@@ -831,15 +830,20 @@ public class List_Adapter extends ArrayAdapter {
             dayOfWeek.setText("Thứ " + listSchedule.getDayOfWeek());
         }
 
-        time.setText("1");
+
+        time.setText(listSchedule.getStartTime() + "h00 - " +listSchedule.getEndTime() + "h00" );
+
+        List<ClassDTO> listClass = ClassDAO.getInstance(getContext()).selectClass(getContext(),
+                "ID_CLASS= ?", new String[]{listSchedule.getIdClass()});
+
+        /*List<TeacherDTO> listTeacher = TeacherDAO.getInstance(mContext)
+                .SelectTeacher(mContext, "ID_TEACHER = ? AND STATUS = ?",
+                        new String[] {listClass.getIdTeacher})*/
 
         if (convertView.findViewById(R.id.teacherName) != null) {
             TextView teacherName = convertView.findViewById(R.id.teacherName);
             teacherName.setText("1");
         }
-
-        List<ClassDTO> listClass = ClassDAO.getInstance(getContext()).selectClass(getContext(),
-                "ID_CLASS= ?", new String[]{listSchedule.getIdClass()});
         List<ClassroomDTO> listClassroom = ClassroomDAO.getInstance(getContext()).SelectClassroom(
                 getContext(), "ID_CLASSROOM = ?", new String[]{listSchedule.idClassroom});
 
@@ -1134,7 +1138,7 @@ public class List_Adapter extends ArrayAdapter {
         TextView  fullName, address, phoneNumber, gender, birthday, type;
 
         fullName = convertView.findViewById(R.id.fullName);
-        fullName.setText(listStaff.getFullName());
+        fullName.setText( listStaff.getIdTeacher() + " - " + listStaff.getFullName());
 
         address = convertView.findViewById(R.id.address);
         address.setText(listStaff.getAddress());
