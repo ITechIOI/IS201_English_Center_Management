@@ -42,7 +42,7 @@ public class Fragment_Information extends Fragment implements AdapterView.OnItem
             if (type == 1)  {
                 //Học viên
                 dataArrayList.add(new List_Information("Tra cứu điểm", R.drawable.score_icon));
-                dataArrayList.add(new List_Information("Tra cứu chương trình đào tạo", R.drawable.chuong_trinh_dt));
+                dataArrayList.add(new List_Information("Xem chứng chỉ", R.drawable.chuong_trinh_dt));
                 dataArrayList.add(new List_Information("Thông báo hệ thống", R.drawable.tb_he_thong));
                 dataArrayList.add(new List_Information("Lịch học", R.drawable.baseline_schedule_24));
             } else if (type == 2) {

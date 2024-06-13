@@ -143,6 +143,7 @@ public class List_Adapter extends ArrayAdapter {
             Button edit = convertView.findViewById(R.id.edit_notification);
             remove.setTag(position);
             edit.setTag(position);
+            Log.d("Notification management", listNotifications.getPoster() + "    " + Activity_Login.idAccount);
 
             if (!listNotifications.getPoster().equals(Activity_Login.idAccount)) {
                 remove.setVisibility(View.GONE);

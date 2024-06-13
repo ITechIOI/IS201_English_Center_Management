@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,6 +50,13 @@ public class Activity_Forgot_Password extends AppCompatActivity {
 
                 String idAccount = "";
 
+                if (username.getText().toString().equals("")
+                || phoneNumber.getText().toString().equals("")) {
+                    Toast.makeText(Activity_Forgot_Password.this, "Hãy nhập đầy đủ thông tin!",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 List<AccountDTO> listAccount = AccountDAO.getInstance(Activity_Forgot_Password.this)
                         .selectAccountVer2(Activity_Forgot_Password.this,
                                 "USERNAME = ? AND STATUS = ?",
@@ -81,12 +89,13 @@ public class Activity_Forgot_Password extends AppCompatActivity {
                 } else {
                     idUser = listStaff.get(0).getIdStaff();
                 }
-
+                Log.d("Account roll in:", idUser.toString());
                 String idAccountByPhoneNumber = "";
                 List<AccountDTO> accountByIdUser = AccountDAO.getInstance(Activity_Forgot_Password.this)
                         .selectAccountVer2(Activity_Forgot_Password.this,
                                 "ID_USER = ? AND STATUS = ?",
                                 new String[] {idUser, "0"});
+
                 if (accountByIdUser.size() == 0) {
                     Toast.makeText(Activity_Forgot_Password.this, "Người dùng này chưa " +
                             "đăng kí tài khoản!", Toast.LENGTH_SHORT).show();

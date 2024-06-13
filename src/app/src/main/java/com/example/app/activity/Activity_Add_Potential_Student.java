@@ -93,21 +93,15 @@ public class Activity_Add_Potential_Student extends AppCompatActivity {
 
                     if (acceptSwitch) {
 
-                        if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
-                            Toast.makeText(Activity_Add_Potential_Student.this, "Định dạng số điện thoại " +
-                                    "chưa chính xác!", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
-                            Toast.makeText(Activity_Add_Potential_Student.this,
-                                    "Định dạng số điện thoại chưa đúng!", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
                         if (!isInteger(appointmentNumber.getText().toString())) {
                             Toast.makeText(Activity_Add_Potential_Student.this,
                                     "Số lượng cuộc hẹn phải là số nguyên dương!",
                                     Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
+                            Toast.makeText(Activity_Add_Potential_Student.this, "Định dạng số điện thoại " +
+                                    "chưa chính xác!", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -168,6 +162,14 @@ public class Activity_Add_Potential_Student extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
+
+                    if (!isInteger(appointmentNumber.getText().toString())) {
+                        Toast.makeText(Activity_Add_Potential_Student.this,
+                                "Số lượng cuộc hẹn phải là số nguyên dương!",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     if (!Activity_Add_Official_Student.isValidPhoneNumber(phoneNumber.getText().toString())) {
                         Toast.makeText(Activity_Add_Potential_Student.this, "Định dạng số điện thoại " +
                                 "chưa chính xác!", Toast.LENGTH_SHORT).show();
@@ -175,42 +177,33 @@ public class Activity_Add_Potential_Student extends AppCompatActivity {
                     }
 
                     Log.d("Add new potential student", "Ok");
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Activity_Add_Potential_Student.this);
-                    builder.setTitle("Thông báo")
-                            .setMessage("Bạn có chắn chắn muốn thêm thông tin của học viên không?");
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Log.d("Create dialog", "Ok");
-                            int rowEffect = PotentialStudentDAO.getInstance(Activity_Add_Potential_Student.this).InsertPotentialStudent(
-                                    Activity_Add_Potential_Student.this, new PotentialStudentDTO(
-                                            idStudent,
-                                            studentName.getText().toString(),
-                                            phoneNumber.getText().toString(),
-                                            gender.getText().toString(),
-                                            address.getText().toString(),
-                                            level.getText().toString(),
-                                            appointmentNumber.getText().toString())
-                            );
+                    Log.d("Create dialog", "Ok");
+                    int rowEffect = PotentialStudentDAO.getInstance(Activity_Add_Potential_Student.this).InsertPotentialStudent(
+                            Activity_Add_Potential_Student.this, new PotentialStudentDTO(
+                                    idStudent,
+                                    studentName.getText().toString(),
+                                    phoneNumber.getText().toString(),
+                                    gender.getText().toString(),
+                                    address.getText().toString(),
+                                    level.getText().toString(),
+                                    appointmentNumber.getText().toString())
+                    );
 
-                            if (rowEffect > 0) {
-                                Toast.makeText(Activity_Add_Potential_Student.this,
-                                        "Thêm học viên tiềm năng mới thành công", Toast.LENGTH_SHORT).show();
-                                Log.d("Add potential student:", "success");
+                    if (rowEffect > 0) {
+                        Toast.makeText(Activity_Add_Potential_Student.this,
+                                "Thêm học viên tiềm năng mới thành công", Toast.LENGTH_SHORT).show();
+                        Log.d("Add potential student:", "success");
 
-                                studentName.setText(null);
-                                address.setText(null);
-                                phoneNumber.setText(null);
-                                gender.setText(null);
-                                level.setText(null);
-                                appointmentNumber.setText(null);
+                        studentName.setText(null);
+                        address.setText(null);
+                        phoneNumber.setText(null);
+                        gender.setText(null);
+                        level.setText(null);
+                        appointmentNumber.setText(null);
 
-                            }else {
-                                Log.d("Add potential student:", "fail");
-                            }
-                        }
-                    });
-                    builder.setNegativeButton("Hủy", null);
-                    builder.show();
+                    }else {
+                        Log.d("Add potential student:", "fail");
+                    }
                     //finish();
                 }
 

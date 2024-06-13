@@ -116,6 +116,7 @@ public class Activity_Login extends AppCompatActivity {
 
             }
         });
+
 /*
 
         // Potential Student
@@ -471,8 +472,9 @@ public class Activity_Login extends AppCompatActivity {
         NotificationDAO.getInstance(Activity_Login.this).InsertNotification(Activity_Login.this, notification3);
         NotificationDTO notification4 =  new NotificationDTO(null, "ACC2", "Thông báo học bù", "Lớp CLS3 ọc bù từ ngày 13/4/2024 đến hết ngày 16/4/2024");
         NotificationDAO.getInstance(Activity_Login.this).InsertNotification(Activity_Login.this, notification4);
-
 */
+
+
 
     }
 
